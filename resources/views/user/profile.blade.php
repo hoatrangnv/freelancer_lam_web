@@ -21,8 +21,8 @@
                                <td>{{ Auth::user()->name }}</td>
                                <td>{{ Auth::user()->phone_number }}</td>
                                <td>{{ Auth::user()->email }}</td>
-                               <td>{{ Auth::user()->money_1 }}</td>
-                               <td>{{ Auth::user()->money_2 }}</td>
+                               <td>{{ Auth::user()->money_1 }} đ </td>
+                               <td>{{ Auth::user()->money_2 }} đ</td>
                                <td>{{ Auth::user()->phone_number }}</td>
                             </tr>
                         </tbody>

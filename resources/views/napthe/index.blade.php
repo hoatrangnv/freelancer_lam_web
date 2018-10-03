@@ -4,28 +4,39 @@
 @endsection
 @section('content')
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <br>
-            <form action="" method="post" >
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+            <form action="{{ route('nap-card') }}" method="post" >
+                    @csrf
+                    <input name="user_id" type="hidden" value=" {{ Auth::user()->id}}">
                 <div class="form-group">
                   <label for="formGroupExampleInput">Loại Thẻ</label>
-                    <select name="" class="form-control" id="" required>
+                    <select name="card_type" class="form-control" id="card_type" onchange="cardDiscount(this)"  required>
                         @foreach($result as $key)
                             <option  value="{{ $key->card_code }}">{{ $key->card_name }}</option>
+                            
+                            {{--  <option type="hidden" name="card_discount" value="{{ $key->card_discount }}">  --}}
                         @endforeach
                     </select>
+                    <input name="card_discount" type="hidden" value="{{ $key->card_discount }}">
+
                 </div>
                 <div class="form-group">
                   <label for="formGroupExampleInput2">Mã Pin</label>
-                  <input required type="text" class="form-control" id="formGroupExampleInput2" placeholder="Mã Pin">
+                  <input required type="text" class="form-control" name="card_pin" id="" placeholder="Mã Pin">
                 </div>
                 <div class="form-group">
                   <label for="formGroupExampleInput2">Mã Seria</label>
-                  <input required type="text" class="form-control" id="formGroupExampleInput2" placeholder="Mã Seria">
+                  <input required type="text" class="form-control"name="card_seria" id="" placeholder="Mã Seria">
                 </div>
                 <div class="form-group">
                   <label for="formGroupExampleInput2">Mệnh giá</label>
-                  <select required class="form-control">
+                  <select required class="form-control" name="card_price">
                     <option value="10000">10.000&nbsp;₫</option>
                     <option value="20000">20.000&nbsp;₫</option>
                     <option value="30000">30.000&nbsp;₫</option>
@@ -41,7 +52,7 @@
               </form>
               <br>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-6">
                 <div class="panel panel-default panel-table">
                        <h4>Phí đổi thẻ</h4>
                         <div class="panel-body">
@@ -115,4 +126,9 @@
                      </div>
         </div>
     </div>
+    <script>
+        function cardDiscount(selected){
+            var a = selected.value;
+        }
+    </script>
 @endsection

@@ -65,7 +65,12 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
             <a class="dropdown-item" href="{{ route('user.profle') }}">Tài Khoản</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        <a class="dropdown-item" href="{{ route('logout') }}" 
+        onclick="event.preventDefault();
+                 document.getElementById('logout-form').submit();">Logout</a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
           </div>
         </li>
         @endif
@@ -93,13 +98,21 @@
             <span>Nạp Thẻ Cào</span></a>
         </li>
        
-        @if(Auth::user()->level)
-        <li class="nav-item">
-          <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Administrator</span></a>
-        </li>
-        @endif
+ 
+          @if(!Auth::guest() && Auth::user()->level == 1)
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Administrator</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item" href="{{ route('admin.danh-sach-the-cao') }}">Danh sách thẻ nạp</a>
+                <a class="dropdown-item" href="#">Danh sách thẻ nạp</a>
+                <a class="dropdown-item" href="#">Danh sách thẻ nạp</a>
+              </div>
+            </li>
+          @endif
+    
       </ul>
 
       <div id="content-wrapper">
@@ -109,7 +122,7 @@
           <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Dashboard</a>
+              <a href="/">Dashboard</a>
             </li>
             <li class="breadcrumb-item active">@yield('title')</li>
           </ol>
@@ -155,7 +168,7 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="/">Logout</a>
           </div>
         </div>
       </div>
