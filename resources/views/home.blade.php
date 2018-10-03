@@ -10,7 +10,13 @@
               <div class="card-body-icon">
                 <i class="fas fa-fw fa-comments"></i>
               </div>
-              <div class="mr-5"><a style="color:#fff !important;" href="{{ route('nap-the') }}">NẠP THẺ CÀO</a></div>
+              <div class="mr-5">
+                @if(!Auth::guest())
+                <a style="color:#fff !important;" href="{{ route('nap-the') }}">NẠP THẺ CÀO</a>
+                @else 
+                  <a style="color:#fff !important;" onclick="notice()" href="#">NẠP THẺ CÀO</a>
+                @endif
+              </div>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
               <span class="float-right">
@@ -61,5 +67,10 @@
           </div>
         </div>
       </div>
+      <script>
+        function notice() {
+          confirm("Vui lòng đăng nhập")
+        }
+      </script>
 
 @endsection

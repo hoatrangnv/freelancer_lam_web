@@ -28,7 +28,7 @@ class NaptheController extends Controller
             'card_serial' => $request->get('card_seria'),
             'card_notes' => "Chưa xác nhận",
             'card_provider' => $request->get('card_type'),
-            'card_delivered' => 1,
+            'card_delivered' => 3,
             'card_price' => $request->get('card_price'),
        ]);
        if($result) {
