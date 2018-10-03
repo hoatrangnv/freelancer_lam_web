@@ -21,6 +21,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('user/profile', function () {
-        return view('auth.profile');
-    });
+        return view('user.profile');
+    })->name('user.profle');
+
+    //Route nap the cao
+    Route::get('/nap-the','NaptheController@index')->name('nap-the');
+
 });
