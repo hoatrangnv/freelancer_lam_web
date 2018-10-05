@@ -1,5 +1,7 @@
 @extends('master')
-
+@section('title')
+   Đăng Ký 
+@endsection
 
 @section('content')
 <div class="container">

@@ -19,9 +19,11 @@ class AdminController extends Controller
 
     public function listCard()
     {
-       $q = "select *, d.card_name, u.`name` FROM cards c
-       LEFT JOIN cat_cards d ON c.card_provider = d.card_code
-       LEFT JOIN users u ON c.order_id = u.id";
+       $q = "SELECT *,p.image_url as src,p.id as payment_id,u.name as username, u.id as user_id, c.card_name as card_name FROM payments p
+       LEFT JOIN users u ON p.user_id = u.id  
+       LEFT JOIN cat_cards c ON p.provider = c.card_code
+       ORDER BY  payment_id ASC
+       ";
         $result = DB::select($q);
         if($result) {
             return view('admin.danh-sach-the-nap',compact('result'));
