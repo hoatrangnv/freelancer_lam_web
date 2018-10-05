@@ -33,4 +33,5 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/danh-sach-the-cao', 'AdminController@listCard')->name('admin.danh-sach-the-cao');
+    Route::post('/admin/addcard', 'AdminController@addCard')->name('admin.addcard');
 });

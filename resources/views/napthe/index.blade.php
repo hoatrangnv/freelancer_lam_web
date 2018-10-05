@@ -14,16 +14,14 @@
             <form action="{{ route('nap-card') }}" method="post" >
                     @csrf
                     <input name="user_id" type="hidden" value=" {{ Auth::user()->id}}">
+                    <input name="user_phone" type="hidden" value=" {{ Auth::user()->phone_number}}">
                 <div class="form-group">
                   <label for="formGroupExampleInput">Loại Thẻ</label>
                     <select name="card_type" class="form-control" id="card_type" onchange="cardDiscount(this)"  required>
                         @foreach($result as $key)
                             <option  value="{{ $key->card_code }}">{{ $key->card_name }}</option>
-                            
-                            {{--  <option type="hidden" name="card_discount" value="{{ $key->card_discount }}">  --}}
                         @endforeach
                     </select>
-                    <input name="card_discount" type="hidden" value="{{ $key->card_discount }}">
 
                 </div>
                 <div class="form-group">

@@ -29,5 +29,9 @@ class AdminController extends Controller
         return false;
     }
 
+    //function xu ly hanh dong nap the
+    function addCard(Request $request) {
+        dd($request->all());
+    }
    
 }
