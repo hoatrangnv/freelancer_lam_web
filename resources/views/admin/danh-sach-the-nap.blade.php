@@ -24,8 +24,12 @@
                                 @foreach($result as $value)
                                 <form action="{{ route('admin.addcard') }}" method="post">
                                     @csrf
-                                    <input name="card_id" type="hidden" value="{{ $value->payment_id }}">
+                                    <input name="payment_id" id="payment_id" type="hidden" value="{{ $value->payment_id }}">
                                     <input name="user_id" type="hidden" value="{{ $value->user_id }}">
+                                    <input name="price" type="hidden" value="{{ $value->price }}">
+                                    <input name="member" type="hidden" value="{{ $value->member }}">
+                                    <input name="rate" type="hidden" value="{{ $value->rate }}">
+                                    <input name="card_name" type="hidden" value="{{ $value->card_name }}">
                                 <tr>
                                     <td>{{ $value->payment_id }}</td>
                                     <td>{{ $value->pin }}</td>
@@ -53,6 +57,9 @@
                                                     <button class="btn  btn-sm btn-danger">Hủy</button>
                                                 @break
                                                 @case(4)
+                                                    <button class="btn  btn-sm btn-danger">Thẻ sai</button>
+                                                @break
+                                                @case(5)
                                                     <button class="btn  btn-sm btn-warning">Bảo trì</button>
                                                 @break
                                             @endswitch
@@ -61,11 +68,12 @@
                                     <td>
                                         <select class="form-control" name="status" id="status" onchange="this.form.submit()">
                                             <option value="">Hành động</option>
-                                            <option value="0">Chấp nhận</option>
-                                            <option value="1">Cộng tiền</option>
-                                            <option value="2">Hủy</option>
-                                            <option value="3">Thẻ sai</option>
-                                            <option value="4">Xóa</option>
+                                            <option value="1">Đang xử lý</option>
+                                            <option value="2">Chấp nhận</option>
+                                            <option value="3">Hủy</option>
+                                            <option value="4">Thẻ sai</option>
+                                            <option value="5">Bảo trì</option>
+                                            <option value="6">Xóa</option>
                                         </select>
                                     </td>
                                 </tr>

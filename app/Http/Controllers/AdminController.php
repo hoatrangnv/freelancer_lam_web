@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Card;
+use App\Payment;
+use App\Log;
+
 class AdminController extends Controller
 {
     /**
@@ -33,7 +36,46 @@ class AdminController extends Controller
 
     //function xu ly hanh dong nap the
     function addCard(Request $request) {
-        dd($request->all());
+        //NEU CHAP NHAN THI CONG TIEN
+        if($request->get('status') == 2) {
+            //chiet khau
+            $member = $request->get('member');
+            $price = $request->get('price');
+            $discount = $request->get('rate');
+            $amount = $price - ($price * ($discount - $member)) /100;
+
+            $result = Payment::find($request->get('payment_id'));
+            $result->payment_status = 2;
+            $result->price = 1000000;
+            $result->amount = $amount;
+            $result->save();
+             $mess = "Nạp tiền vào tài khoản thẻ mệnh giá: ". $request->get('price'). "loại thẻ: " . $request->get('card_name');
+            //log
+            $log = Log::create([
+                'log_user_id' =>$request->get('user_id'),
+                'log_content' => $mess,
+                'log_amount'=> $amount,
+                'log_time'=>1,
+                'log_type' => "NAP TIEN",
+                'log_read' => 1
+            ]);
+            
+        } 
+        else if ($request->get('status') == 6) {
+                $result = Payment::find($request->get('payment_id'));
+                $result->is_deleted = 1; //xoa record
+                $result->save();
+        }
+        else {
+            $result = Payment::find($request->get('payment_id'));
+            $result->payment_status = $request->get('status'); //xoa record
+            $result->save();
+        }
+        return redirect()->back()->with('message', 'Nạp thẻ thành công, vui lòng chờ hệ thống xác nhận!');
+                
+        // LOG
+
+        // XOA THI XOA
     }
    
 }
