@@ -16,3 +16,8 @@
 .label-warning {
   background-color: #f6c163;
 }
+.tabl {
+  width: 100%;
+  height: auto;
+  border: 2px solid #c4c4c4;
+}

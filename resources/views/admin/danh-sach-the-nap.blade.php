@@ -6,6 +6,11 @@
     <div class="row">
        
         <div class="col-md-12">
+                @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
                 <table class="table table-bordered table-sm  ">
                         <thead class="thead-inverse">
                             <tr>

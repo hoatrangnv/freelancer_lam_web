@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Card;
+use App\User;
 use App\Payment;
 use App\Log;
 use Config;
@@ -54,20 +55,37 @@ class AdminController extends Controller
         //NEU CHAP NHAN THI CONG TIEN
         if($request->get('status') == $CHAP_NHAN) {
             //chiet khau
+            $user_id = $request->get('user_id');
             $member = $request->get('member');
             $price = $request->get('price');
             $discount = $request->get('rate');
             $amount = $price - ($price * ($discount - $member)) /100;
 
-            $payment_id = $request->get('payment_id');
-            $q = "UPDATE Payments
-            SET 
-            payment_status =  $CHAP_NHAN,
-            price =   $price,
-            amount = $amount
-            WHERE payment_id = $payment_id ";
-             $result =  DB::select(DB::raw($q));
+            //update tien vao payment
+            if(!empty($user_id)) {
+                $payment_id = $request->get('payment_id');
+                $q = "UPDATE payments
+                SET 
+                payment_status =  $CHAP_NHAN,
+                amount = $amount
+                WHERE payment_id = $payment_id ";
+                $result =  DB::select(DB::raw($q));
 
+            // cong tien cho user 
+            $get_user = User::find($user_id);
+            $money_cu = $get_user['money_1'];
+            $money_moi = $money_cu + $amount;
+            
+            $user = "UPDATE users
+                SET 
+                money_1 = $money_moi
+                WHERE id = $user_id ";
+                
+                $result_user = DB::select(DB::raw($user));
+            } else {
+                return redirect()->back()->with('message', 'Tài khoản không tồn tại!');
+            }
+            
             //log
             $mess = "Nạp tiền vào tài khoản thẻ mệnh giá: ". $request->get('price'). "loại thẻ: " . $request->get('card_name');
             $log = Log::create([
@@ -96,7 +114,7 @@ class AdminController extends Controller
 
             $result =  DB::select(DB::raw($q));
         }
-        return redirect()->back()->with('message', 'Nạp thẻ thành công, vui lòng chờ hệ thống xác nhận!');
+        return redirect()->back()->with('message', 'Xử lý thành công!');
                 
         // LOG
 

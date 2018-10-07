@@ -40,7 +40,15 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="tinh" class="col-md-4 col-form-label text-md-right">Tỉnh</label>
 
+                            <div class="col-md-6">
+                                <select  class="form-control" name="tinh" id="tinh">
+                                    <option value="ha noi">fafa</option>
+                                </select>
+                            </div>
+                        </div>   
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail') }}</label>
 
@@ -83,6 +91,7 @@
                                 <input id="password2" type="password" class="form-control" name="password2" required>
                             </div>
                         </div>
+                       
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
