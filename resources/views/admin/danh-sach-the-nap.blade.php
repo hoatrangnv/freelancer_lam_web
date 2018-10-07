@@ -25,7 +25,7 @@
                                 <form action="{{ route('admin.addcard') }}" method="post">
                                     @csrf
                                     <input name="payment_id" id="payment_id" type="hidden" value="{{ $value->payment_id }}">
-                                    <input name="user_id" type="hidden" value="{{ $value->user_id }}">
+                                    <input name="user_id" type="hidden" value="{{ $value->id }}">
                                     <input name="price" type="hidden" value="{{ $value->price }}">
                                     <input name="member" type="hidden" value="{{ $value->member }}">
                                     <input name="rate" type="hidden" value="{{ $value->rate }}">
@@ -38,9 +38,9 @@
                                       {{ $value->card_name }}
                                     </td>
                                     <td>{{ number_format($value->price) }} đ</td>
-                                    <td>{{ $value->username }}</td>
+                                    <td>{{ $value->name }}</td>
                                     <td> 
-                                        <img src="{{ asset($value->src) }}" style="width:150px;" alt="">
+                                        <img src="{{ asset($value->image_url) }}" style="width:150px;" alt="">
                                     </td>
                                     <td>
                                             @switch($value->payment_status)
@@ -83,6 +83,8 @@
                     </table>
         </div>
     </div>
+    <div style="float: right;margin-top:5%"class="text-center">{{ $result->links() }}</div>
+   
     <script>
      
     </script>

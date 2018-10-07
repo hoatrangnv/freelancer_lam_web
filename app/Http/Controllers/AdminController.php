@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Card;
 use App\Payment;
 use App\Log;
+use Config;
 
 class AdminController extends Controller
 {
@@ -15,6 +16,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         //
@@ -22,12 +24,20 @@ class AdminController extends Controller
 
     public function listCard()
     {
+        $CHUA_XOA = Config::get('constants.CHUA_XOA');
+     
        $q = "SELECT *,p.image_url as src,p.id as payment_id,u.name as username, u.id as user_id, c.card_name as card_name FROM payments p
        LEFT JOIN users u ON p.user_id = u.id  
        LEFT JOIN cat_cards c ON p.provider = c.card_code
-       ORDER BY  payment_id ASC
-       ";
-        $result = DB::select($q);
+       WHERE p.is_deleted = 0
+       ORDER BY  payment_id ASC";
+       
+        $result =  DB::table('payments')
+                      ->leftJoin('users', 'payments.user_id', '=', 'users.id')
+                      ->leftJoin('cat_cards', 'payments.provider', '=', 'cat_cards.card_code')
+                      ->where('payments.is_deleted', '=', $CHUA_XOA)
+                      ->orderByRaw('payments.payment_id - payments.created_at ASC')
+                      ->paginate(10);
         if($result) {
             return view('admin.danh-sach-the-nap',compact('result'));
         }
@@ -36,21 +46,30 @@ class AdminController extends Controller
 
     //function xu ly hanh dong nap the
     function addCard(Request $request) {
+        //DEFILE HANG
+        $CHAP_NHAN = Config::get('constants.CHAP_NHAN');
+        $CHO_DUYET = Config::get('constants.CHO_DUYET');
+        $XOA = Config::get('constants.XOA');
+
         //NEU CHAP NHAN THI CONG TIEN
-        if($request->get('status') == 2) {
+        if($request->get('status') == $CHAP_NHAN) {
             //chiet khau
             $member = $request->get('member');
             $price = $request->get('price');
             $discount = $request->get('rate');
             $amount = $price - ($price * ($discount - $member)) /100;
 
-            $result = Payment::find($request->get('payment_id'));
-            $result->payment_status = 2;
-            $result->price = 1000000;
-            $result->amount = $amount;
-            $result->save();
-             $mess = "Nạp tiền vào tài khoản thẻ mệnh giá: ". $request->get('price'). "loại thẻ: " . $request->get('card_name');
+            $payment_id = $request->get('payment_id');
+            $q = "UPDATE Payments
+            SET 
+            payment_status =  $CHAP_NHAN,
+            price =   $price,
+            amount = $amount
+            WHERE payment_id = $payment_id ";
+             $result =  DB::select(DB::raw($q));
+
             //log
+            $mess = "Nạp tiền vào tài khoản thẻ mệnh giá: ". $request->get('price'). "loại thẻ: " . $request->get('card_name');
             $log = Log::create([
                 'log_user_id' =>$request->get('user_id'),
                 'log_content' => $mess,
@@ -61,15 +80,21 @@ class AdminController extends Controller
             ]);
             
         } 
-        else if ($request->get('status') == 6) {
-                $result = Payment::find($request->get('payment_id'));
-                $result->is_deleted = 1; //xoa record
-                $result->save();
+        else if ($request->get('status') == $XOA) {
+            $payment_id = $request->get('payment_id');
+            $q = "UPDATE Payments
+            SET is_deleted = $XOA
+            WHERE payment_id = $payment_id ";
+             $result =  DB::select(DB::raw($q));
         }
         else {
-            $result = Payment::find($request->get('payment_id'));
-            $result->payment_status = $request->get('status'); //xoa record
-            $result->save();
+            $payment_id = $request->get('payment_id');
+            $status = $request->get('status');
+            $q = "UPDATE Payments
+                    SET payment_status =$status
+                    WHERE payment_id =  $payment_id";
+
+            $result =  DB::select(DB::raw($q));
         }
         return redirect()->back()->with('message', 'Nạp thẻ thành công, vui lòng chờ hệ thống xác nhận!');
                 

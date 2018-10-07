@@ -25,6 +25,13 @@ class NaptheController extends Controller
 
     //function nap the tu web
     function napthecao(Request $request) {
+
+        $IMAGES = Config::get('constants.IS_IMAGE');
+        $NOT_IMAGES = Config::get('constants.NOT_IMAGES');
+        $CHO_DUYET = Config::get('constants.CHO_DUYET');
+        $CHUA_XOA = Config::get('constants.CHUA_XOA');
+      
+
         //get discount
         $q = Card_card::where('card_code',$request->get('card_type'))->get();
         $card_discount = null;
@@ -32,7 +39,7 @@ class NaptheController extends Controller
             $card_discount = $value['card_discount'];
         }
         //CHECK NAP BANG THE HAY ANH
-        if($request->get('nap_the')  == Config::get('constants.NOT_IMAGES')) {
+        if($request->get('nap_the')  ==  $NOT_IMAGES) {
             $result = Payment::create([
                 'phone' => $request->get('user_phone'),
                 'card_type_id' => $request->get('card_price'),
@@ -49,11 +56,11 @@ class NaptheController extends Controller
                 'balance' => 0,
                 'requestId' => null,
                 'topup_type' => 0,
-                'is_image' => Config::get('constants.NOT_IMAGES'),
+                'is_image' =>  $NOT_IMAGES,
                 'image_url' => null,
                 'notes' => null,
-                'payment_status' => Config::get('constants.PENDING_ACCEPT'),
-                'is_deleted' => Config::get('constants.NOT_DELETE'),            
+                'payment_status' =>  $CHO_DUYET,
+                'is_deleted' => $CHUA_XOA,            
            ]);
         } else {
             $file = $request->file('img');
@@ -86,11 +93,11 @@ class NaptheController extends Controller
                 'transaction_id' => str_random(10),
                 'balance' => 0,
                 'topup_type' => 0,
-                'is_image' => Config::get('constants.IS_IMAGE'),
+                'is_image' => $IMAGES,
                 'image_url' => $urlFile,
                 'notes' => null,
-                'payment_status' => Config::get('constants.PENDING_ACCEPT'),
-                'is_deleted' => Config::get('constants.NOT_DELETE'),            
+                'payment_status' => $CHO_DUYET,
+                'is_deleted' => $CHUA_XOA,            
            ]);
         }
       
