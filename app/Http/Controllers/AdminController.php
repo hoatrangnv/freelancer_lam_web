@@ -26,13 +26,6 @@ class AdminController extends Controller
     public function listCard()
     {
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
-     
-       $q = "SELECT *,p.image_url as src,p.id as payment_id,u.name as username, u.id as user_id, c.card_name as card_name FROM payments p
-       LEFT JOIN users u ON p.user_id = u.id  
-       LEFT JOIN cat_cards c ON p.provider = c.card_code
-       WHERE p.is_deleted = 0
-       ORDER BY  payment_id ASC";
-       
         $result =  DB::table('payments')
                       ->leftJoin('users', 'payments.user_id', '=', 'users.id')
                       ->leftJoin('cat_cards', 'payments.provider', '=', 'cat_cards.card_code')

@@ -50,7 +50,7 @@
                     <option value="1000000">1.000.000&nbsp;₫</option>
                  </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Nạp thẻ</button>
+                <button type="submit" class="btn-sm btn btn-primary">Nạp thẻ</button>
               </form>
               <br>
         </div>
@@ -93,7 +93,7 @@
                             <p>
                                     Vui lòng cào lớp bạc và chụp đầy đủ ảnh bao gồm <strong>số Seri</strong> và <strong>mã thẻ</strong> như hình bên.
                             </p>
-                            <button type="submit" class="btn btn-primary">Nạp thẻ</button>
+                            <button type="submit" class="btn-sm btn btn-primary">Nạp thẻ</button>
                           </form>
         </div>
         <div class="col-md-4">
