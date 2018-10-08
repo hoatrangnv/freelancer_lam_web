@@ -22,6 +22,7 @@
   border: 2px solid #c4c4c4;
 }
 ._padding {
-  border: 1px solid #eee;
-    padding-top: 1em;
+
+    margin-bottom: 1em;
+    border-bottom: none;
 }
