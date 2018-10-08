@@ -121,7 +121,7 @@
                             <input type="number" class="form-control" name="user_nhan_tien" id="user_nhan_tien"   />
                         </div>
                         <div class="form-group">
-                            <label for="formGroupExampleInput">Số tiền</label>
+                            <label for="formGroupExampleInput">Số Tiền</label>
                             <input type="number" class="form-control" name="money_chuyentien" id="money_ct"  required />
                             <p id="tien"></p>
                         </div>
@@ -138,15 +138,38 @@
                         @csrf
                         <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
                         <div class="form-group">
+                            <label for="formGroupExampleInput">Số Tài Khoản</label>
+                            <input type="number" class="form-control" name="money_rut" id="money_rut"  required />
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Chọn ngân hàng</label>
+                            <select class="form-control" name="back_type" id="back_type">
+                                <option value="">fà</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-sm btn btn-success">Thêm Tài Khoản</button>
+                </form>
+                <hr>
+                <form action="{{ route('rut-tien') }}" method="POST">
+                        @csrf
+                        <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
+                        <div class="form-group">
                             <label for="formGroupExampleInput">Số tiền</label>
                             <input type="number" class="form-control" name="money_rut" id="money_rut"  required />
                         </div>
+                        <div class="form-group">
+                                <label for="formGroupExampleInput">Chọn ngân hàng</label>
+                                <select class="form-control" name="back_type" id="back_type">
+                                    <option value="">fà</option>
+                                </select>
+                            </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput">Mật Khẩu Cấp 2</label>
                             <input type="password" class="form-control" name="password2_rut" id="password2_rut"  required />
                         </div>
                         <button type="submit" class="btn-sm btn btn-primary">Rút Tiền</button>
-            </form>
+
+                </form>
                 <br>
             </div>
         </div>
