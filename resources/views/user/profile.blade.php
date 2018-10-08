@@ -122,7 +122,8 @@
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput">Số tiền</label>
-                            <input type="number" class="form-control" name="money_chuyentien" id=""  required />
+                            <input type="number" class="form-control" name="money_chuyentien" id="money_ct"  required />
+                            <p id="tien"></p>
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput">Mật Khẩu Cấp 2</label>
@@ -155,6 +156,7 @@
        
     </div>
     <script>
+        
         function showChuyenTien(selected){
             var type = selected.value;
             var khac_tk = "khac_tai_khoan";
@@ -167,5 +169,16 @@
                 $( "#user_nhan_tien" ).prop( "disabled", true );
             }
         }
+
+        function commaSeparateNumber(val){
+            while (/(\d+)(\d{3})/.test(val.toString())){
+              val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+            }
+            return val;
+          }
+        $("#money_ct").focusout(function(){
+          
+         $('#tien').html("").html(commaSeparateNumber($(this).val()) + "đ")
+        });
     </script>
 @endsection

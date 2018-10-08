@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 use App\Card;
 use App\User;
 use App\Payment;
@@ -34,26 +36,28 @@ class ChuyenTienController extends Controller
         $money_chuyen = $request->get('money_chuyentien');
         $user = User::find($user_id);
         $get_password2 = $user['password2'];
+
+        //SET MONEY
+        $get_money = $user['money_1'];
+        $get_money2 = $user['money_2'];
+        $money_old = $get_money -  $money_chuyen;
+        if($money_old < 0) {
+            $money_chuyen = 0;
+        }
+        $mess = "Chuyển tiền sang tài khoản 2:  " .$money_chuyen ."đ";
+
         //chuyen tk1 sang 2
         if($get_ma_xac_nhan == $get_password2 )    {
             if($type == "cung_tai_khoan") {
-                $get_money = $user['money_1'];
-                $get_money2 = $user['money_2'];
-
-                $money_old = $get_money -  $money_chuyen;
-            
-                if($money_old < 0) {
-                    $money_chuyen = 0;
-                }
+               
                 $user->money_1 = $money_old;
                 $user->money_2 = $money_chuyen + $get_money2;
                 $user->save();
                 //log
-                $mess = "Chuyển tiền sang tài khoản 2" .$money_chuyen;
                 $log = Log::create([
                     'log_user_id' =>  $user_id,
                     'log_content' => $mess,
-                    'log_amount' => $money_old,
+                    'log_amount' => $money_chuyen,
                     'log_time' => 0,
                     'log_type' => "CHUYỂN_TIỀN_CÙNG_TÀI_KHOẢN",
                     'log_read' => 0
@@ -62,6 +66,31 @@ class ChuyenTienController extends Controller
                 
             } else if ($type = "khac_tai_khoan") {
 
+               //cong tien cho user nhan
+                    $get_phone_number = $request->get('user_nhan_tien');
+
+                    $result = User::where('phone_number',$get_phone_number)
+                        ->first();
+                    $phone_number = $result->phone_number;
+                    $user_nhan = User::find($result->id);
+                    $user_nhan->money_1 = $money_chuyen;
+                    $user_nhan->save();
+                    
+               // tru tien user
+                    $user->money_1 = $money_old;
+                    $user->save();
+               //log
+               $mess = "Chuyển tiền từ tài khoản:  " . $user->name ."sang tài khoản  " .$user_nhan->name."số tiền: ". $money_chuyen;
+
+                $log = Log::create([
+                    'log_user_id' =>  $user_id,
+                    'log_content' => $mess,
+                    'log_amount' =>  $money_chuyen,
+                    'log_time' => 0,
+                    'log_type' => "CHUYỂN_TIỀN_SANG_TÀI_KHOẢN_KHÁC",
+                    'log_read' => 0
+                ]);
+                return redirect()->back()->with('message', 'Chuyển tiền thành công');
             }
         }
         return redirect()->back()->with('error', 'Mật khẩu cấp 2 không đúng, vui lòng thử lại.');            

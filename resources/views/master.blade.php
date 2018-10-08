@@ -12,8 +12,9 @@
     <title>DoiThe.Pro</title>
 
     <!-- Bootstrap core CSS-->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-
+  
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
 
