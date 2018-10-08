@@ -9,6 +9,7 @@ use App\Card;
 use App\User;
 use App\Payment;
 use App\Log;
+use App\Tinh;
 use Config;
 use Auth;
 class UserController extends Controller
@@ -32,5 +33,11 @@ class UserController extends Controller
             ->orderByRaw('payments.payment_id - payments.created_at ASC')
             ->paginate(10);
             return view('user.profile',compact('result'));
+    }
+
+    public function showTinh() 
+    {
+        $result =  Tinh::all();
+        return response($result);
     }
 }

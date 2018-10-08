@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/api/tinh','UserController@showTinh')->name('api.tinh');
 
 Route::group(['middleware' => 'auth'], function () {
     //show user profile
@@ -30,6 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
      //chuyen tien
     Route::post('/chuyen-tien','ChuyenTienController@chuyenTien')->name('chuyen-tien');
 
+    //RUT TIEN
+    Route::post('/rut-tien','RuttienController@index')->name('rut-tien');
      
 });
 

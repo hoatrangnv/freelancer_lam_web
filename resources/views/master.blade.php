@@ -108,6 +108,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                 <a class="dropdown-item" href="{{ route('admin.danh-sach-the-cao') }}">Danh sách thẻ nạp</a>
+                <a class="dropdown-item" href="{{ route('admin.danh-sach-the-cao') }}">Danh sách rút tiền</a>
               </div>
             </li>
           @endif

@@ -82,7 +82,7 @@ class ChuyenTienController extends Controller
                     $user->money_1 =  $get_money - $money_chuyen;
                     $user->save();
                //log
-               $mess = "Chuyển tiền từ tài khoản:  " . $user->name ."sang tài khoản  " .$user_nhan->name."số tiền: ". $money_chuyen;
+               $mess = "Chuyển tiền từ tài khoản:  " . $user->name ."  sang tài khoản  " .$user_nhan->name." số tiền: ". $money_chuyen;
 
                 $log = Log::create([
                     'log_user_id' =>  $user_id,

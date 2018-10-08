@@ -93,7 +93,7 @@
     <hr>
       
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 _padding">
                     @if(session()->has('message'))
                         <div class="alert alert-success">
                             {{ session()->get('message') }}
@@ -132,25 +132,23 @@
                         <button type="submit" class="btn-sm btn btn-primary">Chuyển Tiền</button>
             </form>
             </div>
-            {{-- <div class="col-md-6">
+            <div class="col-md-6 _padding">
                 <h4>Rút tiền</h4>
-                <form action="">
+                <form action="{{ route('rut-tien') }}" method="POST">
+                        @csrf
+                        <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
                         <div class="form-group">
                             <label for="formGroupExampleInput">Số tiền</label>
-                            <input type="number" class="form-control" name="" id=""  required />
-                        </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Id Người Nhận</label>
-                            <input type="number" class="form-control" name="" id=""  required />
+                            <input type="number" class="form-control" name="money_rut" id="money_rut"  required />
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput">Mật Khẩu Cấp 2</label>
-                            <input type="password" class="form-control" name="" id=""  required />
+                            <input type="password" class="form-control" name="password2_rut" id="password2_rut"  required />
                         </div>
-                </form>
-                <button type="submit" class="btn-sm btn btn-primary">Chuyển Tiền</button>
+                        <button type="submit" class="btn-sm btn btn-primary">Rút Tiền</button>
+            </form>
                 <br>
-            </div> --}}
+            </div>
         </div>
         <br>
        

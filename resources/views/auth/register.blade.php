@@ -45,7 +45,7 @@
 
                             <div class="col-md-6">
                                 <select  class="form-control" name="tinh" id="tinh">
-                                    <option value="ha noi">fafa</option>
+                                    
                                 </select>
                             </div>
                         </div>   
@@ -81,7 +81,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Xác Nhận Mật Khẩu</label>
 
                             <div class="col-md-6">
-                                <input id="password2" type="password" class="form-control" name="password_confirmation" required>
+                                <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -106,4 +106,21 @@
         </div>
     </div>
 </div>
+<script>
+    var arr = [];
+    $.ajax({
+        url: "{{ route('api.tinh') }}",
+        type: "get",
+        dateType: "text",
+        success: function(result) {
+            var htmlResult = "";
+            Object.keys(result).forEach(function(key) {
+                var name = result[key].name;
+                var matp = result[key].matp;
+                htmlResult += "<option value='"+matp+"'>" + name +"</option>"
+            })
+            $("#tinh").append(htmlResult);
+        }
+    });
+</script>
 @endsection
