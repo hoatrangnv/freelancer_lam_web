@@ -207,5 +207,15 @@
           
          $('#tien').html("").html(commaSeparateNumber($(this).val()) + "đ")
         });
+
+        //get all bank
+        function ListAllBank() {
+
+        }
+        //get only bank
+        function getOnlyBank()
+        {
+            
+        }
     </script>
 @endsection
