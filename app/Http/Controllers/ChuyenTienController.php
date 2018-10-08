@@ -40,14 +40,14 @@ class ChuyenTienController extends Controller
         //SET MONEY
         $get_money = $user['money_1'];
         $get_money2 = $user['money_2'];
+
+        //cong tien
         $money_old = $get_money -  $money_chuyen;
-        if($money_old < 0) {
-            $money_chuyen = 0;
-        }
+  
         $mess = "Chuyển tiền sang tài khoản 2:  " .$money_chuyen ."đ";
 
         //chuyen tk1 sang 2
-        if($get_ma_xac_nhan == $get_password2 )    {
+        if($get_ma_xac_nhan == $get_password2 && $get_money >  $money_chuyen )    {
             if($type == "cung_tai_khoan") {
                
                 $user->money_1 = $money_old;
@@ -71,13 +71,15 @@ class ChuyenTienController extends Controller
 
                     $result = User::where('phone_number',$get_phone_number)
                         ->first();
+                   
                     $phone_number = $result->phone_number;
                     $user_nhan = User::find($result->id);
-                    $user_nhan->money_1 = $money_chuyen;
+                    $money_old = $user_nhan->money_1;
+                    $user_nhan->money_1 = $money_old + $money_chuyen;
                     $user_nhan->save();
                     
                // tru tien user
-                    $user->money_1 = $money_old;
+                    $user->money_1 =  $get_money - $money_chuyen;
                     $user->save();
                //log
                $mess = "Chuyển tiền từ tài khoản:  " . $user->name ."sang tài khoản  " .$user_nhan->name."số tiền: ". $money_chuyen;
@@ -93,7 +95,7 @@ class ChuyenTienController extends Controller
                 return redirect()->back()->with('message', 'Chuyển tiền thành công');
             }
         }
-        return redirect()->back()->with('error', 'Mật khẩu cấp 2 không đúng, vui lòng thử lại.');            
+        return redirect()->back()->with('error', 'Mật khẩu cấp 2 không đúng hoặc số tiền trong tài khoản không đủ,vui lòng thử lại.');            
 
     }
 

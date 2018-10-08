@@ -117,7 +117,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="formGroupExampleInput">ID Người nhận</label>
+                            <label for="formGroupExampleInput">SĐT Người Nhận</label>
                             <input type="number" class="form-control" name="user_nhan_tien" id="user_nhan_tien"   />
                         </div>
                         <div class="form-group">
