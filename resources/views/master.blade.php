@@ -64,7 +64,10 @@
               {{ Auth::user()->name}} <i class="fas fa-user-circle fa-fw"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="{{ route('user.profle') }}">Tài Khoản</a>
+            <a class="dropdown-item" href="{{ route('user.profle') }}">Thông tin tài khoản</a>
+            <a class="dropdown-item" href="#">Số dư:  {{ Auth::user()->money_1 }} đ</a>
+            <a class="dropdown-item" href="#">Tạm giữ:  {{ Auth::user()->tam_giu }} đ</a>
+            <a class="dropdown-item" href="#">Tài khoản 2:  {{ Auth::user()->money_2 }} đ</a>
             <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="{{ route('logout') }}" 
         onclick="event.preventDefault();
@@ -92,6 +95,21 @@
           <a class="nav-link" href="#">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Nạp Tiền</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Lịch sử giao dịch</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Rút tiền</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('chuyen-tien.index') }}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Chuyển tiền</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('nap-the') }}">

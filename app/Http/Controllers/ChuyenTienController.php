@@ -20,7 +20,7 @@ class ChuyenTienController extends Controller
      */
     public function index()
     {
-        //
+       return view('chuyen-tien.index');
     }
 
     /**
@@ -47,7 +47,7 @@ class ChuyenTienController extends Controller
         $mess = "Chuyển tiền sang tài khoản 2:  " .$money_chuyen ."đ";
 
         //chuyen tk1 sang 2
-        if($get_ma_xac_nhan == $get_password2 && $get_money >  $money_chuyen )    {
+        if($get_ma_xac_nhan == $get_password2 && $get_money >  $money_chuyen && $money_chuyen > 0 )    {
             if($type == "cung_tai_khoan") {
                
                 $user->money_1 = $money_old;

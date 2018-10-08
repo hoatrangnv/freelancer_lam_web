@@ -29,11 +29,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/nap-card','NaptheController@napthecao')->name('nap-card');
 
      //chuyen tien
+    Route::get('/chuyen-tien','ChuyenTienController@index')->name('chuyen-tien.index');
     Route::post('/chuyen-tien','ChuyenTienController@chuyenTien')->name('chuyen-tien');
 
     //RUT TIEN
     Route::post('/rut-tien','RuttienController@index')->name('rut-tien');
-     
+    
+    Route::get('/api/bank','RuttienController@bankList')->name('api.bank');
+    Route::get('/api/add-bank','RuttienController@addAccount')->name('api.add-bank');
 });
 
 Route::group(['middleware' => 'admin'], function () {

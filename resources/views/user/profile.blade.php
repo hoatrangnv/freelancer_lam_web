@@ -36,47 +36,7 @@
     <br>
     <hr>
       
-        <div class="row">
-            <div class="col-md-12 _padding">
-                    @if(session()->has('message'))
-                        <div class="alert alert-success">
-                            {{ session()->get('message') }}
-                        </div>
-                     @endif
-                    @if(session()->has('error'))
-                        <div class="alert alert-danger">
-                            {{ session()->get('error') }}
-                        </div>
-                     @endif
-                <h4>Chuyển tiền</h4>
-                <form action="{{ route('chuyen-tien') }}" method="post">
-                    @csrf
-                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Loại chuyển ( Lựa chọn phương thức chuyển tiền )</label>
-                            <select name="chuyen_tien" id="chuyen_tien" class="form-control" onclick="showChuyenTien(this)" required>
-                                <option value="">Lựa chọn phương thức chuyển tiền</option>
-                                <option value="cung_tai_khoan">Tài khoản chính ---> Tài khoản phụ</option>
-                                <option value="khac_tai_khoan">Chuyển cho người dùng khác</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">SĐT Người Nhận</label>
-                            <input type="number" class="form-control" name="user_nhan_tien" id="user_nhan_tien"   />
-                        </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Số Tiền</label>
-                            <input type="number" class="form-control" name="money_chuyentien" id="money_ct"  required />
-                            <p id="tien"></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Mật Khẩu Cấp 2</label>
-                            <input type="password" class="form-control" name="password2" id="password2"  required />
-                        </div>
-                        <button type="submit" class="btn-sm btn btn-primary">Chuyển Tiền</button>
-            </form>
-            </div>
-        </div>
+        
           <br>
             <div class="row _padding">
                <div class="col-md-12">
@@ -93,7 +53,7 @@
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Chọn ngân hàng</label>
                                 <select class="form-control" name="back_type" id="back_type">
-                                    <option value="">fà</option>
+                                    <option value="">Chọn ngân hàng</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn-sm btn btn-success">Thêm Tài Khoản</button>
@@ -109,7 +69,7 @@
                             </div>
                             <div class="form-group">
                                     <label for="formGroupExampleInput">Chọn ngân hàng đăng ký</label>
-                                    <select class="form-control" name="back_type" id="back_type">
+                                    <select class="form-control" name="back_user" id="back_user">
                                         <option value="">fà</option>
                                     </select>
                                 </div>
@@ -184,33 +144,29 @@
     
     <script>
         
-        function showChuyenTien(selected){
-            var type = selected.value;
-            var khac_tk = "khac_tai_khoan";
-            var cung_tk = "cung_tai_khoan";
+       
 
-            console.log(type)
-            if(type == khac_tk) {
-                $( "#user_nhan_tien" ).prop( "disabled", false );
-            } else if(type == cung_tk) {
-                $( "#user_nhan_tien" ).prop( "disabled", true );
-            }
-        }
+      
 
-        function commaSeparateNumber(val){
-            while (/(\d+)(\d{3})/.test(val.toString())){
-              val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
-            }
-            return val;
-          }
-        $("#money_ct").focusout(function(){
-          
-         $('#tien').html("").html(commaSeparateNumber($(this).val()) + "đ")
-        });
+        this.ListAllBank();
 
         //get all bank
         function ListAllBank() {
-
+            var arr = [];
+            $.ajax({
+                url: "{{ route('api.bank') }}",
+                type: "get",
+                dateType: "text",
+                success: function(result) {
+                    var htmlResult = "";
+                    Object.keys(result).forEach(function(key) {
+                        var bank_name = result[key].bank_name;
+                        var bank_id = result[key].bank_id;
+                        htmlResult += "<option value='"+bank_id+"'>" + bank_name +"</option>"
+                    })
+                    $("#back_type").append(htmlResult);
+                }
+            });
         }
         //get only bank
         function getOnlyBank()

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Bank;
+use App\BankAccount;
 class RuttienController extends Controller
 {
     /**
@@ -16,5 +17,17 @@ class RuttienController extends Controller
         return $request->all();
     }
 
+    public function bankList()
+    {
+        $bank = Bank::all();
+        return response($bank);
+    }
+
+    // add tai khoan
+
+    public function addAccount()
+    {
+        
+    }
     
 }
