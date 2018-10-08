@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/nap-card','NaptheController@napthecao')->name('nap-card');
 
      //chuyen tien
+    Route::post('/chuyen-tien','ChuyenTienController@chuyenTien')->name('chuyen-tien');
+
      
 });
 
