@@ -44,12 +44,14 @@
     </div>
 </div>
 <div class="row">
-    <table class="table">
+    <table class="table table-sm">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Loại chuyển</th>
-                <th>Nội Dung</th>
+                <th>Nội dung</th>
+                <th>Thời gian</th>
+                <th>Trạng Thái</th>
             </tr>
         </thead>
         <tbody id="content">
@@ -91,7 +93,8 @@
                 var log_content = result[key].log_content;
                 var log_type = result[key].log_type;
                 var log_id = result[key].log_id;
-                htmlResult += "<tr><td>"+log_id+"</td><td>"+log_type+"</td><td>"+log_content+"</td></tr>"
+                var created_at = result[key].created_at
+                htmlResult += "<tr><td>"+log_id+"</td><td>"+log_type+"</td><td>"+log_content+"</td><td>"+created_at+"</td><td>Thành Công</td></tr>"
             })
             $("#content").append(htmlResult);
         }
