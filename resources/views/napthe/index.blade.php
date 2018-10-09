@@ -170,7 +170,43 @@
                       </div>
         </div>
     </div>
-              
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Thẻ chờ duyệt</h4>
+
+                 <table class="table table-sm" style="margin-bottom:3em">
+                    <thead>
+                        <tr>
+                            <th>Loại Thẻ</th>
+                            <th>Mã Pin</th>
+                            <th>Mã Seria</th>
+                            <th>Mệnh giá</th>
+                            <th>Trạng Thái</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($hsitory as $item)
+                        <form action="{{ route('delete-card') }}" method="GET">
+                            <input type="hidden" value="{{ $item->payment_id }}" name="id" id="id">
+                            <tr>
+                                    <td>{{ $item->card_name }}</td>
+                                    <td>{{ $item->pin }}</td>
+                                    <td>{{ $item->serial }}</td>
+                                    <td>{{ number_format($item->price) }} đ</td>
+                                    <td> <button class="btn btn-sm btn-primary">Chờ duyệt</button></td>
+                                    <td>
+                                        <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
+                                    </td>
+                                </tr>
+                            </form>
+                        @endforeach        
+                        
+                    </tbody>
+                </table>
+            <br>
+             </div>      
+        </div>    
        
     <script>
         function cardDiscount(selected){

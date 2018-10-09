@@ -26,7 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
     
     //Route nap the cao
     Route::get('/nap-the','NaptheController@index')->name('nap-the');
+    Route::get('/nap-the/history','NaptheController@Historycard')->name('nap-the.Historycard');
     Route::post('/nap-card','NaptheController@napthecao')->name('nap-card');
+    Route::get('/delete-card','NaptheController@deleteCard')->name('delete-card');
 
      //chuyen tien
     Route::get('/chuyen-tien','ChuyenTienController@index')->name('chuyen-tien.index');

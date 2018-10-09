@@ -7,6 +7,7 @@ use App\Card_card;
 use App\Card;
 use App\Payment;
 use Config;
+use Auth;
 use Illuminate\Http\UploadedFile;
 class NaptheController extends Controller
 {
@@ -18,13 +19,18 @@ class NaptheController extends Controller
    
     public function index()
     {
+        
+        $user = Auth::user()->id;
+        $h = "select *,c.card_name from payments left join cat_cards c On payments.provider = c.card_code where user_id = $user and payments.payment_status =0";
+        $hsitory = DB::select($h);
+
         $q = "select * from cat_cards where card_status= 1";
         $result = DB::select($q);
-        return view('napthe.index',compact('result'));
+        return view('napthe.index',compact(array('result','hsitory')));
     }
 
     //function nap the tu web
-    function napthecao(Request $request) {
+    public function napthecao(Request $request) {
 
         $IMAGES = Config::get('constants.IS_IMAGE');
         $NOT_IMAGES = Config::get('constants.NOT_IMAGES');
@@ -105,5 +111,24 @@ class NaptheController extends Controller
         return redirect()->back()->with('message', 'Nạp thẻ thành công, vui lòng chờ hệ thống xác nhận!');
        }
        return false;
+    }
+
+    //function hsitory napthe
+
+    public function Historycard()
+    {
+        $user = Auth::user()->id;
+        $q = "select *,c.card_name from payments left join cat_cards c On payments.provider = c.card_code where user_id =2 = $user";
+        $hsitory = DB::select($q);
+        return view('napthe.index',compact('hsitory'));
+    }
+
+    public function deleteCard(Request $request)
+    {
+        $id = $request->get('id');
+        $q = "DELETE FROM payments where payment_id = $id";
+        $result = DB::select($q);
+        return redirect()->back()->with('message', 'Xử lý thành công!');
+
     }
 }
