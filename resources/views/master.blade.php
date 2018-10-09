@@ -94,15 +94,10 @@
         <li class="nav-item">
           <a class="nav-link" href="#">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Nạp Tiền</span></a>
+            <span>Nạp tiền</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Lịch sử giao dịch</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{{ route('rut-tien') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Rút tiền</span></a>
         </li>
@@ -126,7 +121,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                 <a class="dropdown-item" href="{{ route('admin.danh-sach-the-cao') }}">Danh sách thẻ nạp</a>
-                <a class="dropdown-item" href="{{ route('admin.danh-sach-the-cao') }}">Danh sách rút tiền</a>
+                <a class="dropdown-item" href="{{ route('admin.danh-sach-rut-tien') }}">Danh sách rút tiền</a>
               </div>
             </li>
           @endif

@@ -38,51 +38,7 @@
       
         
           <br>
-            <div class="row _padding">
-               <div class="col-md-12">
-                    <h4>Rút Tiền</h4>
-               </div>
-               <div class="col-md-6">
-                    <form action="" method="POST">
-                            @csrf
-                            <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
-                            <div class="form-group">
-                                <label for="formGroupExampleInput">Số Tài Khoản (Nhập vào số tài khoản nhận tiền )</label>
-                                <input type="number" class="form-control" name="money_rut" id="money_rut"  required />
-                            </div>
-                            <div class="form-group">
-                                <label for="formGroupExampleInput">Chọn ngân hàng</label>
-                                <select class="form-control" name="back_type" id="back_type">
-                                    <option value="">Chọn ngân hàng</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn-sm btn btn-success">Thêm Tài Khoản</button>
-                    </form>
-               </div>
-               <div class="col-md-6">
-                    <form action="{{ route('rut-tien') }}" method="POST">
-                            @csrf
-                            <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
-                            <div class="form-group">
-                                <label for="formGroupExampleInput">Số tiền</label>
-                                <input type="number" class="form-control" name="money_rut" id="money_rut"  required />
-                            </div>
-                            <div class="form-group">
-                                    <label for="formGroupExampleInput">Chọn ngân hàng đăng ký</label>
-                                    <select class="form-control" name="back_user" id="back_user">
-                                        <option value="">fà</option>
-                                    </select>
-                                </div>
-                            <div class="form-group">
-                                <label for="formGroupExampleInput">Mật Khẩu Cấp 2</label>
-                                <input type="password" class="form-control" name="password2_rut" id="password2_rut"  required />
-                            </div>
-                            <button type="submit" class="btn-sm btn btn-primary">Rút Tiền</button>
-    
-                    </form>
-               </div>
-          
-            </div>   
+            
         <div class="row">
                 <div class="col-md-12" >
                     <h2>Lịch sử giao dịch</h2>
@@ -142,36 +98,5 @@
             <div style="float: right;margin-top:5%"class="text-center">{{ $result->links() }}</div>
     </div>
     
-    <script>
-        
-       
-
-      
-
-        this.ListAllBank();
-
-        //get all bank
-        function ListAllBank() {
-            var arr = [];
-            $.ajax({
-                url: "{{ route('api.bank') }}",
-                type: "get",
-                dateType: "text",
-                success: function(result) {
-                    var htmlResult = "";
-                    Object.keys(result).forEach(function(key) {
-                        var bank_name = result[key].bank_name;
-                        var bank_id = result[key].bank_id;
-                        htmlResult += "<option value='"+bank_id+"'>" + bank_name +"</option>"
-                    })
-                    $("#back_type").append(htmlResult);
-                }
-            });
-        }
-        //get only bank
-        function getOnlyBank()
-        {
-            
-        }
-    </script>
+   
 @endsection

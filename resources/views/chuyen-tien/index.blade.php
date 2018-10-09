@@ -48,24 +48,11 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Loại Chuyển</th>
-                <th>Số tiền</th>
-                <th>Số tiền</th>
-                <th></th>
-                <th></th>
+                <th>Loại chuyển</th>
+                <th>Nội Dung</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td scope="row"></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td scope="row"></td>
-                <td></td>
-                <td></td>
-            </tr>
+        <tbody id="content">
         </tbody>
     </table>
 </div>
@@ -91,6 +78,23 @@
     $("#money_ct").focusout(function(){
       
      $('#tien').html("").html(commaSeparateNumber($(this).val()) + "đ")
+    });
+
+    $.ajax({
+        url: "{{ route('api.history-chuyen-tien') }}",
+        type: "get",
+        dateType: "text",
+        success: function(result) {
+            var htmlResult = "";
+            Object.keys(result).forEach(function(key) {
+                console.log(result)
+                var log_content = result[key].log_content;
+                var log_type = result[key].log_type;
+                var log_id = result[key].log_id;
+                htmlResult += "<tr><td>"+log_id+"</td><td>"+log_type+"</td><td>"+log_content+"</td></tr>"
+            })
+            $("#content").append(htmlResult);
+        }
     });
 </script>
 @endsection

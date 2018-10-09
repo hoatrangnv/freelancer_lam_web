@@ -1,69 +1,41 @@
 @extends('master')
 @section('title')
-    Dach Sách Thẻ Nạp
+    Dach Sách Rút Tiền
 @endsection
 @section('content')
     <div class="row">
-       
         <div class="col-md-12">
-                @if(session()->has('message'))
-                <div class="alert alert-success">
-                    {{ session()->get('message') }}
-                </div>
-            @endif
-                <table class="table table-bordered table-sm  ">
-                        <thead class="thead-inverse">
-                            <tr>
-                                <th>ID</th>
-                                <th>Mã Pin</th>
-                                <th>Mã Seria</th>
-                                <th>Loại Thẻ</th>
-                                <th>Giá Tiên</th>
-                                <th>Người Nạp</th>
-                                <th>Ảnh</th>
-                                <th>Trạng Thái</th>
-                                <th>Hành Động</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($result as $value)
-                                <form action="{{ route('admin.addcard') }}" method="post">
-                                    @csrf
-                                  
-                                <tr>
-                                    <td>gsgs</td>
-                                    <td>gsgs</td>
-                                    <td>gsgs</td>
-                                    <td>gss</td>
-                                    <td>gss</td>
-                                    <td>gss</td>
-                                    <td> 
-                                       gsgs
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-                                        <select class="form-control" name="status" id="status" onchange="this.form.submit()">
-                                            <option value="">Hành động</option>
-                                            <option value="1">Đang xử lý</option>
-                                            <option value="2">Chấp nhận</option>
-                                            <option value="3">Hủy</option>
-                                            <option value="4">Thẻ sai</option>
-                                            <option value="5">Bảo trì</option>
-                                            <option value="6">Xóa</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </form>
-                              
-                            </tbody>
-                    </table>
+            <table class="table table-bordered table-sm">
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Số tiền</th>
+                    <th>Ngân hàng</th>
+                    <th>Chi nhánh</th>
+                    <th>Số TK</th>
+                    <th>Trạng Thái</th>
+                    <th>Hành động</th>
+                </tr>
+                @foreach ($result as $value)
+                    <tr>
+                        <td>{{ $value->widthraw_id }}</td>
+                        <td>{{ $value->name }}</td>
+                        <td>{{ $value->amount }}</td>
+                        <td>{{ $value->bank_name }}</td>
+                        <td>{{ $value->bank_branch }}</td>
+                        <td>{{ $value->bank_branch }}</td>
+                        <td>{{ $value->withdraw_status }}</td>
+                        <td>
+                            <select  class="form-controll" name="" id="">
+                                <option value="1">Chấp Nhận</option>
+                                <option value="2">Hủy</option>
+                            </select>
+                        </td>
+                    </tr>
+                @endforeach
+            <div style="float: right;margin-top:5%"class="text-center">{{ $result->links() }}</div>
+       
+            </table>
         </div>
     </div>
-   
-   
-    <script>
-     
-    </script>
 @endsection

@@ -10,6 +10,7 @@ use App\User;
 use App\Payment;
 use App\Log;
 use Config;
+use Auth;
 
 class ChuyenTienController extends Controller
 {
@@ -30,6 +31,8 @@ class ChuyenTienController extends Controller
      */
     public function chuyenTien(Request $request)
     {
+        $CHUYEN_TIEN = Config::get('constants.CHUYEN_TIEN');
+
         $user_id = $request->get('user_id');
         $get_ma_xac_nhan = $request->get('password2');
         $type = $request->get('chuyen_tien');
@@ -60,7 +63,7 @@ class ChuyenTienController extends Controller
                     'log_amount' => $money_chuyen,
                     'log_time' => 0,
                     'log_type' => "CHUYỂN_TIỀN_CÙNG_TÀI_KHOẢN",
-                    'log_read' => 0
+                    'log_read' => $CHUYEN_TIEN
                 ]);
                 return redirect()->back()->with('message', 'Chuyển tiền thành công');
                 
@@ -90,7 +93,7 @@ class ChuyenTienController extends Controller
                     'log_amount' =>  $money_chuyen,
                     'log_time' => 0,
                     'log_type' => "CHUYỂN_TIỀN_SANG_TÀI_KHOẢN_KHÁC",
-                    'log_read' => 0
+                    'log_read' => $CHUYEN_TIEN
                 ]);
                 return redirect()->back()->with('message', 'Chuyển tiền thành công');
             }
@@ -99,5 +102,19 @@ class ChuyenTienController extends Controller
 
     }
 
-   
+   //get log chuyen tien
+
+   public function logHistory()
+   {
+    $CHUYEN_TIEN = Config::get('constants.CHUYEN_TIEN');
+
+    $user = Auth::user()->id;   
+    $result =  DB::table('logs')
+                ->where('log_user_id','=',$user)
+                ->where('log_read','=',$CHUYEN_TIEN)
+                ->orderBy('log_id', 'desc')
+                ->limit(10)
+                ->get();
+    return response($result);
+   }
 }

@@ -9,6 +9,7 @@ use App\User;
 use App\Payment;
 use App\Log;
 use Config;
+use App\WithDraw;
 
 class AdminController extends Controller
 {
@@ -114,4 +115,14 @@ class AdminController extends Controller
         // XOA THI XOA
     }
    
+
+    //function listWithDraw
+    public function listWithDraw()
+    {
+        $result =  DB::table('withdraws')
+        ->leftJoin('users', 'withdraws.user_id', '=', 'users.id')
+        ->paginate(10);
+
+        return view('admin.danh-sach-rut-tien',compact('result'));
+    }
 }

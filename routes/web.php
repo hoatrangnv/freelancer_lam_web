@@ -31,16 +31,19 @@ Route::group(['middleware' => 'auth'], function () {
      //chuyen tien
     Route::get('/chuyen-tien','ChuyenTienController@index')->name('chuyen-tien.index');
     Route::post('/chuyen-tien','ChuyenTienController@chuyenTien')->name('chuyen-tien');
+    Route::get('/history-chuyen-tien','ChuyenTienController@logHistory')->name('api.history-chuyen-tien');
 
     //RUT TIEN
-    Route::post('/rut-tien','RuttienController@index')->name('rut-tien');
-    
+    Route::get('/rut-tien','RuttienController@index')->name('rut-tien');
     Route::get('/api/bank','RuttienController@bankList')->name('api.bank');
     Route::get('/api/add-bank','RuttienController@addAccount')->name('api.add-bank');
+    Route::get('/api/get-bank','RuttienController@getBank')->name('api.get-bank');
+    Route::post('/withdraw','RuttienController@withDraw')->name('withdraw');
 });
 
 Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/danh-sach-the-cao', 'AdminController@listCard')->name('admin.danh-sach-the-cao');
+    Route::get('/admin/danh-sach-rut-tien', 'AdminController@listWithDraw')->name('admin.danh-sach-rut-tien');
     Route::post('/admin/addcard', 'AdminController@addCard')->name('admin.addcard');
 
    
