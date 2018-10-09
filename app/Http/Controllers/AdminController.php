@@ -125,4 +125,38 @@ class AdminController extends Controller
 
         return view('admin.danh-sach-rut-tien',compact('result'));
     }
+    //xu ly rut tien
+    public function withDraw(Request $request)
+    {
+        $RUT_TIEN = Config::get('constants.RUT_TIEN');
+        $CHAP_NHAN = Config::get('constants.CHAP_NHAN');
+       
+        // change status
+        $status = $request->get('status');
+        $width_id = $request->get('widthraw_id');
+        $user_id = $request->get('user_id');
+        $user_name= User::find( $user_id);
+        $amount = $request->get('amount');
+     
+        $q = "UPDATE withdraws
+                SET withdraw_status = $status
+                WHERE widthraw_id = $width_id";
+        $result =  DB::select(DB::raw($q));
+
+       if($status == $CHAP_NHAN) {
+        // log\
+        $mess = "Tài khoản.$user_name->name.rút tiền.$amount.";
+        $log = Log::create([
+            'log_user_id'=>$user_id,
+            'log_content'=>$mess,
+            'log_amount'=>$amount,
+            'log_type' => "RUT-TIEN",
+            'log_read' => $RUT_TIEN,
+            'log_time' =>0
+        ]);
+       }
+       
+        return redirect()->back()->with('message', 'Xử lý thành công!');
+
+    }
 }

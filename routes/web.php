@@ -46,5 +46,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/danh-sach-rut-tien', 'AdminController@listWithDraw')->name('admin.danh-sach-rut-tien');
     Route::post('/admin/addcard', 'AdminController@addCard')->name('admin.addcard');
 
-   
+   // rut tien
+   Route::post('/admin/withdraw', 'AdminController@withDraw')->name('admin.withDraw');
+
 });

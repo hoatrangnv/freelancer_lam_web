@@ -12,6 +12,7 @@ return [
     'XOA' => 6,
     'CHUA_XOA' => 0,
     'CHUYEN_TIEN' => 0,
+    'RUT_TIEN' =>1 ,
     'STATUS_ACTICE' => 0,
     
 ];
