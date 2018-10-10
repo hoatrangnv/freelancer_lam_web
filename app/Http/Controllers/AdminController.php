@@ -137,26 +137,46 @@ class AdminController extends Controller
         $user_id = $request->get('user_id');
         $user_name= User::find( $user_id);
         $amount = $request->get('amount');
-     
-        $q = "UPDATE withdraws
-                SET withdraw_status = $status
-                WHERE widthraw_id = $width_id";
-        $result =  DB::select(DB::raw($q));
 
        if($status == $CHAP_NHAN) {
-        // log\
-        $mess = "Tài khoản.$user_name->name.rút tiền.$amount.";
-        $log = Log::create([
-            'log_user_id'=>$user_id,
-            'log_content'=>$mess,
-            'log_amount'=>$amount,
-            'log_type' => "RUT-TIEN",
-            'log_read' => $RUT_TIEN,
-            'log_time' =>0
-        ]);
+            $q = "UPDATE withdraws
+            SET withdraw_status = $status
+            WHERE widthraw_id = $width_id";
+            $result =  DB::select(DB::raw($q));
+            // tru tien tam giu
+            $mess_tam_giu = "Trừ tiền tạm giữ, rút tiền thành công";
+            $user = User::find($user_id);
+            $user->tam_giu = 0;
+            $user->save();
+            // tru tien tam giu
+            //log tru tien
+            $log = Log::create([
+                'log_user_id'=>$user_id,
+                'log_content'=>$mess_tam_giu,
+                'log_amount'=>0,
+                'log_type' => "RUT-TIEN",
+                'log_read' => $RUT_TIEN,
+                'log_time' =>0
+            ]);
+            // log\
+            $mess = "Tài khoản.$user_name->name.rút tiền.$amount.";
+            $log = Log::create([
+                'log_user_id'=>$user_id,
+                'log_content'=>$mess,
+                'log_amount'=>$amount,
+                'log_type' => "RUT-TIEN",
+                'log_read' => $RUT_TIEN,
+                'log_time' =>0
+            ]);
+            return redirect()->back()->with('message', 'Rút tiền thành công!');
+       } else {
+            $q = "UPDATE withdraws
+            SET withdraw_status = $status
+            WHERE widthraw_id = $width_id";
+            $result =  DB::select(DB::raw($q));
+            return redirect()->back()->with('message', 'Hủy thành công!');
        }
        
-        return redirect()->back()->with('message', 'Xử lý thành công!');
 
     }
 }

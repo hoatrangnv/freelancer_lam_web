@@ -87,7 +87,7 @@
                 @foreach ($result as $value)
                     <tr>
                         <td>{{ $value->widthraw_id }}</td>
-                        <td>{{ $value->amount }}</td>
+                        <td>{{ number_format( $value->amount) }} đ</td>
                         <td>{{ $value->bank_name }}</td>
                         <td>{{ $value->bank_branch }}</td>
                         <td>{{ $value->bank_account_name }}</td>
