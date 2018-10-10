@@ -68,6 +68,7 @@ class ChuyenTienController extends Controller
                 return redirect()->back()->with('message', 'Chuyển tiền thành công');
                 
             } else if ($type = "khac_tai_khoan") {
+                $PHI_CHUYEN = Config::get('constants.PHI_CHUYEN');
 
                //cong tien cho user nhan
                     $get_phone_number = $request->get('user_nhan_tien');
@@ -82,7 +83,7 @@ class ChuyenTienController extends Controller
                     $user_nhan->save();
                     
                // tru tien user
-                    $user->money_1 =  $get_money - $money_chuyen;
+                    $user->money_1 =  $get_money - $money_chuyen - $PHI_CHUYEN;
                     $user->save();
                //log
                $mess = "Chuyển tiền từ tài khoản:  " . $user->name ."  sang tài khoản  " .$user_nhan->name." số tiền: ". $money_chuyen;

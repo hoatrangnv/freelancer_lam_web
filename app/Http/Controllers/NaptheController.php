@@ -118,9 +118,22 @@ class NaptheController extends Controller
     public function Historycard()
     {
         $user = Auth::user()->id;
-        $q = "select *,c.card_name from payments left join cat_cards c On payments.provider = c.card_code where user_id =2 = $user";
+        $q = "select *,c.card_name from payments left join cat_cards c On payments.provider = c.card_code where user_id = $user";
         $hsitory = DB::select($q);
         return view('napthe.index',compact('hsitory'));
+    }
+
+    public function HistoryPending()
+    {
+        $user = Auth::user()->id;
+
+        $hsitory = DB::table('payments')
+                ->leftJoin('users', 'payments.user_id', '=', 'users.id')
+                ->leftJoin('cat_cards', 'payments.provider', '=', 'cat_cards.card_code')
+                ->where('payments.user_id', '=', $user)
+                ->orderByRaw('payments.payment_id - payments.created_at ASC')
+                ->paginate(10);
+        return view('history.napthe',compact('hsitory'));
     }
 
     public function deleteCard(Request $request)

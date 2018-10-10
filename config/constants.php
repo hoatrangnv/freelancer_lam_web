@@ -14,5 +14,8 @@ return [
     'CHUYEN_TIEN' => 0,
     'RUT_TIEN' =>1 ,
     'STATUS_ACTICE' => 0,
+    'CARD_STATUS'=>1,
+    'PHI_RUT'=>10000,
+    'PHI_CHUYEN'=> 1000
     
 ];

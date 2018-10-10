@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-    Home
+   Trang chủ
 @endsection
 @section('content')
 <div class="row">
@@ -65,6 +65,76 @@
               </span>
             </a>
           </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-6">
+                <div class="panel panel-default panel-table">
+                        <h4>Phí đổi thẻ</h4>
+                         <div class="panel-body">
+                            <table class="table table-striped table-borderless">
+                               <thead>
+                                  <tr>
+                                     <th>TT</th>
+                                     <th>Nhà mạng</th>
+                                     <th class="number">Phí</th>
+                                     <th class="number">Trạng thái</th>
+                                  </tr>
+                               </thead>
+                               <tbody class="no-border-x">
+                                 @foreach ($result as $value)
+                                    <tr>
+                                        <td>{{ $value->cat_id }}</td>
+                                        <td>{{ $value->card_name }}</td>
+                                        <td class="number">{{ $value->card_discount }} %</td>
+                                        <td class="number">
+                                          @if($value->card_status == 1)
+                                            <span class="label label-success">Hoạt động</span>
+                                          @else 
+                                            <span class="label label-warning">Bảo trì</span>
+                                          @endif
+                                        </td>
+                                    </tr>
+                                 @endforeach
+                                 
+                               </tbody>
+                            </table>
+                         </div>
+                      </div>
+        </div>
+        <div class="col-md-6">
+                <div class="panel panel-default panel-table">
+                        <h4>Phí mua thẻ</h4>
+                         <div class="panel-body">
+                            <table class="table table-striped table-borderless">
+                               <thead>
+                                  <tr>
+                                     <th>TT</th>
+                                     <th>Nhà mạng</th>
+                                     <th class="number">Phí</th>
+                                     <th class="number">Trạng thái</th>
+                                  </tr>
+                               </thead>
+                               <tbody class="no-border-x">
+                                  @foreach ($result as $value)
+                                  <tr>
+                                      <td>{{ $value->cat_id }}</td>
+                                      <td>{{ $value->card_name }}</td>
+                                      <td class="number">{{ $value->card_discount_buy }} %</td>
+                                      <td class="number">
+                                        @if($value->card_type == 1)
+                                          <span class="label label-success">Hoạt động</span>
+                                        @else 
+                                          <span class="label label-warning">Bảo trì</span>
+                                        @endif
+                                      </td>
+                                  </tr>
+                               @endforeach
+                               </tbody>
+                            </table>
+                         </div>
+                      </div>
         </div>
       </div>
       <script>

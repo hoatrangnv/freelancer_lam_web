@@ -22,7 +22,7 @@
                         <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
                         <div class="form-group">
                             <label for="formGroupExampleInput">Số tiền</label>
-                            <input type="number" class="form-control" name="money_rut" id="money_rut"  required />
+                            <input type="number" class="form-control" name="money_rut" id="money_rut"  required placeholder="Số tiền muốn rút phải lớn hơn: 110.000 VND" />
                         </div>
                         <div class="form-group">
                                 <label for="formGroupExampleInput">Chọn ngân hàng đăng ký</label>
@@ -70,6 +70,42 @@
         </div>
    
      </div>  
+    <div class="row">
+        
+        <div class="col-md-12">
+                <h4>Lịch sử rút tiền</h4>
+            <table class="table table-sm">
+                <tr>
+                        <th>ID</th>
+                        <th>Số tiền</th>
+                        <th>Ngân hàng</th>
+                        <th>Chi nhánh</th>
+                        <th>Số TK</th>
+                        <th>Thời gian</th>
+                        <th>Trạng Thái</th>
+                </tr>
+                @foreach ($result as $value)
+                    <tr>
+                        <td>{{ $value->widthraw_id }}</td>
+                        <td>{{ $value->amount }}</td>
+                        <td>{{ $value->bank_name }}</td>
+                        <td>{{ $value->bank_branch }}</td>
+                        <td>{{ $value->bank_account_name }}</td>
+                        <td>{{ $value->created_at }}</td>
+                        <td> @if($value->withdraw_status == 2)
+                                <span class="text-success">Chấp Nhận</span>
+                            @elseif($value->withdraw_status == 3) 
+                                <span class="text-danger">Hủy</span>
+                            @else 
+                                <span class="text-info">Chờ</span>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+               
+            </table>
+        </div>
+    </div>
      <script>
             this.ListAllBank();
             this.getOnlyBank();

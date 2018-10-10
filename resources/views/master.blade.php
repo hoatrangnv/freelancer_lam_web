@@ -85,17 +85,28 @@
 
       <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
+        
         <li class="nav-item">
           <a class="nav-link" href="/">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
+            <span>Trang chủ</span>
           </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('nap-the') }}">
+              <i class="fas fa-fw fa-table"></i>
+              <span>Nạp Thẻ</span></a>
+          </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Nạp tiền</span></a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('nap-the.history-card') }}">
+              <i class="fas fa-fw fa-chart-area"></i>
+              <span>Lịch sử</span></a>
+          </li>
        
         <li class="nav-item">
           <a class="nav-link" href="{{ route('rut-tien') }}">
@@ -107,14 +118,10 @@
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Chuyển tiền</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('nap-the') }}">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Nạp Thẻ Cào</span></a>
-        </li>
+      
        
  
-          @if(!Auth::guest() && Auth::user()->level == 1)
+          @if(!Auth::guest() && Auth::user()->is_Admin == 1)
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-fw fa-folder"></i>
@@ -132,17 +139,19 @@
       <div id="content-wrapper">
 
         <div class="container-fluid">
-
+          <div class="">
+              <h4 class="text-success">Thông báo từ Admin</h4>
+          </div>
           <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="/">Dashboard</a>
+              <a href="/">Trang Chủ</a>
             </li>
             <li class="breadcrumb-item active">@yield('title')</li>
           </ol>
 
           <!-- Page Content -->
-          <h1>@yield('title')</h1>
+        
           <hr>
          @yield('content')
 

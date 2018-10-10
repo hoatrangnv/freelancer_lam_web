@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
@@ -27,6 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
     //Route nap the cao
     Route::get('/nap-the','NaptheController@index')->name('nap-the');
     Route::get('/nap-the/history','NaptheController@Historycard')->name('nap-the.Historycard');
+    Route::get('/history-pending','NaptheController@HistoryPending')->name('nap-the.history-card');
     Route::post('/nap-card','NaptheController@napthecao')->name('nap-card');
     Route::get('/delete-card','NaptheController@deleteCard')->name('delete-card');
 
@@ -41,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/api/add-bank','RuttienController@addAccount')->name('api.add-bank');
     Route::get('/api/get-bank','RuttienController@getBank')->name('api.get-bank');
     Route::post('/withdraw','RuttienController@withDraw')->name('withdraw');
+    Route::get('/history-rut-tien','RuttienController@historyRutTien')->name('rut-tien.history');
 });
 
 Route::group(['middleware' => 'admin'], function () {

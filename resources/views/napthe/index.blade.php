@@ -170,11 +170,11 @@
                       </div>
         </div>
     </div>
-          <div class="row">
+          <div class="row" >
             <div class="col-md-12">
-              <h4>Thẻ chờ duyệt</h4>
+              <h4>Thẻ chờ duyệt </h4>
 
-                 <table class="table table-sm" style="margin-bottom:3em">
+                 <table class="table table-sm" style="margin-bottom:3em"id="lichsu">
                     <thead>
                         <tr>
                             <th>Loại Thẻ</th>

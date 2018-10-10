@@ -3,26 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Card_card;
+use Config;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function index()
     {
-        return view('home');
+        $CARD_STATUS = Config::get('constants.CARD_STATUS');
+        $result = Card_card::all();
+        return view('home',compact('result'));
+    }
+
+    public function getListCard()
+    {
+        
+
     }
 }
