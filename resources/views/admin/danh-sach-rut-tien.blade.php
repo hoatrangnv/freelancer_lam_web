@@ -44,7 +44,7 @@
                                 @endif
                             </td>
                             <td>   
-                                <select  class="form-controll" name="status" id="status" onchange="this.form.submit()">
+                                <select  class="form-controll" name="status" id="status" onchange="this.form.submit();" >
                                     <option value="">Hành Động</option>
                                     <option value="2">Chấp Nhận</option>
                                     <option value="3">Hủy</option>
@@ -58,4 +58,11 @@
         <div style="float: right;margin-top:5%"class="text-center">{{ $result->links() }}</div>
 
     </div>
+    <script>
+        // submit form
+        function Callsubmit(){
+            this.form.submit();
+            $("#status").prop('disabled', true);
+        }
+    </script>
 @endsection

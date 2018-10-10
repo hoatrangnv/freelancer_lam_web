@@ -41,6 +41,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/api/get-bank','RuttienController@getBank')->name('api.get-bank');
     Route::post('/withdraw','RuttienController@withDraw')->name('withdraw');
     Route::get('/history-rut-tien','RuttienController@historyRutTien')->name('rut-tien.history');
+
+    //NAP TIEN
+    Route::get('/nap-tien','NaptienController@index')->name('nap-tien.index');
 });
 
 Route::group(['middleware' => 'admin'], function () {

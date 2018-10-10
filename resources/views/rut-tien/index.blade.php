@@ -22,7 +22,7 @@
                         <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
                         <div class="form-group">
                             <label for="formGroupExampleInput">Số tiền</label>
-                            <input type="number" class="form-control" name="money_rut" id="money_rut"  required placeholder="Số tiền muốn rút phải lớn hơn: 110.000 VND" />
+                            <input type="number" class="form-control" name="money_rut" id="money_rut"  required placeholder="Số tiền muốn rút phải lớn hơn: 110.000 VND, phí rút tiền là 10k" />
                         </div>
                         <div class="form-group">
                                 <label for="formGroupExampleInput">Chọn ngân hàng đăng ký</label>
@@ -77,7 +77,7 @@
             <table class="table table-sm">
                 <tr>
                         <th>ID</th>
-                        <th>Số tiền</th>
+                        <th>Số tiền thực nhận</th>
                         <th>Ngân hàng</th>
                         <th>Chi nhánh</th>
                         <th>Số TK</th>
@@ -148,5 +148,6 @@
                     }
                 });
             }
+            
         </script>
 @endsection
