@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //NAP TIEN
     Route::get('/nap-tien','NaptienController@index')->name('nap-tien.index');
+    Route::post('/nap-tien','NaptienController@NapTien')->name('nap-tien.nap');
 });
 
 Route::group(['middleware' => 'admin'], function () {

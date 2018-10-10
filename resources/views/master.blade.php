@@ -98,7 +98,7 @@
               <span>Nạp Thẻ</span></a>
           </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{{ route('nap-tien.index') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Nạp tiền</span></a>
         </li>
