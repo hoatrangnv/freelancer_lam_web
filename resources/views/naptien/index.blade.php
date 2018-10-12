@@ -53,7 +53,7 @@
                 @foreach ($result as $value)
                     <tr>
                         <td>{{ $value->id }}</td>
-                        <td>{{ $value->deposit_amount }}</td>
+                        <td>{{ number_format($value->deposit_amount) }} đ</td>
                         <td>
                             @if($value->deposit_status == 0)
                                 <span class="text-info">Đang chờ</span>

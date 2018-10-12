@@ -6,19 +6,27 @@
 <div class="row">
     <div class="col-md-12">
             <h4>Lịch sử nạp tiền</h4>
+            @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
             <table class="table table-sm">
                 <thead>
                     <tr>
                         <th>Mã giao dịch</th>
                         <th>Số tiền</th>
                         <th>Trạng thái</th>
+                        <th>Tài khoản</th>
                         <th>Thời gian</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($result as $value)
-                    <form action="" method="POST">
+                    <form action="{{ route('admin.xac-nhan-nap') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $value->id }}">
                         <tr>
                             <td>{{ $value->id }}</td>
                             <td>{{ number_format($value->deposit_amount) }} đ</td>
@@ -30,11 +38,13 @@
     
                                 @endif
                             </td>
+                            <td>{{ $value->user_name }}</td>
                             <td>
                                 {{ $value->created_at }}
                             </td>
                             <td>
-                                <select name="status" id="status" class="form-control">
+                                <select name="status" id="status" class="form-control" onchange="this.form.submit()">
+                                    <option selected disabled value="">Hành động</option>
                                     <option value="1">Chấp nhận</option>
                                     <option value="3">Hủy</option>
                                 </select>

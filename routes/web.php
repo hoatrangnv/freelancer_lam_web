@@ -60,6 +60,7 @@ Route::group(['middleware' => 'admin'], function () {
 
    //nap tien
     Route::get('/admin/nap-tien','AdminController@listNapTien')->name('admin.nap-tien');
+    Route::post('/admin/nap-tien/xac-nhan','AdminController@confirmAddMoney')->name('admin.xac-nhan-nap');
 
 });
  

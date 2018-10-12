@@ -184,4 +184,20 @@ class AdminController extends Controller
         $result = Deposit::paginate(10);
         return view('admin.danh-sach-nap-tien',compact('result'));
     }
+
+    //function xu ly nap tien
+    public function confirmAddMoney(Request $request) 
+    {
+        $DA_NAP_TIEN = Config::get('constants.DA_NAP_TIEN');
+        $status = $request->get('status');
+        if($status == 1) {
+            $return = Deposit::find($request->get('id'));
+            $return->deposit_status = $DA_NAP_TIEN ;
+            $return->save();
+            return redirect()->back()->with('message', 'Xác nhận thành công!');
+        } else {
+            return redirect()->back();
+        }
+       
+    }
 }
