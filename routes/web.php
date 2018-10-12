@@ -47,6 +47,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/nap-tien/pock-up','NaptienController@pockup')->name('nap-tien.pockup');
     Route::get('/nap-tien/confirm','NaptienController@confirm')->name('nap-tien.confirm');
     Route::post('/nap-tien','NaptienController@NapTien')->name('nap-tien.nap');
+
+    //Mua the
+    Route::get('/mua-the','NaptienController@index')->name('nap-tien.index');
+
 });
 
 Route::group(['middleware' => 'admin'], function () {

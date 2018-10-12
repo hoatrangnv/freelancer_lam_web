@@ -98,6 +98,11 @@
               <span>Nạp Thẻ</span></a>
           </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('nap-the') }}">
+              <i class="fas fa-fw fa-table"></i>
+              <span>Mua Thẻ</span></a>
+          </li>
+        <li class="nav-item">
           <a class="nav-link" href="{{ route('nap-tien.index') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Nạp tiền</span></a>
