@@ -6,23 +6,32 @@
 <div class="row">
     <div class="col-md-6">
         <h4>Nạp Tiền</h4>
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
+        @if(session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session()->get('error') }}
+            </div>
+        @endif
         <form action{{ route('nap-tien.nap') }} method="POST">
             @csrf
-             <div class="form-group">
+            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+            <input type="hidden" name="username" value="{{ Auth::user()->name }}">
+
+            <div class="form-group">
                 <label for="">Số dư tài khoản</label>
-                <input type="text" class="form-control" id="money_old" name="money_old" value="{{ number_format(Auth::user()->money_1 )}} đ">
+                <input type="text" class="form-control" id="money_old" name="money_old" value="{{ number_format(Auth::user()->money_1 )}} đ" readonly/>
               </div>
              <div class="form-group">
                 <label for="">Số tiền</label>
-                <input type="text" class="form-control" id="money_nap" name="money_nap">
-              </div>
-             <div class="form-group">
-                <label for="">Số điện thoại</label>
-                <input type="text" class="form-control" id="phone_number" name="phone_number">
+                <input type="text" class="form-control" id="money_nap" name="money_nap" required/>
               </div>
               <div class="form-group">
                 <label for="">Mật khẩu cấp 2</label>
-                <input type="password" class="form-control" id="password2" name="password2">
+                <input type="password" class="form-control" id="password2" name="password2" required/>
               </div>
               <button type="submit"  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Nạp Tiền</button>
         </form>
@@ -41,14 +50,27 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                @foreach ($result as $value)
+                    <tr>
+                        <td>{{ $value->id }}</td>
+                        <td>{{ $value->deposit_amount }}</td>
+                        <td>
+                            @if($value->deposit_status == 0)
+                                <span class="text-info">Đang chờ</span>
+                            @else 
+                            <span class="text-success">Nạp Thành Công</span>
+
+                            @endif
+                        </td>
+                        <td>
+                            {{ $value->created_at }}
+                        </td>
+                    </tr>
+                @endforeach
+                
             </tbody>
         </table>
+        {{ $result->links() }}
     </div>
 </div>
 <script>

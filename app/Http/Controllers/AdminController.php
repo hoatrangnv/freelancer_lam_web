@@ -10,6 +10,7 @@ use App\Payment;
 use App\Log;
 use Config;
 use App\WithDraw;
+use App\Deposit;
 
 class AdminController extends Controller
 {
@@ -176,7 +177,11 @@ class AdminController extends Controller
             $result =  DB::select(DB::raw($q));
             return redirect()->back()->with('message', 'Hủy thành công!');
        }
-       
+    }
 
+    //function nap tien
+    public function listNapTien() {
+        $result = Deposit::paginate(10);
+        return view('admin.danh-sach-nap-tien',compact('result'));
     }
 }

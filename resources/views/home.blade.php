@@ -12,9 +12,9 @@
               </div>
               <div class="mr-5">
                 @if(!Auth::guest())
-                <a style="color:#fff !important;" href="{{ route('nap-the') }}">NẠP THẺ CÀO</a>
+                <a style="color:#fff !important;" href="{{ route('nap-the') }}">NẠP THẺ</a>
                 @else 
-                  <a style="color:#fff !important;" onclick="notice()" href="#">NẠP THẺ CÀO</a>
+                  <a style="color:#fff !important;" onclick="notice()" href="#">NẠP THẺ </a>
                 @endif
               </div>
             </div>
@@ -30,7 +30,14 @@
               <div class="card-body-icon">
                 <i class="fas fa-fw fa-list"></i>
               </div>
-              <div class="mr-5"> <a style="color:#fff;" href="">NẠP BẰNG ẢNH</a></div>
+              <div class="mr-5"> 
+                  @if(!Auth::guest())
+                      <a style="color:#fff;" href="{{ route('chuyen-tien.index') }}">CHUYỂN TIỀN</a>
+                @else 
+                    <a style="color:#fff !important;" onclick="notice()" href="#">CHUYỂN TIỀN </a>
+                @endif
+              
+              </div>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
               <span class="float-right">
@@ -44,7 +51,13 @@
               <div class="card-body-icon">
                 <i class="fas fa-fw fa-shopping-cart"></i>
               </div>
-              <div class="mr-5"><a href="" style="color:#fff;">MUA THẺ CÀO</a></div>
+              <div class="mr-5">
+                  @if(!Auth::guest())
+                  <a style="color:#fff;" href="{{ route('rut-tien') }}">RÚT TIỀN</a>
+                  @else 
+                      <a style="color:#fff !important;" onclick="notice()" href="#">RÚT TIỀN </a>
+                  @endif
+              </div>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
               <span class="float-right">
@@ -58,7 +71,13 @@
               <div class="card-body-icon">
                 <i class="fas fa-fw fa-life-ring"></i>
               </div>
-              <div class="mr-5"><a href="" style="color:#fff">MUA THẺ GAME</a></div>
+              <div class="mr-5">
+                  @if(!Auth::guest())
+                  <a style="color:#fff;" href="{{ route('nap-tien.index') }}">NẠP TIỀN</a>
+                  @else 
+                      <a style="color:#fff !important;" onclick="notice()" href="#">NẠP TIỀN </a>
+                  @endif
+              </div>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
               <span class="float-right">

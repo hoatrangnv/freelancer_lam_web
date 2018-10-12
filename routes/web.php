@@ -44,6 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     //NAP TIEN
     Route::get('/nap-tien','NaptienController@index')->name('nap-tien.index');
+    Route::get('/nap-tien/pock-up','NaptienController@pockup')->name('nap-tien.pockup');
+    Route::get('/nap-tien/confirm','NaptienController@confirm')->name('nap-tien.confirm');
     Route::post('/nap-tien','NaptienController@NapTien')->name('nap-tien.nap');
 });
 
@@ -54,5 +56,10 @@ Route::group(['middleware' => 'admin'], function () {
 
    // rut tien
    Route::post('/admin/withdraw', 'AdminController@withDraw')->name('admin.withDraw');
+   
+
+   //nap tien
+    Route::get('/admin/nap-tien','AdminController@listNapTien')->name('admin.nap-tien');
 
 });
+ 

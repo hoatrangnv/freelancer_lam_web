@@ -16,6 +16,10 @@ return [
     'STATUS_ACTICE' => 0,
     'CARD_STATUS'=>1,
     'PHI_RUT'=>10000,
-    'PHI_CHUYEN'=> 1000
+    'PHI_CHUYEN'=> 1000,
+    'CHUA_NAP_TIEN' => 0,
+    'DA_NAP_TIEN' => 1,
+    'CHUA_CONFIRM' =>0,
+    'CONFIRM_NAP_TIEN' =>1,
     
 ];

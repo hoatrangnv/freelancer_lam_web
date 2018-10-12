@@ -39,7 +39,7 @@
         
           <br>
             
-        <div class="row">
+        {{-- <div class="row">
                 <div class="col-md-12" >
                     <h2>Lịch sử giao dịch</h2>
                     <table class="table table-striped "style="overflow-y: scroll">
@@ -97,6 +97,6 @@
             </div>
             <div style="float: right;margin-top:5%"class="text-center">{{ $result->links() }}</div>
     </div>
-    
+     --}}
    
 @endsection
