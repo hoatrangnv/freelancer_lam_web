@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/nap-tien','NaptienController@NapTien')->name('nap-tien.nap');
 
     //Mua the
-    Route::get('/mua-the','NaptienController@index')->name('nap-tien.index');
+    Route::get('/mua-the','MuaTheController@index')->name('mua-the.index');
 
 });
 
