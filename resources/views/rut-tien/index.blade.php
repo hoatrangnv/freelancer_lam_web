@@ -21,8 +21,12 @@
                         @csrf
                         <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
                         <div class="form-group">
+                            <label for="formGroupExampleInput">Số tiền trong tài khoản</label>
+                            <input type="text"  disabled="true" class="form-control"  value="{{ number_format(Auth::user()->money_1) }} đ"/>
+                        </div>
+                        <div class="form-group">
                             <label for="formGroupExampleInput">Số tiền</label>
-                            <input type="number" class="form-control" name="money_rut" id="money_rut"  required placeholder="Số tiền muốn rút phải lớn hơn: 110.000 VND, phí rút tiền là 10k" />
+                            <input type="number" class="form-control" name="money_rut" id="money_rut"  required placeholder="Phí rút tiền là 10k" />
                         </div>
                         <div class="form-group">
                                 <label for="formGroupExampleInput">Chọn ngân hàng đăng ký</label>

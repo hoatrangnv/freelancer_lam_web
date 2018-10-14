@@ -137,6 +137,10 @@ class AdminController extends Controller
         $width_id = $request->get('widthraw_id');
         $user_id = $request->get('user_id');
         $user_name= User::find( $user_id);
+        $get_money_1 = $user_name->money_1;
+        $get_tam_giu = $user_name->tam_giu;
+     
+
         $amount = $request->get('amount');
 
        if($status == $CHAP_NHAN) {
@@ -169,13 +173,32 @@ class AdminController extends Controller
                 'log_read' => $RUT_TIEN,
                 'log_time' =>0
             ]);
+            
             return redirect()->back()->with('message', 'Rút tiền thành công!');
        } else {
+           //change status
             $q = "UPDATE withdraws
             SET withdraw_status = $status
             WHERE widthraw_id = $width_id";
             $result =  DB::select(DB::raw($q));
+            //return lai tien
+            $mess_huy = "Hủy rút tiền, trả lại tiền vào tk chính";
+            $user = User::find($user_id);
+            $user->tam_giu = 0;
+            $user->money_1 =  $get_money_1 + $get_tam_giu;
+            $user->save();
+
+            //log
+            $log = Log::create([
+                'log_user_id'=>$user_id,
+                'log_content'=>$mess_huy,
+                'log_amount'=> $get_money_1 + $get_tam_giu,
+                'log_type' => "RUT-TIEN",
+                'log_read' => $RUT_TIEN,
+                'log_time' =>0
+            ]);
             return redirect()->back()->with('message', 'Hủy thành công!');
+
        }
     }
 

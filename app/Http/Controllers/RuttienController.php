@@ -41,7 +41,7 @@ class RuttienController extends Controller
 
         $amount = $money_rut -  $PHI_RUT;  // tong tien bang so tien muon rut - phi rut
 
-        if($user_price > $request->get('money_rut') &&  $money_rut > 110000)
+        if($user_price > $request->get('money_rut') &&  $get_money_1 > 110000)
 
             if($password2  == $request->get('password2_rut') && $user_price > $request->get('money_rut')) {
                 $bank_id = $request->get('back_user');
