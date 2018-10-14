@@ -97,77 +97,38 @@
                           </form>
         </div>
         <div class="col-md-4">
-                <div class="panel panel-default panel-table">
-                        <h4>Phí đổi thẻ</h4>
-                         <div class="panel-body">
-                            <table class="table table-striped table-borderless">
-                               <thead>
-                                  <tr>
-                                     <th>TT</th>
-                                     <th>Nhà mạng</th>
-                                     <th class="number">Phí</th>
-                                     <th class="number">Trạng thái</th>
-                                  </tr>
-                               </thead>
-                               <tbody class="no-border-x">
-                                  <tr>
-                                     <td>1</td>
-                                     <td>Viettel</td>
-                                     <td class="number">37%</td>
-                                     <td class="number"><span class="label label-success">Hoạt động</span></td>
-                                  </tr>
-                                  <tr>
-                                     <td>2</td>
-                                     <td>Vinaphone</td>
-                                     <td class="number">39%</td>
-                                     <td class="number"><span class="label label-success">Hoạt động</span></td>
-                                  </tr>
-                                  <tr>
-                                     <td>3</td>
-                                     <td>Vietnamobile</td>
-                                     <td class="number">14%</td>
-                                     <td class="number"><span class="label label-warning">Bảo trì</span></td>
-                                  </tr>
-                                  <tr>
-                                     <td>4</td>
-                                     <td>Gate</td>
-                                     <td class="number">13%</td>
-                                     <td class="number"><span class="label label-warning">Bảo trì</span></td>
-                                  </tr>
-                                  <tr>
-                                     <td>5</td>
-                                     <td>Zing</td>
-                                     <td class="number">14%</td>
-                                     <td class="number"><span class="label label-warning">Bảo trì</span></td>
-                                  </tr>
-                                  <tr>
-                                     <td>6</td>
-                                     <td>Mobifone</td>
-                                     <td class="number">45%</td>
-                                     <td class="number"><span class="label label-success">Hoạt động</span></td>
-                                  </tr>
-                                  <tr>
-                                     <td>7</td>
-                                     <td>Garena</td>
-                                     <td class="number">39%</td>
-                                     <td class="number"><span class="label label-success">Hoạt động</span></td>
-                                  </tr>
-                                  <tr>
-                                     <td>8</td>
-                                     <td>Vcoin</td>
-                                     <td class="number">14%</td>
-                                     <td class="number"><span class="label label-warning">Bảo trì</span></td>
-                                  </tr>
-                                  <tr>
-                                     <td>9</td>
-                                     <td>Xcoin</td>
-                                     <td class="number">10%</td>
-                                     <td class="number"><span class="label label-warning">Bảo trì</span></td>
-                                  </tr>
-                               </tbody>
-                            </table>
-                         </div>
-                      </div>
+            <div class="panel panel-default panel-table">
+                <h4>Phí đổi thẻ</h4>
+                 <div class="panel-body">
+                    <table class="table table-striped table-borderless">
+                       <thead>
+                          <tr>
+                             <th>TT</th>
+                             <th>Nhà mạng</th>
+                             <th class="number">Phí</th>
+                             <th class="number">Trạng thái</th>
+                          </tr>
+                       </thead>
+                       <tbody class="no-border-x">
+                         @foreach ($card as $value)
+                            <tr>
+                                <td>{{ $value->cat_id }}</td>
+                                <td>{{ $value->card_name }}</td>
+                                <td class="number">{{ $value->card_discount }} %</td>
+                                <td class="number">
+                                  @if($value->card_status == 1)
+                                    <span class="label label-success">Hoạt động</span>
+                                  @else 
+                                    <span class="label label-warning">Bảo trì</span>
+                                  @endif
+                                </td>
+                            </tr>
+                         @endforeach
+                         
+                       </tbody>
+                    </table>
+                 </div>
+              </div>
         </div>
     </div>
           <div class="row" >

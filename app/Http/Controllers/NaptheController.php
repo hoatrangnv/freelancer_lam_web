@@ -23,10 +23,11 @@ class NaptheController extends Controller
         $user = Auth::user()->id;
         $h = "select *,c.card_name from payments left join cat_cards c On payments.provider = c.card_code where user_id = $user and payments.payment_status =0";
         $hsitory = DB::select($h);
-
+        $CARD_STATUS = Config::get('constants.CARD_STATUS');
+        $card = Card_card::all();
         $q = "select * from cat_cards where card_status= 1";
         $result = DB::select($q);
-        return view('napthe.index',compact(array('result','hsitory')));
+        return view('napthe.index',compact(array('result','hsitory','card')));
     }
 
     //function nap the tu web
