@@ -43,7 +43,7 @@
                                 {{ $value->created_at }}
                             </td>
                             <td>
-                                <select name="status" id="status" class="form-control" onchange="this.form.submit()">
+                                <select name="status" id="status"  onchange="this.form.submit()">
                                     <option selected disabled value="">Hành động</option>
                                     <option value="1">Chấp nhận</option>
                                     <option value="3">Hủy</option>

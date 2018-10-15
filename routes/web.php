@@ -69,6 +69,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     //mua the
     Route::get('/admin/mua-the','AdminController@listMuathe')->name('admin.mua-the');
+    Route::post('/admin/buy-card','AdminController@BuyCard')->name('admin.buy-card');
 
 });
  
