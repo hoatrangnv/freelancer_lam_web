@@ -11,6 +11,7 @@
                 {{ session()->get('message') }}
             </div>
         @endif
+        <div class="table-responsive">
             <table class="table table-sm">
                 <thead>
                     <tr>
@@ -55,6 +56,7 @@
                     
                 </tbody>
             </table>
+        </div>
             {{ $result->links() }}
     </div>
 </div>

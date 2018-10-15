@@ -10,7 +10,8 @@
                     {{ session()->get('message') }}
                 </div>
             @endif
-            <table class="table table-sm table-bordered ">
+            <div class="table-responsive">
+            <table class="table table-sm table-bordered " style="overflow: visible">
                 <thead>
                     <th>STT</th>
                     <th>Tài khoản</th>
@@ -70,6 +71,7 @@
                     
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
     <div style="float:right;width:100%;text-align:right">  {{ $result->links() }}</div>

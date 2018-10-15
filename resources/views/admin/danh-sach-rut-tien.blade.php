@@ -10,6 +10,7 @@
                         {{ session()->get('message') }}
                     </div>
                 @endif
+                <div class="table-responsive">
             <table class="table table-bordered table-sm">
                 <tr>
                     <th>ID</th>
@@ -54,6 +55,7 @@
                     </form>
                 @endforeach
             </table>
+                </div>
         </div>
         <div style="float: right;margin-top:5%"class="text-center">{{ $result->links() }}</div>
 
