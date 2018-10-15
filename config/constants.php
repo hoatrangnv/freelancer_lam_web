@@ -21,5 +21,8 @@ return [
     'DA_NAP_TIEN' => 1,
     'CHUA_CONFIRM' =>0,
     'CONFIRM_NAP_TIEN' =>1,
+    'MUA_THE' =>3,
+    'NAP_TIEN' =>2,
+    'CHUYEN_TIEN' =>1,
     
 ];

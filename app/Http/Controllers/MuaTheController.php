@@ -35,7 +35,10 @@ class MuaTheController extends Controller
     //    return $request->all();
        $CHUA_XOA = Config::get('constants.CHUA_XOA');
        $CHO_DUYET = Config::get('constants.CHO_DUYET');
+       $MUA_THE = Config::get('constants.MUA_THE');
+
        $get_money = $request->get('money_1');
+       $tam_giu = $request->get('tam_giu');
         $member = $request->get('member');
         $price = $request->get('card_price');
         $qty = $request->get('qty');
@@ -52,7 +55,7 @@ class MuaTheController extends Controller
          } 
         //tinh toan tong tien
         $amount =  $get_price - ($get_price * ($discount - $member)) /100;
-        if($get_money > $amount) {
+        if($get_money > $get_price) {
             $result = BuyCard::create([
                     'user_id' => $request->get('user_id'),
                     'card_provider_code' => $cat_code,
@@ -73,19 +76,19 @@ class MuaTheController extends Controller
                     'is_deleted'=>$CHUA_XOA
             ]);
             // tru tien
-            $mess = "Trừ tiền mua thẻ, chuyển tiền vào tạm giữ: ". $amount;
+            $mess = "Trừ tiền mua thẻ, chuyển tiền vào tạm giữ: ". $get_price;
             $user_id = $request->get('user_id');
             $user = User::find($user_id);
             $user->money_1 = $get_money - $get_price;
-            $user->tam_giu = $get_price;
+            $user->tam_giu = $tam_giu + $get_price;
             $user->save();
             //log
             $log = Log::create([
                 'log_user_id' => $user_id,
                 'log_content' => $mess,
                 'log_amount'=> $get_price,
-                'log_time'=>1,
-                'log_type' => "MUA TIEN",
+                'log_time'=> $MUA_THE,
+                'log_type' => "MUA THE",
                 'log_read' => 3
             ]);
             return redirect()->back()->with('message', 'Gửi yêu cầu mua thẻ thành công!');
