@@ -13,8 +13,10 @@
     <h4>Mua thẻ cào</h4>
     <br>
    
-    <form action="" method="post" >
+    <form action="{{ route('mua-the.buy-card') }}" method="post" >
             @csrf
+            <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
+            <input type="hidden" name="member" id="member" value="{{ Auth::user()->member }}">
         <div class="form-group">
           <label for="formGroupExampleInput">Loại Thẻ</label>
             <select name="card_type" class="form-control" id="card_type" onchange="cardDiscount(this)"  required>
@@ -40,7 +42,7 @@
           </div>
         <div class="form-group">
           <label for="formGroupExampleInput2">Số lượng</label>
-          <input required type="number" class="form-control"name="so_luong" id="so_luong" value="1" placeholder="Số lượng">
+          <input required type="number" class="form-control"name="qty" id="qty" value="1" placeholder="Số lượng">
         </div>
        
         <button type="submit" class="btn-sm btn btn-primary">Nạp thẻ</button>
@@ -56,8 +58,8 @@
                   <tr>
                      <th>TT</th>
                      <th>Nhà mạng</th>
-                     <th class="number">Phí</th>
-                     <th class="number">Trạng thái</th>
+                     <th>Phí</th>
+                     <th>Trạng thái</th>
                   </tr>
                </thead>
                <tbody class="no-border-x">
@@ -65,8 +67,8 @@
                     <tr>
                         <td>{{ $value->cat_id }}</td>
                         <td>{{ $value->card_name }}</td>
-                        <td class="number">{{ $value->card_discount }} %</td>
-                        <td class="number">
+                        <td>{{ $value->card_discount }} %</td>
+                        <td>
                           @if($value->card_status == 1)
                             <span class="label label-success">Hoạt động</span>
                           @else 

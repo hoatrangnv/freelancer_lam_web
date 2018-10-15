@@ -223,4 +223,11 @@ class AdminController extends Controller
         }
        
     }
+
+    //mua the
+    public function listMuathe()
+    {
+     
+        return view('admin.danh-sach-mua-the');
+    }
 }

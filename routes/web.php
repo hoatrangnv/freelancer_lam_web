@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Mua the
     Route::get('/mua-the','MuaTheController@index')->name('mua-the.index');
+    Route::post('/mua-the/buy-card','MuaTheController@buyCard')->name('mua-the.buy-card');
 
 });
 
@@ -65,6 +66,9 @@ Route::group(['middleware' => 'admin'], function () {
    //nap tien
     Route::get('/admin/nap-tien','AdminController@listNapTien')->name('admin.nap-tien');
     Route::post('/admin/nap-tien/xac-nhan','AdminController@confirmAddMoney')->name('admin.xac-nhan-nap');
+
+    //mua the
+    Route::get('/admin/mua-the','AdminController@listMuathe')->name('admin.mua-the');
 
 });
  

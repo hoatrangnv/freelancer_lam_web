@@ -136,6 +136,7 @@
                 <a class="dropdown-item" href="{{ route('admin.danh-sach-the-cao') }}">Danh sách thẻ nạp</a>
                 <a class="dropdown-item" href="{{ route('admin.danh-sach-rut-tien') }}">Danh sách rút tiền</a>
                 <a class="dropdown-item" href="{{ route('admin.nap-tien') }}">Danh sách nạp tiền</a>
+                <a class="dropdown-item" href="{{ route('admin.mua-the') }}">Danh sách mua thẻ</a>
               </div>
             </li>
           @endif
