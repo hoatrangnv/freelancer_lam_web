@@ -10,6 +10,11 @@
                 {{ session()->get('message') }}
             </div>
         @endif
+        @if(session()->has('error'))
+        <div class="alert alert-danger">
+            {{ session()->get('error') }}
+        </div>
+    @endif
     <h4>Mua thẻ cào</h4>
     <br>
    
@@ -17,14 +22,18 @@
             @csrf
             <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
             <input type="hidden" name="member" id="member" value="{{ Auth::user()->member }}">
+            <input type="hidden" name="money_1" id="money_1" value="{{ Auth::user()->money_1 }}">
         <div class="form-group">
-          <label for="formGroupExampleInput">Loại Thẻ</label>
+          <label for="formGroupExampleInput">Số dư trong tài khoản</label>
+           <input class="form-control" readonly type="text" value="{{ number_format( Auth::user()->money_1) }} ₫">
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput">Loại thẻ</label>
             <select name="card_type" class="form-control" id="card_type" onchange="cardDiscount(this)"  required>
                 @foreach($result as $key)
-                <option  value="{{ $key->card_code }}">{{ $key->card_name }}</option>
-              @endforeach
+                    <option  value="{{ $key->card_code }}">{{ $key->card_name }}</option>
+                @endforeach
             </select>
-
         </div>
         <div class="form-group">
             <label for="formGroupExampleInput2">Mệnh giá</label>
@@ -67,7 +76,7 @@
                     <tr>
                         <td>{{ $value->cat_id }}</td>
                         <td>{{ $value->card_name }}</td>
-                        <td>{{ $value->card_discount }} %</td>
+                        <td>{{ $value->card_discount_buy }} %</td>
                         <td>
                           @if($value->card_status == 1)
                             <span class="label label-success">Hoạt động</span>

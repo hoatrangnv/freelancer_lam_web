@@ -8,6 +8,8 @@ use App\Card_card;
 use App\Card;
 use App\Payment;
 use App\BuyCard;
+use App\User;
+use App\Log;
 use Config;
 use Auth;
 class MuaTheController extends Controller
@@ -33,42 +35,65 @@ class MuaTheController extends Controller
     //    return $request->all();
        $CHUA_XOA = Config::get('constants.CHUA_XOA');
        $CHO_DUYET = Config::get('constants.CHO_DUYET');
-
-       //get discount
-       $cat_code = $request->get('card_type');
-        $cat_card = DB::table('cat_cards')
-                        ->where('card_code',$cat_code )
-                        ->get();
-        $discount = 0;                
-        foreach($cat_card as $value) {
-            $discount = $value->card_discount_buy;
-        } 
+       $get_money = $request->get('money_1');
         $member = $request->get('member');
         $price = $request->get('card_price');
         $qty = $request->get('qty');
         $get_price = $price * $qty;
+
+         //get discount
+         $cat_code = $request->get('card_type');
+         $cat_card = DB::table('cat_cards')
+                         ->where('card_code',$cat_code )
+                         ->get();
+         $discount = 0;                
+         foreach($cat_card as $value) {
+             $discount = $value->card_discount_buy;
+         } 
         //tinh toan tong tien
         $amount =  $get_price - ($get_price * ($discount - $member)) /100;
+        if($get_money > $amount) {
+            $result = BuyCard::create([
+                    'user_id' => $request->get('user_id'),
+                    'card_provider_code' => $cat_code,
+                    'card_provider_name'=> $value->card_name,
+                    'card_discount'=> $discount,
+                    'card_amount'=> $amount,
+                    'card_amount_discount' => $discount,
+                    'card_qty' => $qty,
+                    'card_prices' =>  $get_price,
+                    'card_prices_discounted' => 0,
+                    'money_before' => null,
+                    'money_after' =>null,
+                    'card_notes' => null,
+                    'card_info' => null,
+                    'card_pin'=> null,
+                    'card_serial' =>null,
+                    'status' => $CHO_DUYET,
+                    'is_deleted'=>$CHUA_XOA
+            ]);
+            // tru tien
+            $mess = "Trừ tiền mua thẻ, chuyển tiền vào tạm giữ: ". $amount;
+            $user_id = $request->get('user_id');
+            $user = User::find($user_id);
+            $user->money_1 = $get_money - $get_price;
+            $user->tam_giu = $get_price;
+            $user->save();
+            //log
+            $log = Log::create([
+                'log_user_id' => $user_id,
+                'log_content' => $mess,
+                'log_amount'=> $get_price,
+                'log_time'=>1,
+                'log_type' => "MUA TIEN",
+                'log_read' => 3
+            ]);
+            return redirect()->back()->with('message', 'Gửi yêu cầu mua thẻ thành công!');
 
-        $result = BuyCard::create([
-            'user_id' => $request->get('user_id'),
-            'card_provider_code' => $cat_code,
-            'card_provider_name'=> $value->card_name,
-            'card_discount'=> $discount,
-            'card_amount'=>$amount,
-            'card_amount_discount' => $discount,
-            'card_qty' =>  $qty,
-            'card_prices' => $price,
-            'card_prices_discounted' => 0,
-            'money_before' => null,
-            'money_after' =>null,
-            'card_notes' => null,
-            'card_info' => null,
-            'card_pin'=> null,
-            'card_serial' =>null,
-            'status' => $CHO_DUYET,
-            'is_deleted'=>$CHUA_XOA
-       ]);
-       return redirect()->back()->with('message', 'Gửi yêu cầu mua thẻ thành công!');
+        } else {
+            return redirect()->back()->with('error', 'Số tiền trong tài khoản không đủ!');
+        }
+
+
     }
 }
