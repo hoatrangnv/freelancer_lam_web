@@ -27,7 +27,7 @@
               </div>
              <div class="form-group">
                 <label for="">Số tiền</label>
-                <input type="text" class="form-control" id="money_nap" name="money_nap" required/>
+                <input type="number" class="form-control" id="money_nap" name="money_nap" required/>
               </div>
               <div class="form-group">
                 <label for="">Mật khẩu cấp 2</label>

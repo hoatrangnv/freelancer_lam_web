@@ -28,15 +28,20 @@
                     <form action="{{ route('admin.xac-nhan-nap') }}" method="POST">
                         @csrf
                         <input type="hidden" name="id" value="{{ $value->id }}">
+                        <input type="hidden" name="user_id" value="{{ $value->user_id }}">
+                        <input type="hidden" name="money_1" value="{{ Auth::user()->money_1 }}">
+                        <input type="hidden" name="deposit_amount" value="{{ $value->deposit_amount }}">
                         <tr>
                             <td>{{ $value->id }}</td>
                             <td>{{ number_format($value->deposit_amount) }} đ</td>
                             <td>
                                 @if($value->deposit_status == 0)
                                     <span class="text-info">Đang chờ</span>
-                                @else 
+                                @elseif($value->deposit_status == 1) 
                                 <span class="text-success">Nạp Thành Công</span>
-    
+                                @elseif($value->deposit_status == 3) 
+                                <span class="text-danger">Hủy</span>
+                                
                                 @endif
                             </td>
                             <td>{{ $value->user_name }}</td>
@@ -44,11 +49,14 @@
                                 {{ $value->created_at }}
                             </td>
                             <td>
-                                <select name="status" id="status"  onchange="this.form.submit()">
-                                    <option selected disabled value="">Hành động</option>
-                                    <option value="1">Chấp nhận</option>
-                                    <option value="3">Hủy</option>
-                                </select>
+
+                                @if($value->deposit_status == 1 || $value->deposit_status == 3)
+                                    <button disabled class="btn btn-sm btn-success" style="width:100px; display:inline">Chấp nhận</button>
+                                    <button disabled class="btn btn-sm btn-danger">Hủy</button>
+                                @elseif($value->deposit_status == 0)    
+                                    <button  class="btn btn-sm btn-success" style="width:100px; display:inline" value="1" name="status">Chấp nhận</button>
+                                    <button class="btn btn-sm btn-danger" value="3" name="status">Hủy</button>
+                                @endif
                             </td>
                         </tr>
                     </form>
@@ -60,4 +68,10 @@
             {{ $result->links() }}
     </div>
 </div>
+<script>
+    var a = "fàa";
+    var b = "fàa";
+   
+    console.log(a === b)
+</script>
 @endsection

@@ -123,6 +123,11 @@
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Chuyển tiền</span></a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('frame.index') }}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Tích hợp vào website </span></a>
+        </li>
       
        
  

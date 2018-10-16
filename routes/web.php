@@ -52,6 +52,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/mua-the','MuaTheController@index')->name('mua-the.index');
     Route::post('/mua-the/buy-card','MuaTheController@buyCard')->name('mua-the.buy-card');
 
+    //frame
+    Route::resource('frame','FrameController');
+
 });
 
 Route::group(['middleware' => 'admin'], function () {

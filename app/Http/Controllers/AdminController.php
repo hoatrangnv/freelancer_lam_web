@@ -214,14 +214,40 @@ class AdminController extends Controller
     public function confirmAddMoney(Request $request) 
     {
         $DA_NAP_TIEN = Config::get('constants.DA_NAP_TIEN');
+        $HUY = Config::get('constants.HUY');
+        $NAP_TIEN = Config::get('constants.NAP_TIEN');
+        
+
+        $user_id = $request->get('user_id');
+        $get_money_1 = $request->get('money_1');
+        $get_deposit_amount = $request->get('deposit_amount');
+
         $status = $request->get('status');
         if($status == 1) {
             $return = Deposit::find($request->get('id'));
             $return->deposit_status = $DA_NAP_TIEN ;
             $return->save();
+
+            // cong tien
+            $user = User::find($user_id);
+            $user->money_1 = $get_money_1 + $get_deposit_amount;
+            $user->save();
+            //log
+            $mess = "Cộng tiền nạp tiền: ". $get_deposit_amount;
+            $log = Log::create([
+                'log_user_id' => $user_id,
+                'log_content' => $mess,
+                'log_amount'=> $get_deposit_amount,
+                'log_time'=> $NAP_TIEN,
+                'log_type' => "NAP_TIEN",
+                'log_read' => $NAP_TIEN
+            ]);
             return redirect()->back()->with('message', 'Xác nhận thành công!');
         } else {
-            return redirect()->back();
+            $return = Deposit::find($request->get('id'));
+            $return->deposit_status = $HUY ;
+            $return->save();
+            return redirect()->back()->with('message', 'Hủy thành công!');
         }
        
     }
