@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-12 col-xs-12">
         @if(session()->has('message'))
             <div class="alert alert-success">
                 {{ session()->get('message') }}
@@ -59,7 +59,7 @@
       </form>
       <br>
 </div>
-<div class="col-md-6">
+<div class="col-md-6 col-sm-12 col-xs-12">
     <div class="panel panel-default panel-table">
         <h4>Phí đổi thẻ</h4>
          <div class="panel-body">
@@ -96,8 +96,10 @@
 </div>
 {{--  //history  --}}
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-xs-12">
         <h4>Lịch sử mua thẻ</h4>
+        <div class="table-responsive">
+
         <table class="table table-sm">
             <thead>
                 <tr>
@@ -105,18 +107,37 @@
                     <th>Loại Thẻ</th>
                     <th>Mệnh giá</th>
                     <th>Số lượng</th>
+                    <th>Tổng tiền</th>
+                    <th>Pin</th>
+                    <th>Serial</th>
                     <th>Trạng Thái</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                @foreach ($buy as $value)
+                    <tr>
+                        <td>{{ $value->id }}</td>
+                        <td>{{ $value->card_provider_name }}</td>
+                        <td>{{ $value->card_prices }}</td>
+                        <td>{{ $value->card_qty }}</td>
+                        <td>{{ number_format($value->card_amount) }} đ</td>
+                        <td>{{ $value->card_pin }}</td>
+                        <td>{{ $value->card_serial }}</td>
+                        <td>
+                                @if($value->status == 2)
+                                <span class="text-success">Chấp Nhận</span>
+                            @elseif($value->status == 3) 
+                                <span class="text-danger">Hủy</span>
+                            @else 
+                                <span class="text-info">Chờ</span>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+               
             </tbody>
         </table>
+        </div>
 
     </div>
 </div>

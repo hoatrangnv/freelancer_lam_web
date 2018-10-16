@@ -258,7 +258,7 @@ class AdminController extends Controller
      
        $result = DB::table('buy_cards as b')
                 ->leftjoin('users as u','b.user_id','=','u.id')
-                ->select('b.id as buy_id','u.id as user_id','u.name','u.email','b.card_provider_name','b.card_amount','b.card_prices','b.card_discount','b.status','b.card_qty','b.card_pin','b.card_serial')
+                ->select('b.id as buy_id','u.id as user_id','u.name','u.email','b.card_provider_name','b.card_amount','b.card_prices','b.card_discount','b.status','b.card_qty','b.card_pin','b.card_serial','b.card_notes')
                 ->paginate(10);
        return view('admin.danh-sach-mua-the',compact('result'));
     }
@@ -282,6 +282,7 @@ class AdminController extends Controller
         $result = BuyCard::find($buy_id);
         $result->card_pin = $request->get('so_the');
         $result->card_serial = $request->get('serial');
+        $result->card_notes = $request->get('note');
         $result->status = $CHAP_NHAN;
         $result->save();
         //tru tien tam giu
@@ -305,6 +306,7 @@ class AdminController extends Controller
          //update 
          $result = BuyCard::find($buy_id);
          $result->status = $HUY;
+         $result->card_notes = $request->get('note');
          $result->save();
          //tru tien tam giu
          $mess = "Hủy thành công,return lại tiền tk chính, trừ tiền tạm giữ: ". $get_price;

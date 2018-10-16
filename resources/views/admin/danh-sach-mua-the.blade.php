@@ -19,10 +19,11 @@
                     <th>Chiết khấu</th>
                     <th>Mệnh giá</th>
                     <th>Số lượng</th>
-                    <th>Tổng tiền - Thực nhận</th>
+                    <th>Tổng tiền</th>
                     <th>Trạng thái</th>
                     <th>Số thẻ</th>
                     <th>Serial</th>
+                    <th>Note</th>
                     <th>Hành động</th>
                 </thead>
                 <tbody>
@@ -51,11 +52,12 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <input type="number" class="form-controll" name="so_the"  value="{{ $value->card_pin }}"/>
+                                    <input type="number" name="so_the"  value="{{ $value->card_pin }}" style="width:125px;"/>
                                 </td>
                                 <td>
-                                    <input type="number" class="form-controll" name="serial" value="{{ $value->card_serial }}"/>
+                                    <input type="number"  name="serial" value="{{ $value->card_serial }}" style="width:125px;"/>
                                 </td>
+                                <td> <textarea style="width:125px; height:50px" name="note" id="" cols="30" rows="10">{{ $value->card_notes }}</textarea></td>
                                 <td>
                                     @if($value->status == 2 || $value->status == 3)
                                         <button disabled class="btn btn-sm btn-success" style="width:100px; display:inline">Chấp nhận</button>

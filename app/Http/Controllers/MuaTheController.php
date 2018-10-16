@@ -25,7 +25,9 @@ class MuaTheController extends Controller
         $result = DB::select($q);
         $CARD_STATUS = Config::get('constants.CARD_STATUS');
         $card = Card_card::all();
-        return view('muathe.index',compact(['result','card']));
+        $user_id = Auth::user()->id;
+        $buy = BuyCard::where('user_id',$user_id)->get();
+        return view('muathe.index',compact(['result','card','buy']));
     }
 
 
