@@ -97,7 +97,7 @@ class AdminController extends Controller
         } 
         else if ($request->get('status') == $XOA) {
             $payment_id = $request->get('payment_id');
-            $q = "UPDATE Payments
+            $q = "UPDATE payments
             SET is_deleted = $XOA
             WHERE payment_id = $payment_id ";
              $result =  DB::select(DB::raw($q));
@@ -105,7 +105,7 @@ class AdminController extends Controller
         else {
             $payment_id = $request->get('payment_id');
             $status = $request->get('status');
-            $q = "UPDATE Payments
+            $q = "UPDATE payments
                     SET payment_status =$status
                     WHERE payment_id =  $payment_id";
 
