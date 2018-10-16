@@ -34,7 +34,7 @@ class MuaTheController extends Controller
     // /xu ly napt the
     public function buyCard(Request $request)
     {
-    //    return $request->all();
+    //  return $request->all();
        $CHUA_XOA = Config::get('constants.CHUA_XOA');
        $CHO_DUYET = Config::get('constants.CHO_DUYET');
        $MUA_THE = Config::get('constants.MUA_THE');
@@ -45,6 +45,7 @@ class MuaTheController extends Controller
         $price = $request->get('card_price');
         $qty = $request->get('qty');
         $get_price = $price * $qty;
+     
 
          //get discount
          $cat_code = $request->get('card_type');
@@ -78,17 +79,17 @@ class MuaTheController extends Controller
                     'is_deleted'=>$CHUA_XOA
             ]);
             // tru tien
-            $mess = "Trừ tiền mua thẻ, chuyển tiền vào tạm giữ: ". $get_price;
+            $mess = "Trừ tiền mua thẻ, chuyển tiền vào tạm giữ: ".  $amount;
             $user_id = $request->get('user_id');
             $user = User::find($user_id);
-            $user->money_1 = $get_money - $get_price;
-            $user->tam_giu = $tam_giu + $get_price;
+            $user->money_1 = $get_money -  $amount;
+            $user->tam_giu = $tam_giu +  $amount;
             $user->save();
             //log
             $log = Log::create([
                 'log_user_id' => $user_id,
                 'log_content' => $mess,
-                'log_amount'=> $get_price,
+                'log_amount'=>  $amount,
                 'log_time'=> $MUA_THE,
                 'log_type' => "MUA THE",
                 'log_read' => 3

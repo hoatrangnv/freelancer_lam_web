@@ -32,7 +32,7 @@
                             @csrf
                             <input type="hidden" value="{{  $value->buy_id }}" name="buy_id" id="buy_id">
                             <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}">
-                            <input type="hidden" value="{{  $value->card_prices }}" name="card_prices" id="card_prices">
+                            <input type="hidden" value="{{  $value->card_amount }}" name="card_prices" id="card_prices">
                             <input type="hidden" name="money_1" id="money_1" value="{{ Auth::user()->money_1 }}">
                             <input type="hidden" name="tam_giu" id="tam_giu" value="{{ Auth::user()->tam_giu }}">
                             <tr>
