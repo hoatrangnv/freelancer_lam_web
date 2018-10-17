@@ -76,6 +76,7 @@
                         <th>Nội dung</th>
                         <th>Số tiền</th>
                         <th>Ngày tạo</th>
+                        <th>Frame</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -89,6 +90,7 @@
                             <td><input name="content" type="text" value="{{ $value->content }}"></td>
                             <td><input name="price" type="text" value="{{ $value->price}}"></td>
                             <td>{{ $value->created_at }}</td>
+                            <td><code>{{ $frame }}</code></td>
                             <td><button class="btn btn-sm">Cập nhật</button></td>
                         </tr>
                     </form>

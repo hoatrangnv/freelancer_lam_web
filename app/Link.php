@@ -12,6 +12,7 @@ class Link extends Model
         'content',
         'price',
         'user_id',
-        'active'
+        'active',
+        'frame'
     ];
 }

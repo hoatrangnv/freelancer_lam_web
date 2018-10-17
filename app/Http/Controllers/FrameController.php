@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use App\User;
 use App\Payment;
 use App\Log;
@@ -21,9 +23,13 @@ class FrameController extends Controller
      */
     public function index()
     {
+     
+        $url =  url('/')."/frame-nap-the";
         $user_id = Auth::user()->id;
         $result = Link::where('user_id',$user_id)->get();
-        return view('frame.index',compact('result')); 
+        $frame = "<iframe src=".$url." style='width:1200px;height:300px'></iframe>";
+            
+        return view('frame.index',compact(['result','frame'])); 
     }
 
     /**
@@ -44,7 +50,7 @@ class FrameController extends Controller
             'content'=>$content,
             'price'=>$price,
             'user_id'=> $user_id,
-            'active'=>$CHUA_XOA
+            'active'=>$CHUA_XOA,
         ]);
         return redirect()->back()->with('message', 'Tích hợp vào website thành công!');
 
@@ -140,5 +146,12 @@ class FrameController extends Controller
         }
         return redirect()->back()->with('error', 'Frame id không tồn tại, vui lòng kiểm tra lại.');
 
+    }
+
+    public function naptheCreate()
+    {
+        $q = "select * from cat_cards where card_status= 1";
+        $card = DB::select($q);
+        return view('frame.napthe',compact('card'));
     }
 }

@@ -97,6 +97,11 @@
               <i class="fas fa-fw fa-table"></i>
               <span>Nạp Thẻ</span></a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('nap-the') }}">
+              <i class="fas fa-fw fa-table"></i>
+              <span>Nạp Thẻ</span></a>
+        </li>
     
         <li class="nav-item">
             <a class="nav-link" href="{{ route('mua-the.index') }}">
