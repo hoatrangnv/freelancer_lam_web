@@ -18,6 +18,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/api/tinh','UserController@showTinh')->name('api.tinh');
 
+Route::get('/nap-the-frame','FrameController@naptheFrame')->name('napthe-frame');
 Route::group(['middleware' => 'auth'], function () {
     //show user profile
     Route::get('user/profile','UserController@showHistoryAddCard')->name('user.profle');;
@@ -54,6 +55,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     //frame
     Route::resource('frame','FrameController');
+    Route::get('/updateLink','FrameController@updateLink')->name('frame.updateLink');
+
 
 });
 

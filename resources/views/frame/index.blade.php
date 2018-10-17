@@ -66,4 +66,36 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tiêu đề</th>
+                        <th>Nội dung</th>
+                        <th>Số tiền</th>
+                        <th>Ngày tạo</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($result as $value)
+                    <form action="{{ route('frame.updateLink') }}" method="GET">
+                        <input type="hidden" value="{{ $value->id }}" name="id">
+                        <tr>
+                            <td>{{ $value->id }}</td>
+                            <td><input name="title" type="text" value="{{ $value->title }}"></td>
+                            <td><input name="content" type="text" value="{{ $value->content }}"></td>
+                            <td><input name="price" type="text" value="{{ $value->price}}"></td>
+                            <td>{{ $value->created_at }}</td>
+                            <td><button class="btn btn-sm">Cập nhật</button></td>
+                        </tr>
+                    </form>
+                    @endforeach
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection

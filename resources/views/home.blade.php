@@ -88,6 +88,70 @@
       </div>
       <br>
       <div class="row">
+          <div class="col-md-12">
+              <div class="panel panel-default panel-table">
+                  <div class="panel-heading">
+                      <h4>Nạp thẻ không cần đăng nhập</h4>
+                      <p class="text-danger">* Nếu bạn quên id frame, vui lòng đăng nhập và vào phần <strong>Tích hợp vào website</strong> để lấy id frame</p>
+                      <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
+                  </div>
+               
+              <table class="table table-condensed table-hover table-bordered table-striped">
+                  <thead>
+                      <tr>
+                          <th>Frame</th>
+                          <th>Loại Thẻ</th>
+                          <th>Mệnh giá</th>
+                          <th>Pin</th>
+                          <th>Serial</th>
+                          <th>Hành động</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <form action="http://127.0.0.1:8000/frame/create" method="GET">
+                        <tr>
+                            <td class="number" style="width: 20%;">
+                               <input type="text" placeholder="Nhập vào frame id" class="form-control">
+                            </td>
+                            <td class="number" style="width: 20%;">
+                                <select class="form-control" name="" id="" class="">
+                                  @foreach ($card as $value)
+                                    <option value="{{ $value->card_code }}">{{ $value->card_name }}</option>   
+                                  @endforeach
+                                  </select>
+                            </td>
+                            <td class="number" style="width: 20%;">
+                                <select required class="form-control" name="card_price">
+                                    <option value="10000">10.000&nbsp;₫</option>
+                                    <option value="20000">20.000&nbsp;₫</option>
+                                    <option value="30000">30.000&nbsp;₫</option>
+                                    <option value="50000">50.000&nbsp;₫</option>
+                                    <option value="100000">100.000&nbsp;₫</option>
+                                    <option value="200000">200.000&nbsp;₫</option>
+                                    <option value="300000">300.000&nbsp;₫</option>
+                                    <option value="500000">500.000&nbsp;₫</option>
+                                    <option value="1000000">1.000.000&nbsp;₫</option>
+                                 </select>
+                            </td>
+                            <td>
+                              <input type="text" name="pin" placeholder="Nhập vào mã pin" class="form-control">
+                            </td>
+                            <td>
+                              <input type="text" name="serial" placeholder="Nhập vào số serial" class="form-control">
+                            </td>
+                            <td class="number" style="width: 5%;">
+                                <button class="btn btn-primary">Nạp</button>
+                            </td>
+                        </tr>
+                    </form>
+                  </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <br>
+      <hr>
+      <div class="row">
         <div class="col-md-6">
                 <div class="panel panel-default panel-table">
                         <h4>Phí đổi thẻ</h4>
@@ -156,6 +220,8 @@
                       </div>
         </div>
       </div>
+      <br>
+     
       <script>
         function notice() {
           confirm("Vui lòng đăng nhập")

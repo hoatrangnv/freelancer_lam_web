@@ -19,7 +19,9 @@ class FrameController extends Controller
      */
     public function index()
     {
-        return view('frame.index'); 
+        $user_id = Auth::user()->id;
+        $result = Link::where('user_id',$user_id)->get();
+        return view('frame.index',compact('result')); 
     }
 
     /**
@@ -46,59 +48,19 @@ class FrameController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function updateLink(Request $request)
     {
-        //
+        $id = $request->get('id');
+        $result = Link::find($id);
+        $result->title = $request->get('title');
+        $result->content = $request->get('content');
+        $result->price = $request->get('price');
+        $result->save();
+        return redirect()->back()->with('message', 'Update website thành công!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function naptheFrame()
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return view('frame.napthe');
     }
 }

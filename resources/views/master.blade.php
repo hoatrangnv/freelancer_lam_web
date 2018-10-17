@@ -96,7 +96,8 @@
             <a class="nav-link" href="{{ route('nap-the') }}">
               <i class="fas fa-fw fa-table"></i>
               <span>Nạp Thẻ</span></a>
-          </li>
+        </li>
+    
         <li class="nav-item">
             <a class="nav-link" href="{{ route('mua-the.index') }}">
               <i class="fas fa-fw fa-table"></i>
@@ -131,7 +132,7 @@
       
        
  
-          @if(!Auth::guest() && Auth::user()->is_Admin == 1)
+          @if(Auth::user()->is_Admin > 1)
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-fw fa-folder"></i>
