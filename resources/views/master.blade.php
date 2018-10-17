@@ -131,7 +131,7 @@
         </li>
       
        
- 
+        @if(Auth::user())
           @if(Auth::user()->is_Admin > 1)
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -145,6 +145,7 @@
                 <a class="dropdown-item" href="{{ route('admin.mua-the') }}">Danh sách mua thẻ</a>
               </div>
             </li>
+          @endif
           @endif
     
       </ul>

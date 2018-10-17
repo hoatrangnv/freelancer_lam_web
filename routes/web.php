@@ -19,6 +19,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/api/tinh','UserController@showTinh')->name('api.tinh');
 
 Route::get('/nap-the-frame','FrameController@naptheFrame')->name('napthe-frame');
+Route::post('/frame-create','FrameController@createNap')->name('frame.createPayment');
+Route::get('/napthe-confirm','FrameController@naptheConfirm')->name('frame.confirm');
+
 Route::group(['middleware' => 'auth'], function () {
     //show user profile
     Route::get('user/profile','UserController@showHistoryAddCard')->name('user.profle');;
@@ -54,7 +57,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/mua-the/buy-card','MuaTheController@buyCard')->name('mua-the.buy-card');
 
     //frame
-    Route::resource('frame','FrameController');
+    Route::get('/frame','FrameController@index')->name('frame.index');
+    Route::post('/frame/create','FrameController@createFrame')->name('frame.create');
     Route::get('/updateLink','FrameController@updateLink')->name('frame.updateLink');
 
 

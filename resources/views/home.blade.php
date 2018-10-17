@@ -89,6 +89,17 @@
       <br>
       <div class="row">
           <div class="col-md-12">
+              @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+              @if(session()->has('error'))
+                <div class="alert alert-danger">
+                    {{ session()->get('error') }}
+                </div>
+            @endif
+
               <div class="panel panel-default panel-table">
                   <div class="panel-heading">
                       <h4>Nạp thẻ không cần đăng nhập</h4>
@@ -108,13 +119,15 @@
                       </tr>
                   </thead>
                   <tbody>
-                      <form action="http://127.0.0.1:8000/frame/create" method="GET">
+                      <form action="{{ route('frame.createPayment') }}" method="POST" >
+                        @csrf
+                      <input type="hidden" name="nap_the" value="3">
                         <tr>
                             <td class="number" style="width: 20%;">
-                               <input type="text" placeholder="Nhập vào frame id" class="form-control">
+                               <input type="number" name="link_id" placeholder="Nhập vào frame id" class="form-control" required>
                             </td>
                             <td class="number" style="width: 20%;">
-                                <select class="form-control" name="" id="" class="">
+                                <select class="form-control" name="card_type" id="card_type" class="" required>
                                   @foreach ($card as $value)
                                     <option value="{{ $value->card_code }}">{{ $value->card_name }}</option>   
                                   @endforeach
@@ -134,10 +147,10 @@
                                  </select>
                             </td>
                             <td>
-                              <input type="text" name="pin" placeholder="Nhập vào mã pin" class="form-control">
+                              <input type="number" name="card_pin" placeholder="Nhập vào mã pin" class="form-control" required>
                             </td>
                             <td>
-                              <input type="text" name="serial" placeholder="Nhập vào số serial" class="form-control">
+                              <input type="number" name="card_seria" placeholder="Nhập vào số serial" class="form-control" required>
                             </td>
                             <td class="number" style="width: 5%;">
                                 <button class="btn btn-primary">Nạp</button>

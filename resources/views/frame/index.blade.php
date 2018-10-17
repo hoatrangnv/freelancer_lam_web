@@ -42,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <form action="{{ route('frame.create') }}" method="GET">
+                            <form action="{{ route('frame.create') }}" method="POST">
                                 @csrf
                                 <tr>
                                     <td style="width: 3%;">#</td>
