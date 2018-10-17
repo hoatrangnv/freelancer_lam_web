@@ -8,6 +8,7 @@ class Link extends Model
 {
     protected $table = 'links';
     protected $fillable = [
+        'id',
         'title',
         'content',
         'price',

@@ -39,6 +39,7 @@ class FrameController extends Controller
      */
     public function createFrame(Request $request)
     {
+       $id =  random_int(1, 9999);
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
         
         $price = $request->get('price');
@@ -46,6 +47,7 @@ class FrameController extends Controller
         $content = $request->get('content');
         $user_id = Auth::user()->id;
         $link = Link::create([
+            'id' => $id,
             'title' =>$title,
             'content'=>$content,
             'price'=>$price,
