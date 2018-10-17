@@ -79,6 +79,7 @@ class FrameController extends Controller
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
 
         $link_id = $request->get('link_id');
+        //get link id
         $link = Link::find($link_id);
         $price  = $request->get('card_price');
    
@@ -122,11 +123,15 @@ class FrameController extends Controller
                     'is_deleted' => $CHUA_XOA,            
                 ]);
                 //thong bao tien trong link price
+                //tru tien price link
                 $price_mess = $link_price - $price;
+                $link->price = $price_mess;
+                $link->save();
+                $price_of_link = $link->price;    
                 $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price)." số tiền còn phải nạp là: " .number_format($price_mess);
                
                 // return $result;
-                 return view('frame.confirm',compact(['username','result','link_price','card_name','mess']));
+                 return view('frame.confirm',compact(['username','result','price_of_link','card_name','mess']));
 
             }
             return redirect()->back()->with('error', 'Số tiền trong frame nhỏ hơn số tiền nạp vào.');

@@ -22,7 +22,7 @@
                                 <td>{{ $card_name }}</td>
                                 <td>{{ number_format($result->price)}} đ</td>
                                 <td>{{ $result->link_id }}</td>
-                                <td>{{ number_format($link_price)}} đ</td>
+                                <td>{{ number_format($price_of_link)}} đ</td>
                                 <td>{{ $username }}</td>
                            </tr>
                     </tbody>

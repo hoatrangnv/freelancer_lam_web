@@ -22,6 +22,7 @@
                                 <th>Giá Tiên</th>
                                 <th>Người Nạp</th>
                                 <th>Ảnh</th>
+                                <th>Nguồn nạp</th>
                                 <th>Trạng Thái</th>
                                 <th>Hành Động</th>
                             </tr>
@@ -47,6 +48,13 @@
                                     <td>{{ $value->name }}</td>
                                     <td> 
                                         <img src="{{ asset($value->image_url) }}" style="width:150px;" alt="">
+                                    </td>
+                                    <td>
+                                        @if($value->link_id > 0)  
+                                         <span class="text-primary">Frame</span>
+                                        @else 
+                                         <span class="text-success">Website</span>
+                                        @endif
                                     </td>
                                     <td>
                                             @switch($value->payment_status)
