@@ -39,6 +39,7 @@
                     <p class="text-danger">* Nếu bạn quên id frame, vui lòng đăng nhập và vào phần <strong>Tích hợp vào website</strong> để lấy id frame</p>
                     <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
                 </div>
+            <div class="table-responsive">
              
             <table class="table table-condensed table-hover table-bordered table-striped">
                 <thead>
@@ -92,6 +93,7 @@
                   </form>
                 </tbody>
             </table>
+            </div>
         </div>
       </div>
     </div>
