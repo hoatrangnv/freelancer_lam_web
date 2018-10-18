@@ -24,12 +24,9 @@ class FrameController extends Controller
     public function index()
     {
      
-        $url =  url('/')."/frame-nap-the";
         $user_id = Auth::user()->id;
         $result = Link::where('user_id',$user_id)->get();
-        $frame = "<iframe src=".$url." style='width:1200px;height:300px'></iframe>";
-            
-        return view('frame.index',compact(['result','frame'])); 
+        return view('frame.index',compact(['result'])); 
     }
 
     /**
@@ -41,7 +38,8 @@ class FrameController extends Controller
     {
        $id =  random_int(1, 9999);
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
-        
+        $url =  url('/')."/embeb/".$id;
+        $frame = "<iframe src=".$url." style='width:1200px;height:300px'></iframe>";
         $price = $request->get('price');
         $title = $request->get('title');
         $content = $request->get('content');
@@ -53,6 +51,7 @@ class FrameController extends Controller
             'price'=>$price,
             'user_id'=> $user_id,
             'active'=>$CHUA_XOA,
+            'frame' => $frame
         ]);
         return redirect()->back()->with('message', 'Tích hợp vào website thành công!');
 
@@ -89,6 +88,7 @@ class FrameController extends Controller
         $link_id = $request->get('link_id');
         //get link id
         $link = Link::find($link_id);
+        
         $price  = $request->get('card_price');
    
        
@@ -150,10 +150,13 @@ class FrameController extends Controller
 
     }
 
-    public function naptheCreate()
+    public function naptheCreate($id)
     {
-        $q = "select * from cat_cards where card_status= 1";
-        $card = DB::select($q);
-        return view('frame.napthe',compact('card'));
+        $result = Link::find($id);
+        if($result) {
+            $q = "select * from cat_cards where card_status= 1";
+            $card = DB::select($q);
+            return view('frame.napthe',compact(['card','result']));
+        }
     }
 }

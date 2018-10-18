@@ -98,13 +98,6 @@
               <span>Nạp thẻ</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('frame-nap-the') }}">
-              <i class="fas fa-fw fa-table"></i>
-              <span>Nạp thẻ frame</span></a>
-        </li>
-      
-    
-        <li class="nav-item">
             <a class="nav-link" href="{{ route('mua-the.index') }}">
               <i class="fas fa-fw fa-table"></i>
               <span>Mua Thẻ</span></a>

@@ -1,10 +1,27 @@
-@extends('master')
-@section('title')
-    Tích hợp vào website
-@endsection
-@section('content')
-<div class="row">
-        <div class="col-md-12">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Bootstrap core CSS-->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  
+    <!-- Custom fonts for this template-->
+    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ asset('css/sb-admin.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
             @if(session()->has('message'))
               <div class="alert alert-success">
                   {{ session()->get('message') }}
@@ -15,7 +32,7 @@
                   {{ session()->get('error') }}
               </div>
           @endif
-
+              <br>
             <div class="panel panel-default panel-table">
                 <div class="panel-heading">
                     <h4>Nạp thẻ không cần đăng nhập</h4>
@@ -40,7 +57,7 @@
                     <input type="hidden" name="nap_the" value="3">
                       <tr>
                           <td class="number" style="width: 20%;">
-                             <input type="number" name="link_id" placeholder="Nhập vào frame id" class="form-control" required>
+                             <input type="number" name="link_id" placeholder="Nhập vào frame id" class="form-control" value="{{ $result->id }}" readonly>
                           </td>
                           <td class="number" style="width: 20%;">
                               <select class="form-control" name="card_type" id="card_type" class="" required>
@@ -78,4 +95,6 @@
         </div>
       </div>
     </div>
-@endsection
+
+</body>
+</html>
