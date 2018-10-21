@@ -90,7 +90,7 @@
                             <td><input name="content" type="text" value="{{ $value->content }}"></td>
                             <td><input name="price" type="text" value="{{ $value->price}}"></td>
                             <td>{{ $value->created_at }}</td>
-                            <td></td>
+                            <td><code>{{ $value->frame }}</code></td>
                             <td><button class="btn btn-sm">Cập nhật</button></td>
                         </tr>
                     </form>
