@@ -84,7 +84,6 @@ class FrameController extends Controller
         $NOT_IMAGES = Config::get('constants.NOT_IMAGES');
         $CHO_DUYET = Config::get('constants.CHO_DUYET');
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
-
         $link_id = $request->get('link_id');
         //get link id
         $link = Link::find($link_id);
@@ -109,7 +108,7 @@ class FrameController extends Controller
                     $card_name = $value['card_name'];
                 }
                 $result = Payment::create([
-                    'phone' => $user->phone_number,
+                    'phone' => $request->get('phone'),
                     'card_type_id' => $card_id,
                     'pin' => $request->get('card_pin'),
                     'serial' => $request->get('card_seria'),
@@ -139,7 +138,7 @@ class FrameController extends Controller
                 $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price)." số tiền còn phải nạp là: " .number_format($price_mess);
                
                 // return $result;
-                 return view('frame.confirm',compact(['username','result','price_of_link','card_name','mess']));
+                 return view('frame.confirm',compact(['username','result','price_of_link','card_name','mess','link_id']));
 
             }
             return redirect()->back()->with('error', 'Số tiền trong frame nhỏ hơn số tiền nạp vào.');
@@ -159,4 +158,19 @@ class FrameController extends Controller
             return view('frame.napthe',compact(['card','result']));
         }
     }
+
+    public function search(Request $request)
+    {
+        $phone = $request->phone_number;
+
+        $link_id = $request->get('link_id');
+        $result = DB::table('payments')
+                      ->leftJoin('users', 'payments.user_id', '=', 'users.id')
+                      ->leftJoin('cat_cards', 'payments.provider', '=', 'cat_cards.card_code')
+                      ->where('payments.link_id', '=', $link_id)
+                      ->where('payments.phone', '=', $phone)
+                      ->orderByRaw('payments.payment_id - payments.created_at ASC')
+                      ->paginate(10);
+        return  response($result);              
+    } 
 }

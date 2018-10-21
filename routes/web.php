@@ -22,6 +22,7 @@ Route::get('/nap-the-frame','FrameController@naptheFrame')->name('napthe-frame')
 Route::post('/frame-create','FrameController@createNap')->name('frame.createPayment');
 Route::get('/napthe-confirm','FrameController@naptheConfirm')->name('frame.confirm');
 Route::get('/embeb/{id}','FrameController@naptheCreate')->name('frame-nap-the');
+Route::get('/frame/search','FrameController@search')->name('api.search');
 
 Route::group(['middleware' => 'auth'], function () {
     //show user profile
