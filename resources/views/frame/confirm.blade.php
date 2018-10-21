@@ -79,7 +79,7 @@
                     if(status === 0) {
                         st += "<span class='text-info'>Đang chờ</span>";
                     } else if(status === 2){
-                        st += "<span class='text-info'>Đang chờ</span>";
+                        st += "<span class='text-success'>Thành công</span>";
                     } else if(status == 3) {
                         st += "<span class='text-danger'>Hủy</span>";
                     }
