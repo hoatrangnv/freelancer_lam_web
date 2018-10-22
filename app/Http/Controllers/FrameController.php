@@ -185,16 +185,32 @@ class FrameController extends Controller
 
     public function search(Request $request)
     {
+       
         $phone = $request->phone_number;
+        $link_id = $request->link_id;
+       ///TODO
+       $result = TermUser::where('phone','=',$phone)->first();
+       $price = $result->price;
+       $money = $result->money; 
+       //get link table
+       $link = Link::find($link_id);
+       /// so sanh
+        if($money >= $price) 
+        {
+            $mess = "Nạp thẻ thành công:" .$link->content;
+            // reset money
+            $term = TermUser::where('phone',$phone)
+            ->update(['money' => 0]);
+            //log
+            $log = LogPayment::create([
+                'title' => $phone,
+                'content' => $link->content .date('Y-m-d H:i:s')
+            ]);
+            return response($mess);
+        } else {
+            $mess_pending = "Thẻ đang được xử lý, vui lòng nhập lại số điện thoại, sau ít phút.";
+            return response($mess_pending);
+        }
 
-        $link_id = $request->get('link_id');
-        $result = DB::table('payments')
-                      ->leftJoin('users', 'payments.user_id', '=', 'users.id')
-                      ->leftJoin('cat_cards', 'payments.provider', '=', 'cat_cards.card_code')
-                      ->where('payments.link_id', '=', $link_id)
-                      ->where('payments.phone', '=', $phone)
-                      ->orderByRaw('payments.payment_id - payments.created_at ASC')
-                      ->paginate(10);
-        return  response($result);              
     } 
 }
