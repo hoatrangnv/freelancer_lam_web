@@ -37,6 +37,8 @@
                                     <input name="member" type="hidden" value="{{ $value->member }}">
                                     <input name="rate" type="hidden" value="{{ $value->rate }}">
                                     <input name="card_name" type="hidden" value="{{ $value->card_name }}">
+                                    <input type="hidden" name="phone" value="{{ $value->phone }}">
+                                    <input type="hidden" name="link_id" value="{{ $value->link_id }}">
                                 <tr>
                                     <td>{{ $value->payment_id }}</td>
                                     <td>{{ $value->pin }}</td>

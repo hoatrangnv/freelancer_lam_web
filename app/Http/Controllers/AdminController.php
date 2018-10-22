@@ -12,7 +12,7 @@ use Config;
 use App\WithDraw;
 use App\Deposit;
 use App\BuyCard;
-
+use App\TermUser;
 
 class AdminController extends Controller
 {
@@ -48,6 +48,7 @@ class AdminController extends Controller
         $CHAP_NHAN = Config::get('constants.CHAP_NHAN');
         $CHO_DUYET = Config::get('constants.CHO_DUYET');
         $XOA = Config::get('constants.XOA');
+        $phone = $request->get('phone');
 
         //NEU CHAP NHAN THI CONG TIEN
         if($request->get('status') == $CHAP_NHAN) {
@@ -84,7 +85,7 @@ class AdminController extends Controller
             }
             
             //log
-            $mess = "Nạp tiền vào tài khoản thẻ mệnh giá: ". $request->get('price'). "loại thẻ: " . $request->get('card_name');
+            $mess = "Số tiền củ ".$money_cu."Nạp thẻ: ". $request->get('price'). "loại thẻ: " . $request->get('card_name'). "Cộng số tiền mới " .$money_moi."  ".date('Y-m-d H:i:s');
             $log = Log::create([
                 'log_user_id' =>$request->get('user_id'),
                 'log_content' => $mess,
@@ -93,6 +94,21 @@ class AdminController extends Controller
                 'log_type' => "NAP TIEN",
                 'log_read' => 1
             ]);
+            if($request->link_id > 0)   
+            {
+                 //xu ly cong tien money term_user
+                 $get_money_term = TermUser::where('phone',$phone)->first();
+                 $price_term_old = $get_money_term->price_term;
+                 $price_term = $price_term_old - $price;
+ 
+                 $money = $get_money_term->money + $price;
+                 $term = TermUser::where('phone',$phone)
+                         ->update(['money'=> $money]);      
+             // tru tien price_term
+                 $term_p = TermUser::where('phone',$phone)
+                 ->update(['price_term' => $price_term]);      
+            } 
+                    
             
         } 
         else if ($request->get('status') == $XOA) {
