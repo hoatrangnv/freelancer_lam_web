@@ -40,8 +40,7 @@
                                   @csrf
                                     <input type="hidden" name="nap_the" value="3">
                                     <div class="form-group row">
-                                            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Frame ID</label>
-                                            <input type="number" name="link_id" placeholder="Nhập vào frame id" class="form-control" value="{{ $result->id }}" readonly>
+                                            <input type="hidden" name="link_id" placeholder="Nhập vào frame id" class="form-control" value="{{ $result->id }}" readonly>
                                     </div>
                                     <div class="form-group row">
                                         <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Loại thẻ</label>

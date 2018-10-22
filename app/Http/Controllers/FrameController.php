@@ -13,6 +13,8 @@ use Config;
 use Auth;
 use App\Card_card;
 use App\Card;
+use App\TermUser;
+use App\LogPayment;
 
 class FrameController extends Controller
 {
@@ -38,7 +40,7 @@ class FrameController extends Controller
     {
        $id =  random_int(1, 9999);
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
-        $url =  url('/')."/embeb/".$id;
+        $url =  url('/')."/embed/".$id;
         $frame = "<iframe src=".$url." style='width:1200px;height:300px'></iframe>";
         $price = $request->get('price');
         $title = $request->get('title');
@@ -80,6 +82,7 @@ class FrameController extends Controller
 
     public function createNap(Request $request)
     {
+        // return $request->all();
         $IMAGES = Config::get('constants.IS_IMAGE');
         $NOT_IMAGES = Config::get('constants.NOT_IMAGES');
         $CHO_DUYET = Config::get('constants.CHO_DUYET');
@@ -92,7 +95,7 @@ class FrameController extends Controller
    
        
         if(!empty($link)) {
-            if($link->price > $price ) {
+           
                 $user = User::find($link->user_id);
                 //get discount
                 $q = Card_card::where('card_code',$request->get('card_type'))->get();
@@ -130,19 +133,40 @@ class FrameController extends Controller
                     'is_deleted' => $CHUA_XOA,            
                 ]);
                 //thong bao tien trong link price
-                //tru tien price link
-                $price_mess = $link_price - $price;
-                $link->price = $price_mess;
-                $link->save();
-                $price_of_link = $link->price;    
-                $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price)." số tiền còn phải nạp là: " .number_format($price_mess);
+                  //luu tien vao term_user
+                  //check phone 
+                  $term_find = TermUser::where('phone', $request->get('phone'))->count();
+
+                 if($term_find > 0) {
+                     $check = TermUser::where('phone', $request->get('phone'))->first();
+                     $price_term = $check->price_term;
+                     $price_total_term = $price_term + $request->get('card_price');
+
+                     $term_update = TermUser::where('phone',$request->get('phone'))
+                     ->update(['price_term' => $price_total_term]);
+                 } else {
+                    $term = TermUser::create([
+                        'phone' =>  $request->get('phone'),
+                        'price_term' => $request->get('card_price'),
+                        'price' => $link_price
+                        ]);
+                 }
+                 
+                $term_sosanh = TermUser::where('phone','=', $request->get('phone'))->firstOrFail();
+                $price_t = $term_sosanh->price; //price trong term
+                $price_term = $term_sosanh->price_term; 
+                $price_pn = $price_t - $price_term;
+               
+                 if($price_term >= $price_t) {
+                     $mess = "Bạn đã nạp thẻ thành công,vui lòng chờ hệ thống xử lý trong 5, 10 phút, nhập số điện thoại để hiện kết quả.";
+ 
+                 } else {
+                     $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price_term)." số tiền còn phải nạp là: " .number_format($price_pn);
+                 }
+                    
                
                 // return $result;
                  return view('frame.confirm',compact(['username','result','price_of_link','card_name','mess','link_id']));
-
-            }
-            return redirect()->back()->with('error', 'Số tiền trong frame nhỏ hơn số tiền nạp vào.');
-
             
         }
         return redirect()->back()->with('error', 'Frame id không tồn tại, vui lòng kiểm tra lại.');

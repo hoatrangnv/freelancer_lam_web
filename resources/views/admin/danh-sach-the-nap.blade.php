@@ -51,7 +51,7 @@
                                     </td>
                                     <td>
                                         @if($value->link_id > 0)  
-                                         <span class="text-primary">Frame</span>
+                                         <span class="text-primary">Frame<br/> {{ $value->phone }} - {{ $value->link_id }} </span>
                                         @else 
                                          <span class="text-success">Website</span>
                                         @endif
