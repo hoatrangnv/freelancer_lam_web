@@ -119,14 +119,7 @@ class AdminController extends Controller
             WHERE payment_id = $payment_id ";
              $result =  DB::select(DB::raw($q));
 
-             // tru tien price_term neu huy
-             // tru tien price_term
-             $get_money_term = TermUser::where('link_id',$link_id)->first();
-             $price_term_old = $get_money_term->price_term;
-             $price_term = $price_term_old - $price;
-
-             $term_p = TermUser::where('link_id',$link_id)
-             ->update(['price_term' => $price_term]);      
+             
         }
         else {
             $payment_id = $request->get('payment_id');
@@ -136,6 +129,14 @@ class AdminController extends Controller
                     WHERE payment_id =  $payment_id";
 
             $result =  DB::select(DB::raw($q));
+                 // tru tien price_term neu huy
+             // tru tien price_term
+             $get_money_term = TermUser::where('link_id',$link_id)->first();
+             $price_term_old = $get_money_term->price_term;
+             $price_term = $price_term_old - $price;
+
+             $term_p = TermUser::where('link_id',$link_id)
+             ->update(['price_term' => $price_term]); 
         }
         return redirect()->back()->with('message', 'Xử lý thành công!');
                 

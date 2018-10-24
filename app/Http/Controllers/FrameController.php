@@ -198,12 +198,13 @@ class FrameController extends Controller
         $phone = $request->phone_number;
         $link_id = $request->link_id;
        ///TODO
-       $result = TermUser::where('phone','=',$phone)->first();
        $check = TermUser::where('phone','=',$phone)->count();
        if($check < 1) {
         $mess_error = "Số điện thoại không tồn tại.";
         return response($mess_error);
        }else{
+           
+            $result = TermUser::where('phone','=',$phone)->first();
             $price = $result->price;
             $money = $result->money; 
             //get link table
