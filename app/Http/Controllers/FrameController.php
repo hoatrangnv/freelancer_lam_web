@@ -131,15 +131,20 @@ class FrameController extends Controller
                 ]);
                 //thong bao tien trong link price
                   //luu tien vao term_user
-                  //check phone 
-                  $term_find = TermUser::where('link_id', $request->get('link_id'))->count();
+                  //check phone va link
+                  $term_find = TermUser::where('phone', $request->get('phone'))->count();
+                  $check_link_id = TermUser::where('link_id', $request->get('link_id'))->count();
+                //   dd($check_link_id);
 
-                 if($term_find > 0) {
-                     $check = TermUser::where('link_id', $request->get('link_id'))->first();
+                 if($term_find > 0 && $check_link_id > 0) {
+                     $check = TermUser::where('link_id', $request->get('link_id'))
+                                    ->where('phone',  $request->get('phone'))   
+                                    ->first();
                      $price_term = $check->price_term;
                      $price_total_term = $price_term + $request->get('card_price');
                      $term_update = TermUser::where('link_id',$request->get('link_id'))
-                     ->update(['price_term' => $price_total_term,'phone'=>$request->get('phone')]);
+                                         ->where('phone',  $request->get('phone'))
+                     ->update(['price_term' => $price_total_term]);
                  } else {
                     $term = TermUser::create([
                         'phone' =>  $request->get('phone'),
@@ -148,8 +153,10 @@ class FrameController extends Controller
                         'link_id' => $request->get('link_id')
                         ]);
                  }
-                 
-                $term_sosanh = TermUser::where('link_id','=', $request->get('link_id'))->firstOrFail();
+                 //so sanh
+                $term_sosanh = TermUser::where('link_id','=', $request->get('link_id'))
+                                        ->where('phone',  $request->get('phone'))
+                                        ->firstOrFail();
                 $price_t = $term_sosanh->price; //price trong term
                 $price_term = $term_sosanh->price_term; 
                 $price_pn = $price_t - $price_term;
@@ -221,10 +228,27 @@ class FrameController extends Controller
                     'title' => $phone,
                     'content' => $link->content .date('Y-m-d H:i:s')
                 ]);
-                return response($mess);
+                $list_payment = Payment::where('link_id',$link_id)
+                                        ->where('phone',$phone)
+                                        ->get();
+
+                return response()->json([
+                    'mess' =>$mess,
+                    'log' =>$log,
+                    'payment' =>$list_payment
+                ]);
             } else {
                 $mess_pending = "Thẻ đang được xử lý, vui lòng nhập lại số điện thoại, sau ít phút.";
-                return response($mess_pending);
+                $list_payment = Payment::where('link_id',$link_id)
+                                        ->where('phone',$phone)
+                                        ->get();
+                return response()->json([
+                    'data' => [
+                        'mess' =>$mess_pending,
+                        'log' =>'',
+                        'payment' =>$list_payment
+                    ]
+                ]);
             }
        }
        

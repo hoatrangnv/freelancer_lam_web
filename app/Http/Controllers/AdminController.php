@@ -47,6 +47,7 @@ class AdminController extends Controller
         //DEFILE HANG
         $CHAP_NHAN = Config::get('constants.CHAP_NHAN');
         $CHO_DUYET = Config::get('constants.CHO_DUYET');
+        $DANG_XU_LY = Config::get('constants.DANG_XU_LY');
         $XOA = Config::get('constants.XOA');
         $phone = $request->get('phone');
         $link_id = $request->get('link_id');
@@ -95,10 +96,13 @@ class AdminController extends Controller
                 'log_type' => "NAP TIEN",
                 'log_read' => 1
             ]);
+            //neu ton tai link_id moi la nap qua frame
             if($request->link_id > 0)   
             {
                  //xu ly cong tien money term_user
-                 $get_money_term = TermUser::where('link_id',$link_id)->first();
+                 $get_money_term = TermUser::where('link_id',$link_id)
+                                            ->where('phone', $phone)
+                                            ->first();
                  $price_term_old = $get_money_term->price_term;
                  $price_term = $price_term_old - $price;
  
@@ -107,6 +111,7 @@ class AdminController extends Controller
                          ->update(['money'=> $money]);      
              // tru tien price_term
                  $term_p = TermUser::where('link_id',$link_id)
+                                     ->where('phone', $phone)
                  ->update(['price_term' => $price_term]);      
             } 
                     
@@ -118,6 +123,29 @@ class AdminController extends Controller
             SET is_deleted = $XOA
             WHERE payment_id = $payment_id ";
              $result =  DB::select(DB::raw($q));
+
+             if($request->link_id > 0)   
+             {
+             
+             // tru tien price_term neu huy
+              // tru tien price_term
+              $get_money_term = TermUser::where('link_id',$link_id)
+                                 ->where('phone', $phone)
+                                 ->first();
+              $price_term_old = $get_money_term->price_term;
+              $price_term = $price_term_old - $price;
+ 
+              $term_p = TermUser::where('link_id',$link_id)
+                                  ->where('phone', $phone)
+              ->update(['price_term' => $price_term]); 
+             }
+        }
+        else if ($request->get('status') ==  $DANG_XU_LY) {
+            $payment_id = $request->get('payment_id');
+            $q = "UPDATE payments
+            SET is_deleted = $DANG_XU_LY
+            WHERE payment_id = $payment_id ";
+             $result =  DB::select(DB::raw($q));
         }
         else {
             $payment_id = $request->get('payment_id');
@@ -127,14 +155,20 @@ class AdminController extends Controller
                     WHERE payment_id =  $payment_id";
 
             $result =  DB::select(DB::raw($q));
-                 // tru tien price_term neu huy
+            if($request->link_id > 0)   
+            {
+            // tru tien price_term neu huy
              // tru tien price_term
-             $get_money_term = TermUser::where('link_id',$link_id)->first();
+             $get_money_term = TermUser::where('link_id',$link_id)
+                                ->where('phone', $phone)
+                                ->first();
              $price_term_old = $get_money_term->price_term;
              $price_term = $price_term_old - $price;
 
              $term_p = TermUser::where('link_id',$link_id)
+                                 ->where('phone', $phone)
              ->update(['price_term' => $price_term]); 
+            }
         }
         return redirect()->back()->with('message', 'Xử lý thành công!');
                 

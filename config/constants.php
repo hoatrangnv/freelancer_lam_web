@@ -5,6 +5,7 @@ return [
     'NOT_IMAGES' => 1,
 
     'CHO_DUYET' => 0,
+    'DANG_XU_LY' => 0,
     'CHAP_NHAN' => 2,
     'HUY' => 3,
     'THE_SAI' => 4,
