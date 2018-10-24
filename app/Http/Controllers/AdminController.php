@@ -118,8 +118,6 @@ class AdminController extends Controller
             SET is_deleted = $XOA
             WHERE payment_id = $payment_id ";
              $result =  DB::select(DB::raw($q));
-
-             
         }
         else {
             $payment_id = $request->get('payment_id');
