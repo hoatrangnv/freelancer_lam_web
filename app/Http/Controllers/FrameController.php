@@ -75,10 +75,7 @@ class FrameController extends Controller
         return view('frame.napthe');
     }
 
-    public function naptheConfirm()
-    {
-        return view('frame.confirm');
-    }
+   
 
     public function createNap(Request $request)
     {
@@ -166,12 +163,25 @@ class FrameController extends Controller
                     
                
                 // return $result;
-                 return view('frame.confirm',compact(['username','result','price_of_link','card_name','mess','link_id']));
+                //  return view('frame.confirm',compact(['username','result','price_of_link','card_name','mess','link_id']));
+                return redirect()->action(
+                    'FrameController@naptheConfirm', ['result'=>$result,'card_name' =>$card_name,'mess' =>$mess,'link_id'=>$link_id]
+                );
+                 
             
         }
         return redirect()->back()->with('error', 'Frame id không tồn tại, vui lòng kiểm tra lại.');
 
     }
+
+    public function naptheConfirm(Request $request)
+    {
+        $mess = $request->get('mess');
+        $link_id = $request->get('link_id');
+        
+        return view('frame.confirm',compact(['result','card_name','mess','link_id']));
+    }
+
 
     public function naptheCreate($id)
     {
@@ -185,32 +195,38 @@ class FrameController extends Controller
 
     public function search(Request $request)
     {
-       
         $phone = $request->phone_number;
         $link_id = $request->link_id;
        ///TODO
        $result = TermUser::where('phone','=',$phone)->first();
-       $price = $result->price;
-       $money = $result->money; 
-       //get link table
-       $link = Link::find($link_id);
-       /// so sanh
-        if($money >= $price) 
-        {
-            $mess = "Nạp thẻ thành công:" .$link->content;
-            // reset money
-            $term = TermUser::where('phone',$phone)
-            ->update(['money' => 0]);
-            //log
-            $log = LogPayment::create([
-                'title' => $phone,
-                'content' => $link->content .date('Y-m-d H:i:s')
-            ]);
-            return response($mess);
-        } else {
-            $mess_pending = "Thẻ đang được xử lý, vui lòng nhập lại số điện thoại, sau ít phút.";
-            return response($mess_pending);
-        }
+       $check = TermUser::where('phone','=',$phone)->count();
+       if($check < 1) {
+        $mess_error = "Số điện thoại không tồn tại.";
+        return response($mess_error);
+       }else{
+            $price = $result->price;
+            $money = $result->money; 
+            //get link table
+            $link = Link::find($link_id);
+            /// so sanh
+            if($money >= $price) 
+            {
+                $mess = "Nạp thẻ thành công:" .$link->content;
+                // reset money
+                $term = TermUser::where('phone',$phone)
+                ->update(['money' => 0]);
+                //log
+                $log = LogPayment::create([
+                    'title' => $phone,
+                    'content' => $link->content .date('Y-m-d H:i:s')
+                ]);
+                return response($mess);
+            } else {
+                $mess_pending = "Thẻ đang được xử lý, vui lòng nhập lại số điện thoại, sau ít phút.";
+                return response($mess_pending);
+            }
+       }
+       
 
     } 
 }

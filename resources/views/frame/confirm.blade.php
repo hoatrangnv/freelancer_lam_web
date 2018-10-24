@@ -19,8 +19,8 @@
     <link href="{{ asset('css/sb-admin.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
-<body style="background:#efeded">
-       <div class="container" style="width:600px; height: 600px; border:1px solid #eee;background:#fff;padding-left:5%;padding-right: 5%">
+<body style="background:#efeded;flex:1;display:flex;f">
+       <div class="container" style="width:600px; height: 350px; border:1px solid #eee;background:#fff;padding-left:5%;padding-right: 5%">
             <div class="row">
                     <div class="col-md-12 col-xs-12" style="margin:0 auto;padding:0;width:100%;text-align:center" >
                         <br>
@@ -34,20 +34,15 @@
             </div>
             <br>
             <div class="row">
-                <table class="table table-sm table-bordered">
-                    <thead>
-                        <th>Id</th>
-                        <th>Số điện thoại</th>
-                        <th>Mệnh giá</th>
-                        <th>Trạng thái</th>
-                    </thead>
-                    <tbody id="iterm2">
-
-                    </tbody>
-                </table>
-                <button onclick="goBack()" class="btn btn-sm btn-primary">Quay lại</button>
+                <div style="display:block;width: 100%;">
+                    <p class="text-center"  id="iterm2"></p>
+                </div>
+                <br>
             </div>
+       <button onclick="goBack()" class="btn btn-sm btn-primary">Quay lại</button>
+
        </div>
+
 </body>
 <script>
     function goBack() {
@@ -66,28 +61,10 @@
             },
             dataType: "text",
             success: function(result) {
-                var htmlResult = "";
-                var st = "";
-                var JSONObject  = JSON.parse(result)
-                var dataResult  = JSONObject.data;
-                Object.keys(dataResult).forEach(function(key) {
-                    var id = dataResult[key].link_id;
-                    var phone = dataResult[key].phone;
-                    var price = dataResult[key].price;
-                    var status = dataResult[key].payment_status;
-                    var st = "";
-                    if(status === 0) {
-                        st += "<span class='text-info'>Đang chờ</span>";
-                    } else if(status === 2){
-                        st += "<span class='text-success'>Thành công</span>";
-                    } else if(status == 3) {
-                        st += "<span class='text-danger'>Hủy</span>";
-                    }
-                   
-                    htmlResult += "<tr><td>"+ id +"</td><td>" + phone+"</td><td>" + price+ "</td><td>" + st+"</td></tr>";
-                  
-                  })
-                  $("#iterm2").append(htmlResult);
+                console.log(result)
+                var htmlResult = result;
+              
+                  $("#iterm2").html(" ").html(htmlResult);
             }
         });
       
