@@ -135,12 +135,11 @@ class FrameController extends Controller
                   $term_find = TermUser::where('link_id', $request->get('link_id'))->count();
 
                  if($term_find > 0) {
-                     $check = TermUser::where('phone', $request->get('phone'))->first();
+                     $check = TermUser::where('link_id', $request->get('link_id'))->first();
                      $price_term = $check->price_term;
                      $price_total_term = $price_term + $request->get('card_price');
-
-                     $term_update = TermUser::where('phone',$request->get('phone'))
-                     ->update(['price_term' => $price_total_term]);
+                     $term_update = TermUser::where('link_id',$request->get('link_id'))
+                     ->update(['price_term' => $price_total_term,'phone'=>$request->get('phone')]);
                  } else {
                     $term = TermUser::create([
                         'phone' =>  $request->get('phone'),
@@ -150,7 +149,7 @@ class FrameController extends Controller
                         ]);
                  }
                  
-                $term_sosanh = TermUser::where('phone','=', $request->get('phone'))->firstOrFail();
+                $term_sosanh = TermUser::where('link_id','=', $request->get('link_id'))->firstOrFail();
                 $price_t = $term_sosanh->price; //price trong term
                 $price_term = $term_sosanh->price_term; 
                 $price_pn = $price_t - $price_term;

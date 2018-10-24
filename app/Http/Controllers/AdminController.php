@@ -49,6 +49,7 @@ class AdminController extends Controller
         $CHO_DUYET = Config::get('constants.CHO_DUYET');
         $XOA = Config::get('constants.XOA');
         $phone = $request->get('phone');
+        $link_id = $request->get('link_id');
 
         //NEU CHAP NHAN THI CONG TIEN
         if($request->get('status') == $CHAP_NHAN) {
@@ -97,7 +98,7 @@ class AdminController extends Controller
             if($request->link_id > 0)   
             {
                  //xu ly cong tien money term_user
-                 $get_money_term = TermUser::where('phone',$phone)->first();
+                 $get_money_term = TermUser::where('link_id',$link_id)->first();
                  $price_term_old = $get_money_term->price_term;
                  $price_term = $price_term_old - $price;
  
