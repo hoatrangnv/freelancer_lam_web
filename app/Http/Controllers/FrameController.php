@@ -132,7 +132,7 @@ class FrameController extends Controller
                 //thong bao tien trong link price
                   //luu tien vao term_user
                   //check phone 
-                  $term_find = TermUser::where('phone', $request->get('phone'))->count();
+                  $term_find = TermUser::where('link_id', $request->get('link_id'))->count();
 
                  if($term_find > 0) {
                      $check = TermUser::where('phone', $request->get('phone'))->first();
@@ -145,7 +145,8 @@ class FrameController extends Controller
                     $term = TermUser::create([
                         'phone' =>  $request->get('phone'),
                         'price_term' => $request->get('card_price'),
-                        'price' => $link_price
+                        'price' => $link_price,
+                        'link_id' => $request->get('link_id')
                         ]);
                  }
                  

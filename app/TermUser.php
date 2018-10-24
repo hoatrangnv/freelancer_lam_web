@@ -13,6 +13,7 @@ class TermUser extends Model
         'price_term',
         'price',
         'note',
-        'money'
+        'money',
+        'link_id'
     ];
 }
