@@ -214,12 +214,15 @@ class FrameController extends Controller
             $result = TermUser::where('phone','=',$phone)->first();
             $price = $result->price;
             $money = $result->money; 
+            $price_term = $result->price_term;
+            $price_thieu = $price - $price_term;
+            $price_money = $price - $money;
             //get link table
             $link = Link::find($link_id);
             /// so sanh
             if($money >= $price) 
             {
-                $mess = "Nạp thẻ thành công:" .$link->content;
+                $mess = "Nạp thẻ thành công:  " .$link->content;
                 // reset money
                 $term = TermUser::where('phone',$phone)
                 ->update(['money' => 0]);
@@ -233,11 +236,48 @@ class FrameController extends Controller
                                         ->get();
 
                 return response()->json([
-                    'mess' =>$mess,
-                    'log' =>$log,
-                    'payment' =>$list_payment
+                    'data' => [
+                        'mess' =>$mess,
+                        'log' =>$log,
+                        'payment' =>$list_payment
+                    ]
                 ]);
-            } else {
+            } 
+            else if($price_term === 0 && $money === 0)
+            {
+                $mess_null = "Bạn chưa nạp thẻ nào, vui lòng nạp thẻ.";
+                return response()->json([
+                    'data' => [
+                        'mess' =>$mess_null,
+                        'log' => '',
+                        'payment' =>''
+                    ]
+                ]);
+            } 
+            else if($price_term > 0 && $price_term  < $price && $money === 0)
+            {
+                $mess_null = "Bạn nạp thẻ chưa đủ tiền để hiển thị, vui lòng nạp thêm  " .$price_thieu ;
+                return response()->json([
+                    'data' => [
+                        'mess' =>$mess_null,
+                        'log' => '',
+                        'payment' =>''
+                    ]
+                ]);
+            } 
+            else if( $money > 0 && $money < $price)
+            {
+                $mess_null = "Bạn nạp đang thiếu " .$price_money ;
+                return response()->json([
+                    'data' => [
+                        'mess' =>$mess_null,
+                        'log' => '',
+                        'payment' =>''
+                    ]
+                ]);
+            } 
+            
+            else {
                 $mess_pending = "Thẻ đang được xử lý, vui lòng nhập lại số điện thoại, sau ít phút.";
                 $list_payment = Payment::where('link_id',$link_id)
                                         ->where('phone',$phone)

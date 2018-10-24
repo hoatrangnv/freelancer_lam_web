@@ -57,9 +57,17 @@ class AdminController extends Controller
             //chiet khau
             $user_id = $request->get('user_id');
             $member = $request->get('member');
+            $chiet_khau_frame = $request->get('chiet_khau_frame');
            
             $discount = $request->get('rate');
-            $amount = $price - ($price * ($discount - $member)) /100;
+            $chiet_khau = 0;
+            if($request->link_id > 0)  
+            {
+                $amount = $price - ($price * ($discount +  $chiet_khau_frame)) /100;
+            } else {
+                $amount = $price - ($price * ($discount - $member)) /100;
+            }
+            
 
             //update tien vao payment
             if(!empty($user_id)) {

@@ -53,7 +53,8 @@
                                     <p class="text-center"  id="ketqua"></p>
                                 </div>
                                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                    Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
+                                    <span class="text-left" id="log_title"></span>
+                                    <span class="text-left" id="log_content"></span>
                                 </div>
                                 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                                     Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
@@ -91,13 +92,21 @@
             dataType: "text",
             success: function(result) {
                 var mess = "";
-                var log = "";
+                var log_title = "";
+                var log_content = "";
                 var JSONObject  = JSON.parse(result)
                   var dataResult  = JSONObject.data;
                 Object.keys(dataResult).forEach(function(key) {
                    mess = dataResult.mess;
-                   console.log(dataResult[key].log)
                    $('#ketqua').html("").html(mess)
+                   for (var i  in dataResult.log) {
+                        console.log(dataResult.log.title);
+                        log_title = dataResult.log.title;
+                        log_content = dataResult.log.content;
+                        $('#log_title').html("").html(log_title);
+                        $('#log_content').html("").html(log_content);
+
+                    }
                  
                 })
                

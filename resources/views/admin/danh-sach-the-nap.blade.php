@@ -39,6 +39,7 @@
                                     <input name="card_name" type="hidden" value="{{ $value->card_name }}">
                                     <input type="hidden" name="phone" value="{{ $value->phone }}">
                                     <input type="hidden" name="link_id" value="{{ $value->link_id }}">
+                                    <input type="hidden" name="chiet_khau_frame" value="{{ $value->chiet_khau_frame }}">
                                 <tr>
                                     <td>{{ $value->payment_id }}</td>
                                     <td>{{ $value->pin }}</td>
