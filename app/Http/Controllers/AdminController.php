@@ -50,13 +50,13 @@ class AdminController extends Controller
         $XOA = Config::get('constants.XOA');
         $phone = $request->get('phone');
         $link_id = $request->get('link_id');
-
+        $price = $request->get('price');
         //NEU CHAP NHAN THI CONG TIEN
         if($request->get('status') == $CHAP_NHAN) {
             //chiet khau
             $user_id = $request->get('user_id');
             $member = $request->get('member');
-            $price = $request->get('price');
+           
             $discount = $request->get('rate');
             $amount = $price - ($price * ($discount - $member)) /100;
 
@@ -106,7 +106,7 @@ class AdminController extends Controller
                  $term = TermUser::where('phone',$phone)
                          ->update(['money'=> $money]);      
              // tru tien price_term
-                 $term_p = TermUser::where('phone',$phone)
+                 $term_p = TermUser::where('link_id',$link_id)
                  ->update(['price_term' => $price_term]);      
             } 
                     
@@ -118,6 +118,15 @@ class AdminController extends Controller
             SET is_deleted = $XOA
             WHERE payment_id = $payment_id ";
              $result =  DB::select(DB::raw($q));
+
+             // tru tien price_term neu huy
+             // tru tien price_term
+             $get_money_term = TermUser::where('link_id',$link_id)->first();
+             $price_term_old = $get_money_term->price_term;
+             $price_term = $price_term_old - $price;
+
+             $term_p = TermUser::where('link_id',$link_id)
+             ->update(['price_term' => $price_term]);      
         }
         else {
             $payment_id = $request->get('payment_id');
