@@ -130,10 +130,24 @@ class NaptheController extends Controller
 
         $hsitory = DB::table('payments')
                 ->leftJoin('users', 'payments.user_id', '=', 'users.id')
-                ->leftJoin('cat_cards', 'payments.provider', '=', 'cat_cards.card_code')
+                ->leftJoin('cat_cards as c', 'payments.provider', '=', 'c.card_code')
                 ->where('payments.user_id', '=', $user)
+                ->select('c.card_name','payments.pin','payments.serial','c.card_code','payments.payment_status','payments.link_id','payments.payment_id',
+                    'payments.image_url',
+                    'payments.is_image',
+                    'payments.price',
+                    'payments.rate',
+                    'users.chiet_khau_frame',
+                    'users.member',
+                    'users.level',
+                    'payments.transaction_id',
+                    'payments.notes',
+                    'payments.created_at as created'
+                  
+                )
                 ->orderByRaw('payments.payment_id - payments.created_at ASC')
                 ->paginate(10);
+                // return $hsitory;
         return view('history.napthe',compact('hsitory'));
     }
 

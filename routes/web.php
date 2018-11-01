@@ -83,5 +83,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/mua-the','AdminController@listMuathe')->name('admin.mua-the');
     Route::post('/admin/buy-card','AdminController@BuyCard')->name('admin.buy-card');
 
+    Route::get('/list-member','ListMemberController@index')->name('list-member');
+
 });
  

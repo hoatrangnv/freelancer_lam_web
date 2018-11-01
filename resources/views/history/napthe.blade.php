@@ -51,7 +51,7 @@
 
                                 <!--{{  number_format($item->price - (($item->price * ($item->rate - $item->level))/100)) }} đ-->
                                 </td>
-                                <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->created }}</td>
                                 <td>
                                         @if($item->link_id > 0)  
                                          <span class="text-primary">Mã nhúng {{ $item->link_id }} </span>

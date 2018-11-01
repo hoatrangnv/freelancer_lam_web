@@ -14,6 +14,8 @@ class TermUser extends Model
         'price',
         'note',
         'money',
-        'link_id'
+        'link_id',
+        'money_error',
+        'status_card_error'
     ];
 }

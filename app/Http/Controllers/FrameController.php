@@ -15,6 +15,7 @@ use App\Card_card;
 use App\Card;
 use App\TermUser;
 use App\LogPayment;
+use App\ListUser;
 
 class FrameController extends Controller
 {
@@ -27,7 +28,7 @@ class FrameController extends Controller
     {
      
         $user_id = Auth::user()->id;
-        $result = Link::where('user_id',$user_id)->get();
+        $result = Link::where('user_id',$user_id) ->orderBy('created_at', 'desc')->get();
         return view('frame.index',compact(['result'])); 
     }
 
@@ -104,6 +105,7 @@ class FrameController extends Controller
        
         if(!empty($link)) {
            
+                $link_price = $link->price;
                 $user = User::find($link->user_id);
                 //get discount
                 $q = Card_card::where('card_code',$request->get('card_type'))->get();
@@ -155,7 +157,12 @@ class FrameController extends Controller
                      $price_total_term = $price_term + $request->get('card_price');
                      $term_update = TermUser::where('link_id',$request->get('link_id'))
                                          ->where('phone',  $request->get('phone'))
-                     ->update(['price_term' => $price_total_term]);
+                     ->update(['price_term' => $price_total_term,'price'=>$link_price]);
+
+                     //list member
+                     $listmember = ListUser::create([
+                         'phone' => $request->get('phone')
+                     ]);
                  } else {
                     $term = TermUser::create([
                         'phone' =>  $request->get('phone'),
@@ -230,13 +237,15 @@ class FrameController extends Controller
             $price_money = $price - $money;
             //get link table
             $link = Link::find($link_id);
+            $status_card_error = $link->status_card_error;
+            $money_error = $link->money_error;
             /// so sanh
             if($money >= $price) 
             {
                 $mess = "Nạp thẻ thành công:  " .$link->content;
                 // reset money
                 $term = TermUser::where('phone',$phone)
-                ->update(['money' => 0]);
+                ->update(['money' => 0,'price' => 0,'price_term' => 0,'money_error' => 0,'status_card_error'=> 0]);
                 //log
                 $log = LogPayment::create([
                     'title' => $phone,
@@ -267,7 +276,7 @@ class FrameController extends Controller
             } 
             else if($price_term > 0 && $price_term  < $price && $money === 0)
             {
-                $mess_null = "Bạn nạp thẻ chưa đủ tiền để hiển thị, vui lòng nạp thêm  " .$price_thieu ;
+                $mess_null = "Bạn nạp thẻ chưa đủ tiền để hiển thị, vui lòng nạp thêm  " .number_format($price_thieu) ;
                 return response()->json([
                     'data' => [
                         'mess' =>$mess_null,
@@ -276,7 +285,42 @@ class FrameController extends Controller
                     ]
                 ]);
             } 
-            else if( $money > 0 && $money < $price)
+            else if($price_term > 0 && $price_term  < $price && $money > 0 && $status_card_error == 0)
+            {
+                $mess_null = "Vui lòng chờ thẻ đang được hệ thống xử lí  " ;
+                return response()->json([
+                    'data' => [
+                        'mess' =>$mess_null,
+                        'log' => '',
+                        'payment' =>''
+                    ]
+                ]);
+            } 
+            else if($price_term == 0 && $money  < $price  && $money_error > 0)
+            {
+                $mess_null = "Bạn đang nạp thiếu tiền vui lòng nạp thêm " .number_format($price_thieu) ;
+                return response()->json([
+                    'data' => [
+                        'mess' =>$mess_null,
+                        'log' => '',
+                        'payment' =>''
+                    ]
+                ]);
+            }
+            else if( $money > 0 && $money < $price  && $money_error > 0 && $status_card_error == 1 )
+            {
+                $mess_null = "Bạn nạp đang thiếu " .$price_money. " do có thẻ bị lỗi " ;
+                return response()->json([
+                    'data' => [
+                        'mess' =>$mess_null,
+                        'log' => '',
+                        'payment' =>''
+                    ]
+                ]);
+            } 
+            
+
+            else if( $money > 0 && $money < $price  && $money_error == 0)
             {
                 $mess_null = "Bạn nạp đang thiếu " .$price_money ;
                 return response()->json([

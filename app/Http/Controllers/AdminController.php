@@ -135,17 +135,20 @@ class AdminController extends Controller
              if($request->link_id > 0)   
              {
              
-             // tru tien price_term neu huy
-              // tru tien price_term
-              $get_money_term = TermUser::where('link_id',$link_id)
+                 //them moi ngay 1-11
+            // tru tien price_term neu huy
+             // tru tien price_term
+             $get_money_term = TermUser::where('link_id',$link_id)
+                                ->where('phone', $phone)
+                                ->first();
+             $money_error_old = $get_money_term->money_error;                   
+             $price_term_old = $get_money_term->price_term;
+             $price_term = $price_term_old - $price;
+             $money_error = $money_error_old + $price;
+
+             $term_p = TermUser::where('link_id',$link_id)
                                  ->where('phone', $phone)
-                                 ->first();
-              $price_term_old = $get_money_term->price_term;
-              $price_term = $price_term_old - $price;
- 
-              $term_p = TermUser::where('link_id',$link_id)
-                                  ->where('phone', $phone)
-              ->update(['price_term' => $price_term]); 
+             ->update(['price_term' => $price_term,'status_card_error'=>1, 'money_error' => $money_error]); 
              }
         }
         else if ($request->get('status') ==  $DANG_XU_LY) {
@@ -165,17 +168,20 @@ class AdminController extends Controller
             $result =  DB::select(DB::raw($q));
             if($request->link_id > 0)   
             {
+                //them moi ngay 1-11
             // tru tien price_term neu huy
              // tru tien price_term
              $get_money_term = TermUser::where('link_id',$link_id)
                                 ->where('phone', $phone)
                                 ->first();
+             $money_error_old = $get_money_term->money_error;                   
              $price_term_old = $get_money_term->price_term;
              $price_term = $price_term_old - $price;
+             $money_error = $money_error_old + $price;
 
              $term_p = TermUser::where('link_id',$link_id)
                                  ->where('phone', $phone)
-             ->update(['price_term' => $price_term]); 
+             ->update(['price_term' => $price_term,'status_card_error'=>1, 'money_error' => $money_error]); 
             }
         }
         return redirect()->back()->with('message', 'Xử lý thành công!');
