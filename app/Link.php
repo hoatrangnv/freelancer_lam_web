@@ -14,6 +14,11 @@ class Link extends Model
         'price',
         'user_id',
         'active',
-        'frame'
+        'frame',
+        'title1',
+        'title2',
+        'color',
+        'background',
+        'text',
     ];
 }

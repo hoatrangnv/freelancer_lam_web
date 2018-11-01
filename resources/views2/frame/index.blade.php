@@ -27,11 +27,10 @@
                             <div class="message">Chú ý : Mục này dùng cho thành viên sử dụng link nạp trực tiếp không cần đăng nhập.
                                 <br>- Chức năng cho phép thành viên thông báo thêm nội dung cho người nạp thẻ khi nạp thành công.
                                 <br>- Mỗi thành viên có thể tạo nhiều nội dung thông báo, mỗi nội dung có một ID riêng.
-                                <br>- Thông báo theo số tiền chỉ dành cho mã nhúng, không có tác dụng với link trực tiếp.
+                                <br>- Thông báo theo số tiền chỉ dành cho mã nhúng, không có tác dụng với link trực tiếp từ doithe.pro.
                                 <br>- Khách hàng của bạn sẽ nhận được thông báo khi nạp thẻ bằng với số tiền khai báo, Để bằng 0 nếu bạn muốn thông báo khi nạp thẻ thành công với bất kỳ mệnh giá. Mặc định là bằng 0, khách của bạn sẽ nhận được thông báo khi nạp thẻ thành công.</div>
                         </div>
                     </div>
-					<div class="table-responsive">
                     <table class="table table-condensed table-hover table-bordered table-striped">
                         <thead>
                             <tr>
@@ -39,11 +38,6 @@
                                 <th>Tiêu đề</th>
                                 <th>Nội dung</th>
                                 <th>Số tiền</th>
-                                <th>Tiều đề 1</th>
-                                <th>Tiêu đề 2</th>
-                                <th>Chử</th>
-                                <th>Màu chử</th>
-                                <th>Màu nút</th>
                                 <th>Quản lý</th>
                             </tr>
                         </thead>
@@ -55,56 +49,33 @@
                                     <td class="number">
                                         <input type="text" class="form-control input-sm" name="title" placeholder="Nhập tiêu đề" required>
                                     </td>
-                                    <td class="number">
+                                    <td class="number" style="width: 60%;">
                                         <input type="text" name="content" class="form-control input-sm" placeholder="Nội dung trả về khi nạp thẻ thành công" required>
                                     </td>
-                                    <td class="number">
-                                        <input type="number" name="price" class="form-control input-sm" placeholder="Giá xem" required>
+                                    <td class="number" style="width: 10%;">
+                                        <input type="text" name="price" class="form-control input-sm" placeholder="Giá xem" required>
                                     </td>
-                                    <td class="number">
-                                        <input type="text" name="title1" class="form-control input-sm">   
-                                   </td>
-                                   <td class="number">
-                                        <input type="text" name="title2" class="form-control input-sm">   
-                                    </td>
-                                    <td class="number">
-                                         <input type="text" name="text" class="form-control input-sm">   
-                                    </td>
-                                    <td class="number">
-                                        <input  name="color" class="form-control input-sm" placeholder="Màu chử" >
-                                    </td>
-                                    <td class="number">
-                                        <input  name="background" class="form-control input-sm" placeholder="Màu nút" >
-                                    </td>
-                                    <td class="number">
+                                    <td class="number" style="width: 5%;">
                                         <button class="btn btn-primary" >Tạo mới</button>
                                     </td>
                                 </tr>
                             </form>
                         </tbody>
                     </table>
-					</div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-		<div class="table-responsive">
             <table class="table table-sm table-bordered">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Têm</th>
-						
-                        <th>Head 1</th>						
-                        <th>Head 2</th>
+                        <th>Tiêu đề</th>
                         <th>Nội dung</th>
                         <th>Số tiền</th>
                         <th>Ngày tạo</th>
-						<th>Chử</th>
-                        <th>Màu nút</th>						
-                        <th>Chữ nút</th>
                         <th>Frame</th>
                         <th>Hành động</th>
                     </tr>
@@ -115,22 +86,11 @@
                         <input type="hidden" value="{{ $value->id }}" name="id">
                         <tr>
                             <td>{{ $value->id }}</td>
-                            <td><input class="form-control input-sm" name="title" type="text" value="{{ $value->title }}"></td>
-							
-                            <td><input class="form-control input-sm" name="title1" type="text" value="{{ $value->title1 }}"></td>							
-                            <td><input class="form-control input-sm" name="title2" type="text" value="{{ $value->title2 }}"></td>
-							
-							
-                            <td><input class="form-control input-sm" name="content" type="text" value="{{ $value->content }}"></td>
-                            <td><input class="form-control input-sm" name="price" type="text" value="{{ $value->price}}"></td>
+                            <td><input name="title" type="text" value="{{ $value->title }}"></td>
+                            <td><input name="content" type="text" value="{{ $value->content }}"></td>
+                            <td><input name="price" type="text" value="{{ $value->price}}"></td>
                             <td>{{ $value->created_at }}</td>
-							
-							<th><input class="form-control input-sm" name="text" type="text" value="{{ $value->text }}"></th>
-                            <td><input class="form-control input-sm" name="background" type="text" value="{{ $value->background }}"></td>							
-                            <td><input  class="form-control input-sm" name="color" type="text" value="{{ $value->color }}"></td>
-							
-							
-                            <td><textarea class="form-control input-sm">&lt;iframe src=&#039;{{ $value->frame }}&#039; style=&#039;&#039; width=&#039;100%&#039; height=&#039;520px&#039; frameborder=&#039;0&#039; marginwidth=&#039;0&#039; marginheight=&#039;0&#039; scrolling=&#039;yes&#039;&gt;&lt;/iframe&gt;</textarea></td>
+                            <td><code>&lt;iframe src=&#039;{{ $value->frame }}; style=&#039;&#039; width=&#039;100%&#039; height=&#039;520px&#039; frameborder=&#039;0&#039; marginwidth=&#039;0&#039; marginheight=&#039;0&#039; scrolling=&#039;yes&#039;&gt;&lt;/iframe&gt;</code></td>
                             <td><button class="btn btn-sm">Cập nhật</button></td>
                         </tr>
                     </form>
@@ -138,7 +98,6 @@
                    
                 </tbody>
             </table>
-			</div>
         </div>
     </div>
 @endsection

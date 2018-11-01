@@ -15,7 +15,7 @@
             {{ session()->get('error') }}
         </div>
     @endif
-    <h5>Mua thẻ cào</h5>
+    <h4>Mua thẻ cào</h4>
     <br>
    
     <form action="{{ route('mua-the.buy-card') }}" method="post" >
@@ -43,7 +43,7 @@
               <option value="20000">20.000&nbsp;₫</option>
               <option value="30000">30.000&nbsp;₫</option>
               <option value="50000">50.000&nbsp;₫</option>
-              <option value="100000" selected>100.000&nbsp;₫</option>
+              <option value="100000">100.000&nbsp;₫</option>
               <option value="200000">200.000&nbsp;₫</option>
               <option value="300000">300.000&nbsp;₫</option>
               <option value="500000">500.000&nbsp;₫</option>
@@ -61,9 +61,8 @@
 </div>
 <div class="col-md-6 col-sm-12 col-xs-12">
     <div class="panel panel-default panel-table">
-        <h5>Phí đổi thẻ</h5>
+        <h4>Phí đổi thẻ</h4>
          <div class="panel-body">
-		 <div class="table-responsive">
             <table class="table table-striped table-borderless">
                <thead>
                   <tr>
@@ -91,8 +90,7 @@
                  
                </tbody>
             </table>
-         </div
-		 </div>
+         </div>
       </div>
 </div>
 </div>
@@ -127,11 +125,11 @@
                         <td>{{ $value->card_serial }}</td>
                         <td>
                                 @if($value->status == 2)
-                                <span class="label label-success">Chấp Nhận</span>
+                                <span class="text-success">Chấp Nhận</span>
                             @elseif($value->status == 3) 
-                                <span class="label label-danger">Hủy</span>
+                                <span class="text-danger">Hủy</span>
                             @else 
-                                <span class="label label-info">Chờ</span>
+                                <span class="text-info">Chờ</span>
                             @endif
                         </td>
                     </tr>

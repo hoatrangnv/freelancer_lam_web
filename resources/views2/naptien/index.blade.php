@@ -39,8 +39,7 @@
        
     </div>
     <div class="col-md-6">
-        <h5>Lịch sử nạp tiền</h5>
-		<div class="table-responsive">
+        <h4>Lịch sử nạp tiền</h4>
         <table class="table table-sm">
             <thead>
                 <tr>
@@ -57,9 +56,9 @@
                         <td>{{ number_format($value->deposit_amount) }} đ</td>
                         <td>
                             @if($value->deposit_status == 0)
-                                <span class="label label-blue">Đang chờ</span>
+                                <span class="text-info">Đang chờ</span>
                             @else 
-                            <span class="label label-success">Nạp Thành Công</span>
+                            <span class="text-success">Nạp Thành Công</span>
 
                             @endif
                         </td>
@@ -73,7 +72,6 @@
         </table>
         {{ $result->links() }}
     </div>
-	</div>
 </div>
 <script>
     

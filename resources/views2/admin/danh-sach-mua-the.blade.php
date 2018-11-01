@@ -16,6 +16,7 @@
                     <th>STT</th>
                     <th>Tài khoản</th>
                     <th>Loại thẻ</th>
+                    <th>Chiết khấu</th>
                     <th>Mệnh giá</th>
                     <th>Số lượng</th>
                     <th>Tổng tiền</th>
@@ -37,7 +38,8 @@
                             <tr>
                                 <td>{{ $value->buy_id }}</td>
                                 <td>{{ $value->name }}</td>
-                                <td>{{ $value->card_provider_name }} {{ $value->card_discount }} %</td>
+                                <td>{{ $value->card_provider_name }}</td>
+                                <td>{{ $value->card_discount }} %</td>
                                 <td>{{ number_format($value->card_prices) }} đ</td>
                                 <td>{{ $value->card_qty }}</td>
                                 <td>{{ number_format( $value->card_amount) }} đ</td>
@@ -50,12 +52,12 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <input class="form-control" type="number" name="so_the"  value="{{ $value->card_pin }}" style="width:125px;"/>
+                                    <input type="number" name="so_the"  value="{{ $value->card_pin }}" style="width:125px;"/>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="number"  name="serial" value="{{ $value->card_serial }}" style="width:125px;"/>
+                                    <input type="number"  name="serial" value="{{ $value->card_serial }}" style="width:125px;"/>
                                 </td>
-                                <td> <textarea class="form-control" style="width:125px; height:50px" name="note" id="" cols="30" rows="10">{{ $value->card_notes }}</textarea></td>
+                                <td> <textarea style="width:125px; height:50px" name="note" id="" cols="30" rows="10">{{ $value->card_notes }}</textarea></td>
                                 <td>
                                     @if($value->status == 2 || $value->status == 3)
                                         <button disabled class="btn btn-sm btn-success" style="width:100px; display:inline">Chấp nhận</button>

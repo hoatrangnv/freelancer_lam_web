@@ -16,15 +16,14 @@
                         <thead class="thead-inverse">
                             <tr>
                                 <th>ID</th>
-                                <th>Mã</th>
-				<!--<th>Mã Seria</th> -->
+                                <th>Mã Pin</th>
+                                <th>Mã Seria</th>
                                 <th>Loại Thẻ</th>
-                                <th>Giá Tiền</th>
+                                <th>Giá Tiên</th>
                                 <th>Người Nạp</th>
                                 <th>Ảnh</th>
                                 <th>Nguồn nạp</th>
                                 <th>Trạng Thái</th>
-                                <th>Ghi chú</th>
                                 <th>Hành Động</th>
                             </tr>
                             </thead>
@@ -43,60 +42,42 @@
                                     <input type="hidden" name="chiet_khau_frame" value="{{ $value->chiet_khau_frame }}">
                                 <tr>
                                     <td>{{ $value->payment_id }}</td>
-                                    <td>Pin: {{ $value->pin }}<br/>
-                                    Seria: {{ $value->serial }}</td>
+                                    <td>{{ $value->pin }}</td>
+                                    <td>{{ $value->serial }}</td>
                                     <td>
                                       {{ $value->card_name }}
                                     </td>
-                                    <td><span class="btn btn-sm btn-info">{{ number_format($value->price) }} đ</span> <br/> 
-
-				 @if($value->link_id > 0)  
-
-					{{number_format($value->price - (($value->price * ($value->rate + $value->chiet_khau_frame))/100))}} đ                                         
-                                        @else 
-					{{number_format($value->price - (($value->price * ($value->rate - $value->member))/100))}} đ 
-                                        @endif
-	 
-
-
-				 </td>
-                                    <td>{{ $value->name }}<br/>{{ $value->phone_number }} {{ $value->money_1 }}</td>
+                                    <td>{{ number_format($value->price) }} đ</td>
+                                    <td>{{ $value->name }}</td>
                                     <td> 
-									@if($value->is_image == 0)                                           
                                         <img src="{{ asset($value->image_url) }}" style="width:150px;" alt="">
-									@else                                           
-                                        @endif	
                                     </td>
                                     <td>
                                         @if($value->link_id > 0)  
-                                         <span class="text-primary">Mã nhúng {{ $value->link_id }}<br/> </span>  {{ $value->phone }}
+                                         <span class="text-primary">Frame<br/> {{ $value->phone }} - {{ $value->link_id }} </span>
                                         @else 
-                                         <span class="label label-success">Trực tiếp</span>
+                                         <span class="text-success">Website</span>
                                         @endif
                                     </td>
-
-
-                                    <td> {{ $value->created_at }} <br/>{{ $value->transaction_id }} {{ $value->notes }}<br/>  {{ $value->notes }} {{ $value->requestId }}  
-				    </td>
                                     <td>
                                             @switch($value->payment_status)
                                                 @case(0)  
-                                                    <span class="label label-blue">Chờ duyệt</span>
+                                                    <button class="btn btn-sm btn-primary">Chờ duyệt</button>
                                                 @break
                                                 @case(1)
-                                                    <span class="label label-info">Đang xử lý</span>
+                                                    <button class="btn  btn-sm btn-info">Đang xử lý</button>
                                                 @break
                                                 @case(2)
-                                                    <span class="label label-success">Thành công</span>
+                                                    <button class="btn  btn-sm btn-success">Thành công</button>
                                                 @break
                                                 @case(3)
-                                                    <span class="label label-danger">Hủy</span>
+                                                    <button class="btn  btn-sm btn-danger">Hủy</button>
                                                 @break
                                                 @case(4)
-                                                    <span class="label label-danger">Thẻ sai</span>
+                                                    <button class="btn  btn-sm btn-danger">Thẻ sai</button>
                                                 @break
                                                 @case(5)
-                                                    <span class="label label-warning">Bảo trì</span>
+                                                    <button class="btn  btn-sm btn-warning">Bảo trì</button>
                                                 @break
                                             @endswitch
 

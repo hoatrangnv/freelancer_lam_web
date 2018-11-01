@@ -37,11 +37,11 @@
                             <td>{{ $value->bank_account_number }}</td>
                             <td>
                                 @if($value->withdraw_status == 2)
-                                    <span class="label label-success">Chấp Nhận</span>
+                                    <span class="text-success">Chấp Nhận</span>
                                 @elseif($value->withdraw_status == 3) 
-                                    <span class="label label-danger">Hủy</span>
+                                    <span class="text-danger">Hủy</span>
                                 @else 
-                                    <span class="label label-info">Chờ</span>
+                                    <span class="text-info">Chờ</span>
                                 @endif
                             </td>
                             <td>   

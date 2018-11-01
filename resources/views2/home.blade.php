@@ -10,16 +10,11 @@
               <div class="card-body-icon">
                 <i class="fas fa-fw fa-comments"></i>
               </div>
-              <div class="mr-5" align="center">
+              <div class="mr-5">
                 @if(!Auth::guest())
-					
-                  
-				<a style="color:#fff !important;" href="{{ route('nap-the') }}">NẠP THẺ</a><br/>
-				<a style="color:#fff;" href="{{ route('rut-tien') }}">RÚT TIỀN</a>
-			
-			<br/>
+                <a style="color:#fff !important;" href="{{ route('nap-the') }}">NẠP THẺ</a>
                 @else 
-                 <a style="color:#fff !important;" onclick="notice()" href="#">NẠP THẺ </a>
+                  <a style="color:#fff !important;" onclick="notice()" href="#">NẠP THẺ </a>
                 @endif
               </div>
             </div>
@@ -35,14 +30,11 @@
               <div class="card-body-icon">
                 <i class="fas fa-fw fa-list"></i>
               </div>
-              <div class="mr-5" align="center"> 
+              <div class="mr-5"> 
                   @if(!Auth::guest())
-					  
-					<a style="color:#fff;" href="{{ route('chuyen-tien.index') }}">CHUYỂN TIỀN</a><br/>
-					<a style="color:#fff;" href="{{ route('nap-tien.index') }}">NẠP TIỀN</a>				  
-             
-                @else                  
-				<a style="color:#fff !important;" onclick="notice()" href="#">CHUYỂN TIỀN </a>
+                      <a style="color:#fff;" href="{{ route('chuyen-tien.index') }}">CHUYỂN TIỀN</a>
+                @else 
+                    <a style="color:#fff !important;" onclick="notice()" href="#">CHUYỂN TIỀN </a>
                 @endif
               
               </div>
@@ -60,14 +52,8 @@
                 <i class="fas fa-fw fa-shopping-cart"></i>
               </div>
               <div class="mr-5">
-                  @if(!Auth::guest())					  
-					Xin chào: {{ Auth::user()->name }}   
-					<br/>
-					Số dư:  {{ Auth::user()->money_1 }} đ. <br/>
-					Tạm giữ:  {{ Auth::user()->tam_giu }} đ. <br/>
-			
-
-					  <br/>
+                  @if(!Auth::guest())
+                  <a style="color:#fff;" href="{{ route('rut-tien') }}">RÚT TIỀN</a>
                   @else 
                       <a style="color:#fff !important;" onclick="notice()" href="#">RÚT TIỀN </a>
                   @endif
@@ -86,12 +72,8 @@
                 <i class="fas fa-fw fa-life-ring"></i>
               </div>
               <div class="mr-5">
-                  @if(!Auth::guest())		  
-											  
-					Số điện thoại: {{ Auth::user()->phone_number }} <br/>
-					Email: {{ Auth::user()->email }}  
-					<br/>Ngày gia nhập {{ Auth::user()->created_at }} <br/>
-                  
+                  @if(!Auth::guest())
+                  <a style="color:#fff;" href="{{ route('nap-tien.index') }}">NẠP TIỀN</a>
                   @else 
                       <a style="color:#fff !important;" onclick="notice()" href="#">NẠP TIỀN </a>
                   @endif
@@ -120,11 +102,11 @@
 
               <div class="panel panel-default panel-table">
                   <div class="panel-heading">
-                      <h6>Nạp thẻ không cần đăng nhập</h6>
+                      <h4>Nạp thẻ không cần đăng nhập</h4>
                       <p class="text-danger">* Nếu bạn quên id frame, vui lòng đăng nhập và vào phần <strong>Tích hợp vào website</strong> để lấy id frame</p>
                       <div class="tools"><span class="icon mdi mdi-download"></span><span class="icon mdi mdi-more-vert"></span></div>
                   </div>
-              <div class="table-responsive">
+               
               <table class="table table-condensed table-hover table-bordered table-striped">
                   <thead>
                       <tr>
@@ -177,7 +159,6 @@
                     </form>
                   </tbody>
               </table>
-			 </div>
           </div>
         </div>
       </div>
@@ -188,13 +169,12 @@
                 <div class="panel panel-default panel-table">
                         <h4>Phí đổi thẻ</h4>
                          <div class="panel-body">
-						 <div class="table-responsive">
                             <table class="table table-striped table-borderless">
                                <thead>
                                   <tr>
                                      <th>TT</th>
                                      <th>Nhà mạng</th>
-                                     <th class="number">CK</th>
+                                     <th class="number">Phí</th>
                                      <th class="number">Trạng thái</th>
                                   </tr>
                                </thead>
@@ -216,20 +196,19 @@
                                  
                                </tbody>
                             </table>
-							 </div>
                          </div>
                       </div>
         </div>
         <div class="col-md-6">
                 <div class="panel panel-default panel-table">
-                        <h4>Mua thẻ</h4>
+                        <h4>Phí mua thẻ</h4>
                          <div class="panel-body">
                             <table class="table table-striped table-borderless">
                                <thead>
                                   <tr>
                                      <th>TT</th>
                                      <th>Nhà mạng</th>
-                                     <th class="number">100K giảm</th>
+                                     <th class="number">Phí</th>
                                      <th class="number">Trạng thái</th>
                                   </tr>
                                </thead>
@@ -238,7 +217,7 @@
                                   <tr>
                                       <td>{{ $value->cat_id }}</td>
                                       <td>{{ $value->card_name }}</td>
-                                      <td class="number">{{ $value->card_discount_buy }}000 vnđ</td>
+                                      <td class="number">{{ $value->card_discount_buy }} %</td>
                                       <td class="number">
                                         @if($value->card_type == 1)
                                           <span class="label label-success">Hoạt động</span>

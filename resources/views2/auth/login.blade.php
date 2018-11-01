@@ -49,7 +49,7 @@
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                     <label class="form-check-label" for="remember">
-                                        {{ __('Ghi nhớ') }}
+                                        {{ __('Remember Me') }}
                                     </label>
                                 </div>
                             </div>
@@ -58,11 +58,11 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Đăng nhập') }}
+                                    {{ __('Login') }}
                                 </button>
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Lấy lại mật khẩu?') }}
+                                    {{ __('Forgot Your Password?') }}
                                 </a>
                             </div>
                         </div>

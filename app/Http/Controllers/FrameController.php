@@ -38,10 +38,11 @@ class FrameController extends Controller
      */
     public function createFrame(Request $request)
     {
-       $id =  random_int(1, 9999);
+
+        $id =  random_int(1, 9999);
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
         $url =  url('/')."/embed/".$id;
-        $frame = "<iframe src=".$url." style='width:1200px;height:300px'></iframe>";
+        $frame = $url;
         $price = $request->get('price');
         $title = $request->get('title');
         $content = $request->get('content');
@@ -53,7 +54,12 @@ class FrameController extends Controller
             'price'=>$price,
             'user_id'=> $user_id,
             'active'=>$CHUA_XOA,
-            'frame' => $frame
+            'frame' => $frame,
+            'title1' =>$request->get('title1'),
+            'title2' => $request->get('title2'),
+            'color' => $request->get('color'),
+            'background' => $request->get('background'),
+            'text' => $request->get('text') 
         ]);
         return redirect()->back()->with('message', 'Tích hợp vào website thành công!');
 
@@ -66,6 +72,11 @@ class FrameController extends Controller
         $result->title = $request->get('title');
         $result->content = $request->get('content');
         $result->price = $request->get('price');
+        $result->color = $request->get('color');
+        $result->background  = $request->get('background');
+        $result->text = $request->get('text');
+        $result->title1 = $request->get('title1');
+        $result->title2 = $request->get('title2');
         $result->save();
         return redirect()->back()->with('message', 'Update website thành công!');
     }

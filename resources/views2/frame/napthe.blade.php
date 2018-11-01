@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Nạp thẻ</title>
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128077888-1"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-128077888-1');
-	</script>
-
     <!-- Bootstrap core CSS-->
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -43,8 +33,8 @@
                               {{ session()->get('error') }}
                           </div>
                       @endif
-                                <!-- <h4>Nạp thẻ không cần đăng nhập</h4>
-                                <p class="text-danger">* Nếu bạn quên id frame, vui lòng đăng nhập và vào phần <strong>Tích hợp vào website</strong> để lấy id frame</p> -->
+                                <h4>Nạp thẻ không cần đăng nhập</h4>
+                                <p class="text-danger">* Nếu bạn quên id frame, vui lòng đăng nhập và vào phần <strong>Tích hợp vào website</strong> để lấy id frame</p>
                              
                                 <form action="{{ route('frame.createPayment') }}" method="POST" >
                                   @csrf
@@ -53,30 +43,26 @@
                                             <input type="hidden" name="link_id" placeholder="Nhập vào frame id" class="form-control" value="{{ $result->id }}" readonly>
                                     </div>
                                     <div class="form-group row">
-                                        <span>{{ $result->title1 }}</span>
-                                    </div>
-                                    <div class="form-group row">
-                                        <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Loại thẻ</label>-->
+                                        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Loại thẻ</label>
                                         <select class="form-control" name="card_type" id="card_type" class="" required>
                                                 @foreach ($card as $value)
                                                     <option value="{{ $value->card_code }}">{{ $value->card_name }}</option>   
                                                 @endforeach
                                         </select>
                                     </div>
-                                  
                                     <div class="form-group row">
-                                        <label for="colFormLabelSm" class="col-sm-8 col-form-label col-form-label-sm">Số điện thoại</label>
+                                        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Số điện thoại</label>
                                         <input type="number" class="form-control" value="" placeholder="Nhập vào sđt của bạn" name="phone" required>
                                     </div>
                                     <div class="form-group row">
-                                            <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mệnh giá</label>-->
+                                            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mệnh giá</label>
             
                                             <select required class="form-control" name="card_price">
                                               <option value="10000">10.000&nbsp;₫</option>
                                               <option value="20000">20.000&nbsp;₫</option>
                                               <option value="30000">30.000&nbsp;₫</option>
                                               <option value="50000">50.000&nbsp;₫</option>
-                                              <option value="100000" selected>100.000&nbsp;₫</option>
+                                              <option value="100000">100.000&nbsp;₫</option>
                                               <option value="200000">200.000&nbsp;₫</option>
                                               <option value="300000">300.000&nbsp;₫</option>
                                               <option value="500000">500.000&nbsp;₫</option>
@@ -84,23 +70,14 @@
                                            </select>
                                     </div>
                                     <div class="form-group row">
-                                            <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mã Pin</label>-->
+                                            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mã Pin</label>
                                             <input type="number" name="card_pin" placeholder="Nhập vào mã pin" class="form-control" required>
                                     </div>
                                     <div class="form-group row">
-                                            <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mã Serial</label>-->
+                                            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mã Serial</label>
                                             <input type="number" name="card_seria" placeholder="Nhập vào số serial" class="form-control" required>
                                     </div>
-                                    <div class="form-group row">
-                                          <span>{{ $result->title2 }}</span>
-                                    </div>
-                                    <button class="btn btn-primary" style="color:{{ $result->color }};background-color:{{ $result->background }}">
-                                            @if(empty($result->text)) 
-                                                    Nạp thẻ
-                                            @else
-                                                {{ $result->text }}
-                                            @endif        
-                                    </button>
+                                    <button class="btn btn-primary">Nạp</button>
                               </form>
                               <br>
                   </div>

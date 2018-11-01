@@ -21,7 +21,7 @@ Hướng dẫn nạp tiền
                                  </tr>
                                  <tr>
                                     <td class="text-right">Thông tin chuyển khoản:</td>
-                                    <td>Ngân hàng: <strong>Techcombank - Lĩnh Nam, Hà Nội</strong> <br>Số tài khoản nhận: <strong>9704078857453738</strong> <br>Tên người hưởng: <strong>HO SY NAM</strong> 
+                                    <td>Ngân hàng: <strong>VIETCOMBANK - CN Thăng Long, Hà Nội</strong> <br>Số tài khoản nhận: <strong>0491000400877</strong> <br>Tên người hưởng: <strong>NGUYEN VIET LINH</strong> 
                                         <br>Số tiền gửi: <strong>{{ number_format($amount) }} đ</strong> <br>Nội dung gửi: <strong>
                                             NAP_{{ $amount }}_{{ Auth::user()->email }}</strong></td>
                                  </tr>

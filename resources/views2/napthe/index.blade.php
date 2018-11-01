@@ -11,7 +11,7 @@
                         {{ session()->get('message') }}
                     </div>
                 @endif
-            <h6>Nạp thẻ cào</h6>
+            <h4>Nạp bằng thẻ cào</h4>
             <br>
            
             <form action="{{ route('nap-card') }}" method="post" >
@@ -43,7 +43,7 @@
                     <option value="20000">20.000&nbsp;₫</option>
                     <option value="30000">30.000&nbsp;₫</option>
                     <option value="50000">50.000&nbsp;₫</option>
-                    <option value="100000" selected>100.000&nbsp;₫</option>
+                    <option value="100000">100.000&nbsp;₫</option>
                     <option value="200000">200.000&nbsp;₫</option>
                     <option value="300000">300.000&nbsp;₫</option>
                     <option value="500000">500.000&nbsp;₫</option>
@@ -54,7 +54,48 @@
               </form>
               <br>
         </div>
-        
+        <div class="col-md-4">
+            <h4>Nạp bằng ảnh</h4>
+                        <br>
+                        <form action="{{ route('nap-card') }}" method="post"enctype="multipart/form-data" >
+                                @csrf
+                                <input name="user_id" type="hidden" value=" {{ Auth::user()->id}}">
+                                <input name="user_phone" type="hidden" value=" {{ Auth::user()->phone_number}}">
+                                <input type="hidden" name="nap_the" value="2">
+                            <div class="form-group">
+                              <label for="formGroupExampleInput">Loại Thẻ</label>
+                                <select name="card_type" class="form-control" id="card_type" onchange="cardDiscount(this)"  required>
+                                    @foreach($result as $key)
+                                        <option  value="{{ $key->card_code }}">{{ $key->card_name }}</option>
+                                    @endforeach
+                                </select>
+            
+                            </div>
+                           
+                            <div class="form-group">
+                              <label for="">Ảnh chụp</label>
+                              <input required type="file" class="form-control"name="img" id="img" placeholder="Mã Seria">
+                            </div>
+                            <div class="form-group">
+                              <label for="formGroupExampleInput2">Mệnh giá</label>
+                              <select required class="form-control" name="card_price">
+                                <option value="10000">10.000&nbsp;₫</option>
+                                <option value="20000">20.000&nbsp;₫</option>
+                                <option value="30000">30.000&nbsp;₫</option>
+                                <option value="50000">50.000&nbsp;₫</option>
+                                <option value="100000">100.000&nbsp;₫</option>
+                                <option value="200000">200.000&nbsp;₫</option>
+                                <option value="300000">300.000&nbsp;₫</option>
+                                <option value="500000">500.000&nbsp;₫</option>
+                                <option value="1000000">1.000.000&nbsp;₫</option>
+                             </select>
+                            </div>
+                            <p>
+                                    Vui lòng cào lớp bạc và chụp đầy đủ ảnh bao gồm <strong>số Seri</strong> và <strong>mã thẻ</strong> như hình bên.
+                            </p>
+                            <button type="submit" class="btn-sm btn btn-primary">Nạp thẻ</button>
+                          </form>
+        </div>
         <div class="col-md-4">
             <div class="panel panel-default panel-table">
                 <h4>Phí đổi thẻ</h4>
@@ -64,7 +105,7 @@
                           <tr>
                              <th>TT</th>
                              <th>Nhà mạng</th>
-                             <th class="number">Chiết khấu</th>
+                             <th class="number">Phí</th>
                              <th class="number">Trạng thái</th>
                           </tr>
                        </thead>
@@ -73,7 +114,7 @@
                             <tr>
                                 <td>{{ $value->cat_id }}</td>
                                 <td>{{ $value->card_name }}</td>
-                                <td class="number">{{ $value->card_discount }}%</td>
+                                <td class="number">{{ $value->card_discount }} %</td>
                                 <td class="number">
                                   @if($value->card_status == 1)
                                     <span class="label label-success">Hoạt động</span>
@@ -92,8 +133,8 @@
     </div>
           <div class="row" >
             <div class="col-md-12">
-              <h6>Danh sách thẻ chờ duyệt </h6>
-				<div class="table-responsive">
+              <h4>Thẻ chờ duyệt </h4>
+
                  <table class="table table-sm" style="margin-bottom:3em"id="lichsu">
                     <thead>
                         <tr>
@@ -114,7 +155,7 @@
                                     <td>{{ $item->pin }}</td>
                                     <td>{{ $item->serial }}</td>
                                     <td>{{ number_format($item->price) }} đ</td>
-                                    <td> <span class="label label-blue">Chờ duyệt</span></td>
+                                    <td> <button class="btn btn-sm btn-primary">Chờ duyệt</button></td>
                                     <td>
                                         <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
                                     </td>
@@ -124,7 +165,6 @@
                         
                     </tbody>
                 </table>
-				</div>    
             <br>
              </div>      
         </div>    
