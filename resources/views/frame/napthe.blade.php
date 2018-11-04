@@ -184,7 +184,7 @@
                     htmlResult += "<div class='text-left'>"+dataResultLog[key].title+ " " + dataResultLog[key].content+"</div>"
                    
                 })
-                $('#log_title').append(htmlResult);
+                $('#log_title').html("").append(htmlResult);
 
                 //payment
                 var status_html = "";
@@ -215,7 +215,7 @@
                     htmlPayment += "<tr> <td>"+ dataResultPayment[key].pin+"</td><td>"+ dataResultPayment[key].serial+ "</td><td>"+dataResultPayment[key].price.toLocaleString()+ "đ"+"</td>"+"<td>"+status_html+"</td></tr>" 
                    
                 })
-                $('#log_payment').append(htmlPayment);
+                $('#log_payment').html("").append(htmlPayment);
             }
         });
       

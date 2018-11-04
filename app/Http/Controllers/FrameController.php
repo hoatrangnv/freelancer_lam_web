@@ -188,10 +188,10 @@ class FrameController extends Controller
                     
                
                 // return $result;
-                
-                return redirect()->action(
-                    'FrameController@naptheConfirm', ['result'=>$result,'card_name' =>$card_name,'mess' =>$mess,'link_id'=>$link_id]
-                );
+                return redirect()->back();
+                // return redirect()->action(
+                //     'FrameController@naptheConfirm', ['result'=>$result,'card_name' =>$card_name,'mess' =>$mess,'link_id'=>$link_id]
+                // );
                  
             
         }
