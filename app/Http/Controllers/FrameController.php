@@ -188,7 +188,7 @@ class FrameController extends Controller
                     
                
                 // return $result;
-                //  return view('frame.confirm',compact(['username','result','price_of_link','card_name','mess','link_id']));
+                
                 return redirect()->action(
                     'FrameController@naptheConfirm', ['result'=>$result,'card_name' =>$card_name,'mess' =>$mess,'link_id'=>$link_id]
                 );
@@ -225,8 +225,14 @@ class FrameController extends Controller
        ///TODO
        $check = TermUser::where('phone','=',$phone)->count();
        if($check < 1) {
-        $mess_error = "Số điện thoại không tồn tại.";
-        return response($mess_error);
+        $mess = "Số điện thoại không tồn tại.";
+        return response()->json([
+            'data' => [
+                'mess' =>$mess,
+                'log' =>'',
+                'payment' =>''
+            ]
+        ]);
        }else{
            
             $result = TermUser::where('phone','=',$phone)->first();
@@ -239,18 +245,24 @@ class FrameController extends Controller
             $link = Link::find($link_id);
             $status_card_error = $link->status_card_error;
             $money_error = $link->money_error;
+            //get log payment
+            $log = LogPayment::where('title',$phone)
+                              ->orderBy('created_at')
+                               ->limit(5)->get();
+            // return $log;\\\\\\\\\\\\\\\\\\
             /// so sanh
             if($money >= $price) 
             {
                 $mess = "Nạp thẻ thành công:  " .$link->content;
                 // reset money
                 $term = TermUser::where('phone',$phone)
-                ->update(['money' => 0,'price' => 0,'price_term' => 0,'money_error' => 0,'status_card_error'=> 0]);
-                //log
-                $log = LogPayment::create([
+                ->update(['money' => 0,'price_term' => 0,'money_error' => 0,'status_card_error'=> 0]);
+                //create log
+                $createlog = LogPayment::create([
                     'title' => $phone,
                     'content' => $link->content .date('Y-m-d H:i:s')
                 ]);
+
                 $list_payment = Payment::where('link_id',$link_id)
                                         ->where('phone',$phone)
                                         ->get();
@@ -269,7 +281,7 @@ class FrameController extends Controller
                 return response()->json([
                     'data' => [
                         'mess' =>$mess_null,
-                        'log' => '',
+                        'log' => $log,
                         'payment' =>''
                     ]
                 ]);
@@ -280,7 +292,7 @@ class FrameController extends Controller
                 return response()->json([
                     'data' => [
                         'mess' =>$mess_null,
-                        'log' => '',
+                        'log' => $log,
                         'payment' =>''
                     ]
                 ]);
@@ -291,7 +303,7 @@ class FrameController extends Controller
                 return response()->json([
                     'data' => [
                         'mess' =>$mess_null,
-                        'log' => '',
+                        'log' => $log,
                         'payment' =>''
                     ]
                 ]);
@@ -302,7 +314,7 @@ class FrameController extends Controller
                 return response()->json([
                     'data' => [
                         'mess' =>$mess_null,
-                        'log' => '',
+                        'log' => $log,
                         'payment' =>''
                     ]
                 ]);
@@ -313,7 +325,7 @@ class FrameController extends Controller
                 return response()->json([
                     'data' => [
                         'mess' =>$mess_null,
-                        'log' => '',
+                        'log' => $log,
                         'payment' =>''
                     ]
                 ]);
@@ -326,7 +338,7 @@ class FrameController extends Controller
                 return response()->json([
                     'data' => [
                         'mess' =>$mess_null,
-                        'log' => '',
+                        'log' => $log,
                         'payment' =>''
                     ]
                 ]);
@@ -340,7 +352,7 @@ class FrameController extends Controller
                 return response()->json([
                     'data' => [
                         'mess' =>$mess_pending,
-                        'log' =>'',
+                        'log' =>$log,
                         'payment' =>$list_payment
                     ]
                 ]);
@@ -349,4 +361,11 @@ class FrameController extends Controller
        
 
     } 
+
+
+    public function searchInFrame(Request $request)
+    {
+        $link = Link::find($request->link_id);
+
+    }
 }
