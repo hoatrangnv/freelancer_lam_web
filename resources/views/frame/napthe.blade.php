@@ -135,7 +135,10 @@
                  
                             </div>
                             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
+                                <table class="table table-sm table-bordered">
+                                        <tr><th>Mã pin</th><th>Mã serial</th><th>Giá</th><th>Trạng thái</th></tr>
+                                        <tbody  id="log_payment"></tbody>
+                                </table>
                             </div>
                             <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
                                 Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
@@ -164,18 +167,55 @@
                 var JSONObject  = JSON.parse(result)
                   var dataResult  = JSONObject.data;
                   var html = "";
+                
+                //mess  
                 Object.keys(dataResult).forEach(function(key) {
                    mess = dataResult.mess;
                    $('#ketqua').html("").html(mess)
                 })
                 var htmlResult = "";
+                var htmlPayment = "";
                 var dataResultLog = JSONObject.data.log;
+                var dataResultPayment = JSONObject.data.payment; 
+
+                //log
                 Object.keys(dataResultLog).forEach(function(key) {
                     console.log(dataResultLog)
                     htmlResult += "<div class='text-left'>"+dataResultLog[key].title+ " " + dataResultLog[key].content+"</div>"
                    
                 })
                 $('#log_title').append(htmlResult);
+
+                //payment
+                var status_html = "";
+                Object.keys(dataResultPayment).forEach(function(key) {
+                    console.log(dataResultPayment)
+                    var status = dataResultPayment[key].payment_status;
+                    switch(status) {
+                        case 0:  
+                           status_html = " <span class='label label-blue'>Chờ duyệt</span>"
+                        break
+                        case 1:
+                        status_html = "  <span class='label label-info'>Đang xử lý</span> "
+                        break
+                        case 2:
+                        status_html = "  <span class='label label-success'>Thành công</span> "
+                        break
+                        case 3:
+                        status_html = "  <span class='label label-danger'>Hủy</span>"
+                        break
+                        case 4:
+                        status_html = " <span class='label label-danger'>Thẻ sai</span>"
+                        break
+                        case 5:
+                        status_html = "<span class='label label-warning'>Bảo trì</span>"
+                        break
+                    }
+        
+                    htmlPayment += "<tr> <td>"+ dataResultPayment[key].pin+"</td><td>"+ dataResultPayment[key].serial+ "</td><td>"+dataResultPayment[key].price.toLocaleString()+ "đ"+"</td>"+"<td>"+status_html+"</td></tr>" 
+                   
+                })
+                $('#log_payment').append(htmlPayment);
             }
         });
       

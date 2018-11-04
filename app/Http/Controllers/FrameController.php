@@ -250,6 +250,10 @@ class FrameController extends Controller
                               ->orderBy('created_at')
                                ->limit(5)->get();
             // return $log;\\\\\\\\\\\\\\\\\\
+            $list_payment = Payment::where('link_id',$link_id)
+                            ->where('phone',$phone)
+                            ->get();
+                           
             /// so sanh
             if($money >= $price) 
             {
@@ -262,11 +266,6 @@ class FrameController extends Controller
                     'title' => $phone,
                     'content' => $link->content .date('Y-m-d H:i:s')
                 ]);
-
-                $list_payment = Payment::where('link_id',$link_id)
-                                        ->where('phone',$phone)
-                                        ->get();
-
                 return response()->json([
                     'data' => [
                         'mess' =>$mess,
@@ -282,7 +281,7 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>''
+                        'payment' => $list_payment 
                     ]
                 ]);
             } 
@@ -293,7 +292,7 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>''
+                        'payment' =>  $list_payment 
                     ]
                 ]);
             } 
@@ -304,7 +303,7 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>''
+                        'payment' =>  $list_payment 
                     ]
                 ]);
             } 
@@ -315,7 +314,7 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>''
+                        'payment' =>  $list_payment 
                     ]
                 ]);
             }
@@ -326,7 +325,7 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>''
+                        'payment' =>  $list_payment 
                     ]
                 ]);
             } 
@@ -339,7 +338,7 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>''
+                        'payment' =>  $list_payment 
                     ]
                 ]);
             } 
