@@ -111,7 +111,12 @@
                   <div class="col-md-6 col-xs-12 col-sm-12">
                     <br>
                     <h4 class="text-center">Thông tin nạp thẻ</h4>
-                    <p class="text-success"></p>
+                    @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
+                   
                     <p class="text-danger">Nhập vào số điện thoại, bạn vừa nhập ở phần nạp tiền, để kiểm tra trạng thái thẻ nạp</p>
                        <div class="text-center">
                             <input type="number" name="phone_number" class="form-controll" id="phone_number" placeholder="Nhập vào số điện thoại" required>
@@ -141,7 +146,6 @@
                                 </table>
                             </div>
                             <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
                             </div>
                         </div>
                   </div>
