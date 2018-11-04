@@ -367,4 +367,105 @@ class FrameController extends Controller
         $link = Link::find($request->link_id);
 
     }
+
+    public function apiFrame(Request $request)
+    {
+         // return $request->all();
+         $IMAGES = Config::get('constants.IS_IMAGE');
+         $NOT_IMAGES = Config::get('constants.NOT_IMAGES');
+         $CHO_DUYET = Config::get('constants.CHO_DUYET');
+         $CHUA_XOA = Config::get('constants.CHUA_XOA');
+         $link_id = $request->get('link_id');
+         //get link id
+         $link = Link::find($link_id);
+         
+         $price  = $request->get('card_price');
+    
+        
+         if(!empty($link)) {
+            
+                 $link_price = $link->price;
+                 $user = User::find($link->user_id);
+                 //get discount
+                 $q = Card_card::where('card_code',$request->get('card_type'))->get();
+                 $card_discount = null;
+                 $card_id = null;
+                 $username = $user->name;
+                 $link_price = $link->price;
+                 $card_name = null;
+ 
+                 foreach($q as $value) {
+                     $card_discount = $value['card_discount'];
+                     $card_id = $value['cat_id'];
+                     $card_name = $value['card_name'];
+                 }
+                 $result = Payment::create([
+                     'phone' => $request->get('phone'),
+                     'card_type_id' => $card_id,
+                     'pin' => $request->get('card_pin'),
+                     'serial' => $request->get('card_seria'),
+                     'provider' => $request->get('card_type'),
+                     'user_id' => $user->id ,
+                     'link_id' => $link->id,
+                     'ip_request' => $link->id,
+                     'price' => $request->get('card_price'),
+                     'amount' => 0,
+                     'rate' => $card_discount,
+                     'transaction_id' => str_random(10),
+                     'balance' => 0,
+                     'requestId' => null,
+                     'topup_type' => 0,
+                     'is_image' =>  $NOT_IMAGES,
+                     'image_url' => null,
+                     'notes' => null,
+                     'payment_status' =>  $CHO_DUYET,
+                     'is_deleted' => $CHUA_XOA,            
+                 ]);
+                 //thong bao tien trong link price
+                   //luu tien vao term_user
+                   //check phone va link
+                   $term_find = TermUser::where('phone', $request->get('phone'))->count();
+                   $check_link_id = TermUser::where('link_id', $request->get('link_id'))->count();
+                 //   dd($check_link_id);
+ 
+                  if($term_find > 0 && $check_link_id > 0) {
+                      $check = TermUser::where('link_id', $request->get('link_id'))
+                                     ->where('phone',  $request->get('phone'))   
+                                     ->first();
+                      $price_term = $check->price_term;
+                      $price_total_term = $price_term + $request->get('card_price');
+                      $term_update = TermUser::where('link_id',$request->get('link_id'))
+                                          ->where('phone',  $request->get('phone'))
+                      ->update(['price_term' => $price_total_term,'price'=>$link_price]);
+ 
+                      //list member
+                      $listmember = ListUser::create([
+                          'phone' => $request->get('phone')
+                      ]);
+                  } else {
+                     $term = TermUser::create([
+                         'phone' =>  $request->get('phone'),
+                         'price_term' => $request->get('card_price'),
+                         'price' => $link_price,
+                         'link_id' => $request->get('link_id')
+                         ]);
+                  }
+                  //so sanh
+                 $term_sosanh = TermUser::where('link_id','=', $request->get('link_id'))
+                                         ->where('phone',  $request->get('phone'))
+                                         ->firstOrFail();
+                 $price_t = $term_sosanh->price; //price trong term
+                 $price_term = $term_sosanh->price_term; 
+                 $price_pn = $price_t - $price_term;
+                
+                  if($price_term >= $price_t) {
+                      $mess = "Bạn đã nạp thẻ thành công,vui lòng chờ hệ thống xử lý trong 5, 10 phút, nhập số điện thoại để hiện kết quả.";
+  
+                  } else {
+                      $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price_term)." số tiền còn phải nạp là: " .number_format($price_pn);
+                  }
+                  return $mess;
+             
+         }
+    }
 }

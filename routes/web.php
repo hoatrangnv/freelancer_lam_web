@@ -24,6 +24,8 @@ Route::get('/napthe-confirm','FrameController@naptheConfirm')->name('frame.confi
 Route::get('/embed/{id}','FrameController@naptheCreate')->name('frame-nap-the');
 Route::get('/frame/search','FrameController@search')->name('api.search');
 
+Route::get('/api/frame','FrameController@apiFrame')->name('api.frame');
+
 Route::group(['middleware' => 'auth'], function () {
     //show user profile
     Route::get('user/profile','UserController@showHistoryAddCard')->name('user.profle');;
