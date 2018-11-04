@@ -464,7 +464,9 @@ class FrameController extends Controller
                   } else {
                       $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price_term)." số tiền còn phải nạp là: " .number_format($price_pn);
                   }
-                  return $mess;
+                  return response()->json([
+                    'mess' =>$mess
+                  ]);
              
          }
     }
