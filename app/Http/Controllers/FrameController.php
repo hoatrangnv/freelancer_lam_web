@@ -476,7 +476,7 @@ class FrameController extends Controller
          }
          else {
              return response()->json([
-                 'code' =>400,
+                 'status' =>400,
                  'mess' => 'Link id không tồn tại'
              ]);
          }
