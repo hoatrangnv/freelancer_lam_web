@@ -460,14 +460,25 @@ class FrameController extends Controller
                 
                   if($price_term >= $price_t) {
                       $mess = "Bạn đã nạp thẻ thành công,vui lòng chờ hệ thống xử lý trong 5, 10 phút, nhập số điện thoại để hiện kết quả.";
-  
+                      return response()->json([
+                        'status' => '200',
+                        'mess' =>$mess
+                      ]);  
                   } else {
                       $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price_term)." số tiền còn phải nạp là: " .number_format($price_pn);
-                  }
-                  return response()->json([
-                    'mess' =>$mess
-                  ]);
+                      return response()->json([
+                        'status' => '300',
+                        'mess' =>$mess
+                      ]);
+                    }
+                 
              
+         }
+         else {
+             return response()->json([
+                 'code' =>400,
+                 'mess' => 'Link id không tồn tại'
+             ]);
          }
     }
 }
