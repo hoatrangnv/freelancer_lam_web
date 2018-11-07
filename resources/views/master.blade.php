@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>8Pay.Pro -v2 8Pay.vn- Tích hợp API - Nạp thẻ Mã nhúng frame viettel vinaphone mobilphone gate zing cho Website và Web Game shop</title>
+<title>@yield('title')</title>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128077888-1"></script>
 		<script>
@@ -20,7 +20,7 @@
 		</script>
 
     <!-- Bootstrap core CSS-->
-    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="shortcut icon" href="https://doithe.pro/assets/img/favicon_32x32.png">
     <!-- Custom fonts for this template-->
@@ -30,8 +30,8 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
-	
-	<!--SEO--><meta name="description" content="Cổng thanh toán trực tuyến 8pay.pro 8pay.vn webpay.vn smspay.vn doithecao247.vn doithe365.vn thecaosieure.com, thecaoplus.com | Cung cấp dịch vụ thanh toán online, tích hợp nạp thẻ, thu mua thẻ cào chiết khấu thấp nhất thị trường, Đổi Thẻ Cào Sang Tiền ATM | Uy Tín - Rút Tiền Nhanh - Đổi Thẻ Cào Thành Tiền Uy Tín | Rút Tiền Nhận Ngay 5-10p‎ - đổi thẻ cào thành tiền san the 247 doi the cao doithe247 nap 247 thu mua thẻ cào thecao247 banthe247 thecao247- doi the cao thanh tien mat, doi the cao, doi card, đổi thẻ điện thoại thành tiền, đổi thẻ điện thoại thành tiền mặt, đổi thẻ thành tiền mặt, đổi thẻ điện thoại, doi the cao thanh tien mat, đổi thẻ viettel , doi the dien thoai sang tien mat, đổi thẻ sang tiền mặt, đổi thẻ, đổi tiền điện thoại sang tiền mặt , đổi thẻ game, đổi thẻ điện thoại ra tiền mặt, đổi tiền từ thẻ điện thoại, đổi thẻ ra tiền mặt , đổi mã thẻ điện thoại ra tiền mặt, cách đổi thẻ điện thoại sang tiền mặt, hướng dẫn đổi thẻ điện thoại ra tiền mặt , đổi thẻ nhanh, đổi thẻ viettel sang tiền mặt, đổi thẻ cào thành tiền, đổi tiền từ thẻ điện thoại sang tiền mặt, cách đổi tiền điện thoại sang tiền mặt, đổi thẻ cào, đổi tiền từ tài khoản điện thoại, đổi thẻ cào thành tiền mặt"> 
+
+	<!--SEO--><meta name="description" content="Cổng thanh toán trực tuyến 8pay.pro 8pay.vn webpay.vn smspay.vn doithecao247.vn doithe365.vn thecaosieure.com, thecaoplus.com | Cung cấp dịch vụ thanh toán online, tích hợp nạp thẻ, thu mua thẻ cào chiết khấu thấp nhất thị trường, Đổi Thẻ Cào Sang Tiền ATM | Uy Tín - Rút Tiền Nhanh - Đổi Thẻ Cào Thành Tiền Uy Tín | Rút Tiền Nhận Ngay 5-10p‎ - đổi thẻ cào thành tiền san the 247 doi the cao doithe247 nap 247 thu mua thẻ cào thecao247 banthe247 thecao247- doi the cao thanh tien mat, doi the cao, doi card, đổi thẻ điện thoại thành tiền, đổi thẻ điện thoại thành tiền mặt, đổi thẻ thành tiền mặt, đổi thẻ điện thoại, doi the cao thanh tien mat, đổi thẻ viettel , doi the dien thoai sang tien mat, đổi thẻ sang tiền mặt, đổi thẻ, đổi tiền điện thoại sang tiền mặt , đổi thẻ game, đổi thẻ điện thoại ra tiền mặt, đổi tiền từ thẻ điện thoại, đổi thẻ ra tiền mặt , đổi mã thẻ điện thoại ra tiền mặt, cách đổi thẻ điện thoại sang tiền mặt, hướng dẫn đổi thẻ điện thoại ra tiền mặt , đổi thẻ nhanh, đổi thẻ viettel sang tiền mặt, đổi thẻ cào thành tiền, đổi tiền từ thẻ điện thoại sang tiền mặt, cách đổi tiền điện thoại sang tiền mặt, đổi thẻ cào, đổi tiền từ tài khoản điện thoại, đổi thẻ cào thành tiền mặt">
 	<meta name="keywords" content="doithe, doithe.vn, doithe.pro, 8pay.vn webpay.vn smspay.vn doithecao247.vn doithe365.vn thecaosieure.com, doi the cao, doi card thanh the game, doi the thanh tien, thu mua mã thẻ, thu mua ma the, doi the, đổi thẻ, charging nho">
 	<meta property="og:title" content="Thu mua mã thẻ - Đổi thẻ - Thu mua thẻ cào trực tuyến. Cung cấp dịch vụ thanh toán online, thu mua thẻ cào chiết khấu thấp nhất thị trường.">
 	<meta property="og:description" content="- Thu mua thẻ cào trực tuyến. Cung cấp dịch vụ thanh toán online, thu mua thẻ cào chiết khấu thấp nhất thị trường., đổi thẻ điện thoại thành tiền, đổi thẻ điện thoại thành tiền mặt , đổi thẻ thành tiền mặt, đổi thẻ điện thoại, doi the cao thanh tien mat, đổi thẻ viettel , doi the dien thoai sang tien mat, đổi thẻ sang tiền mặt, đổi thẻ, đổi tiền điện thoại sang tiền mặt , đổi thẻ game, đổi thẻ điện thoại ra tiền mặt, đổi tiền từ thẻ điện thoại, đổi thẻ ra tiền mặt , đổi mã thẻ điện thoại ra tiền mặt, cách đổi thẻ điện thoại sang tiền mặt, hướng dẫn đổi thẻ điện thoại ra tiền mặt , đổi thẻ nhanh, đổi thẻ viettel sang tiền mặt, đổi thẻ cào thành tiền, đổi tiền từ thẻ điện thoại sang tiền mặt , cách đổi tiền điện thoại sang tiền mặt, đổi thẻ cào, đổi tiền từ tài khoản điện thoại, đổi thẻ cào thành tiền mặt"> <meta property="og:keywords" content="doithe.vn, thu mua mã thẻ, thu mua ma the, doi the, đổi thẻ">
@@ -56,11 +56,11 @@
       <!-- Navbar Search -->
       <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <div class="input-group">
-         
+
         </div>
       </form>
 
-      
+
 <!-- Navbar -->
       <ul class="navbar-nav ml-auto ml-md-0">
         @if(Auth::guest())
@@ -71,11 +71,11 @@
         </li>
 		<li class="nav-item dropdown no-arrow mx-1">
           <a class="nav-link dropdown-toggle" href="/login">
-           
+
             Đăng Nhập
           </a>
         </li>
-        
+
         @else
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -87,7 +87,7 @@
             <a class="dropdown-item" href="#">Đóng băng:  {{ number_format(Auth::user()->tam_giu) }}  đ</a>
             <a class="dropdown-item" href="#">Tài khoản 2:  {{ number_format(Auth::user()->money_2) }} đ</a>
             <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{{ route('logout') }}" 
+        <a class="dropdown-item" href="{{ route('logout') }}"
         onclick="event.preventDefault();
                  document.getElementById('logout-form').submit();">Đăng xuất</a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -105,7 +105,7 @@
 
 
       <ul class="sidebar navbar-nav">
-        
+
         <li class="nav-item">
           <a class="nav-link" href="/">
             <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -132,7 +132,7 @@
               <i class="fas fa-fw fa-chart-area"></i>
               <span>Lịch sử</span></a>
           </li>
-       
+
         <li class="nav-item">
           <a class="nav-link" href="{{ route('rut-tien') }}">
             <i class="fas fa-fw fa-chart-area"></i>
@@ -148,9 +148,9 @@
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Tích hợp mã nhúng </span></a>
         </li>
-      
-       
- 
+
+
+
           @if(Auth::user() && Auth::user()->is_Admin > 0)
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -160,21 +160,21 @@
               <div class="dropdown-menu" aria-labelledby="pagesDropdown">
               @if(Auth::user()->is_Admin == 2 || Auth::user()->is_Admin == 10  || Auth::user()->is_Admin == 8)
                 <a class="dropdown-item" href="{{ route('admin.danh-sach-the-cao') }}">Danh sách thẻ nạp</a>
-              @endif  
+              @endif
               @if(Auth::user()->is_Admin == 3 || Auth::user()->is_Admin == 10 || Auth::user()->is_Admin == 8)
                 <a class="dropdown-item" href="{{ route('admin.danh-sach-rut-tien') }}">Danh sách rút tiền</a>
-                @endif  
+                @endif
                 @if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
                 <a class="dropdown-item" href="{{ route('admin.nap-tien') }}">Danh sách nạp tiền</a>
-                @endif  
+                @endif
                 @if(Auth::user()->is_Admin == 5 || Auth::user()->is_Admin == 10 || Auth::user()->is_Admin == 8)
-                <a class="dropdown-item" href="{{ route('admin.mua-the') }}">Danh sách mua thẻ</a> 
-                @endif  
-                
+                <a class="dropdown-item" href="{{ route('admin.mua-the') }}">Danh sách mua thẻ</a>
+                @endif
+
               </div>
             </li>
           @endif
-    
+
       </ul>
 
       <div id="content-wrapper">
@@ -196,7 +196,7 @@
 
 
           <!-- Page Content -->
-        
+
           <hr>
          @yield('content')
 
