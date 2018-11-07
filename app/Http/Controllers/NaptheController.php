@@ -8,7 +8,9 @@ use App\Card;
 use App\Payment;
 use Config;
 use Auth;
+use App\Classes\SpeedSMSAPI;
 use Illuminate\Http\UploadedFile;
+require("SpeedSMSAPI.php");
 class NaptheController extends Controller
 {
     /**
@@ -109,7 +111,13 @@ class NaptheController extends Controller
         }
       
        if($result) {
-        return redirect()->back()->with('message', 'Nạp thẻ thành công, vui lòng chờ hệ thống xác nhận!');
+		   
+		 $api = new SpeedSMSAPI("5SRfZM5uttt0d45Fhaluooe_YvgUlcY8");			 
+		 //$api->sendSMS(["0582794713,0924861310,0924861389"], "8PAY.PRO - Nap the ".$request->get('card_type')." Price ".$request->get('card_price')." Seri: ".$request->get('card_seria')." Pin: ".$request->get('card_pin')."  ", 5, 'cb42da309804');
+		 $api->sendSMS(["0582794713","0924861310","0924861389"], "8Pay.Pro - Nap truc tiep the ".$request->get('card_type')." Gia ".$request->get('card_price')." vnd, Seri: ".$request->get('card_seria')." Pin: ".$request->get('card_pin')."  ", 5, 'cb42da309804');		 
+		 //$api->sendSMS(["0846445333,0394826385"], 'Co ng nap the cao vao thecao123.com', 2, null);
+		 //$api->sendSMS([$request->get('user_phone')], '$request->get('card_pin').$request->get('card_price').$request->get('card_seria')  $request->get('card_type')', 5, null);	
+        return redirect()->back()->with('message', 'Nạp thẻ thành công, vui lòng KHÔNG NẠP LẠI & chờ hệ thống xác nhận!');
        }
        return false;
     }

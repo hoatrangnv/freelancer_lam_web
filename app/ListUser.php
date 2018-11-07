@@ -17,5 +17,12 @@ class ListUser extends Model
         'location',
         'money',
         'note',
+		"created_at",
+		"updated_at",		
+		"getlink",	
+		"getagent",	
+		"getlanguage",
+		
+		
     ];
 }

@@ -3,8 +3,9 @@
     Dach Sách Thẻ Nạp
 @endsection
 @section('content')
+
     <div class="row">
-       
+
         <div class="col-md-12">
                 @if(session()->has('message'))
                 <div class="alert alert-success">
@@ -18,14 +19,15 @@
                                 <th>ID</th>
                                 <th>Mã</th>
 				<!--<th>Mã Seria</th> -->
-                                <th>Loại Thẻ</th>
+                                <th>Thẻ</th>
                                 <th>Giá Tiền</th>
+                                <th>Trạng Thái</th>
+                                <th>Hành Động</th>
                                 <th>Người Nạp</th>
                                 <th>Ảnh</th>
                                 <th>Nguồn nạp</th>
-                                <th>Trạng Thái</th>
                                 <th>Ghi chú</th>
-                                <th>Hành Động</th>
+                                <th>Ref - IP</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -47,40 +49,33 @@
                                     Seria: {{ $value->serial }}</td>
                                     <td>
                                       {{ $value->card_name }}
-                                    </td>
-                                    <td><span class="btn btn-sm btn-info">{{ number_format($value->price) }} đ</span> <br/> 
+									  <br/>
 
-				 @if($value->link_id > 0)  
 
-					{{number_format($value->price - (($value->price * ($value->rate + $value->chiet_khau_frame))/100))}} đ                                         
-                                        @else 
-					{{number_format($value->price - (($value->price * ($value->rate - $value->member))/100))}} đ 
+										@if($value->link_id > 0)
+
+											{{number_format($value->price - (($value->price * ($value->rate + $value->chiet_khau_frame))/100))}}
+                                        @else
+											{{number_format($value->price - (($value->price * ($value->rate - $value->member))/100))}}
                                         @endif
-	 
 
-
-				 </td>
-                                    <td>{{ $value->name }}<br/>{{ $value->phone_number }} {{ $value->money_1 }}</td>
-                                    <td> 
-									@if($value->is_image == 0)                                           
-                                        <img src="{{ asset($value->image_url) }}" style="width:150px;" alt="">
-									@else                                           
-                                        @endif	
                                     </td>
-                                    <td>
-                                        @if($value->link_id > 0)  
-                                         <span class="text-primary">Mã nhúng {{ $value->link_id }}<br/> </span>  {{ $value->phone }}
-                                        @else 
-                                         <span class="label label-success">Trực tiếp</span>
-                                        @endif
-                                    </td>
+                                    <td align="center"><span class="label label-info">{{ number_format($value->price) }}</span> </td>
 
-
-                                    <td> {{ $value->created_at }} <br/>{{ $value->transaction_id }} {{ $value->notes }}<br/>  {{ $value->notes }} {{ $value->requestId }}  
-				    </td>
-                                    <td>
+										<td>
+                                        <select class="form-control" name="status" id="status" onchange="this.form.submit()">
+                                            <option value="">Hành động</option>
+                                            <option value="1">Đang xử lý</option>
+                                            <option value="2">Chấp nhận</option>
+                                            <option value="3">Hủy</option>
+                                            <option value="4">Thẻ sai</option>
+                                            <option value="5">Bảo trì</option>
+                                            <option value="6">Xóa</option>
+                                        </select>
+										</td>
+										<td align="center">
                                             @switch($value->payment_status)
-                                                @case(0)  
+                                                @case(0)
                                                     <span class="label label-blue">Chờ duyệt</span>
                                                 @break
                                                 @case(1)
@@ -101,17 +96,39 @@
                                             @endswitch
 
                                     </td>
+
+
+
+                                    <td>{{ $value->name }}<br/>{{ $value->phone_number }} - {{ $value->money_1 }}</td>
                                     <td>
-                                        <select class="form-control" name="status" id="status" onchange="this.form.submit()">
-                                            <option value="">Hành động</option>
-                                            <option value="1">Đang xử lý</option>
-                                            <option value="2">Chấp nhận</option>
-                                            <option value="3">Hủy</option>
-                                            <option value="4">Thẻ sai</option>
-                                            <option value="5">Bảo trì</option>
-                                            <option value="6">Xóa</option>
-                                        </select>
+									@if($value->is_image == 0)
+                                        <img src="{{ asset($value->image_url) }}" style="width:80px;" alt="">
+									@else
+                                        @endif
                                     </td>
+                                    <td>
+                                        @if($value->link_id > 0)
+                                          <span class="label label-success">Mã nhúng {{ $value->link_id }}</span><br/> </span> <a href="/embed/{{ $value->link_id }}" title="{{ $value->link_id }}">Link Frame</a> {{ $value->phone }}
+                                        @else
+                                         <span class="label label-success">Trực tiếp</span>
+                                        @endif
+										 <br/>{{ $value->transaction_id }}
+                                    </td>
+
+
+                                    <td> {{ $value->created_at }} <br/>
+									<button type="button" class="label label-blue" data-toggle="collapse" data-target="#demo">
+									<?php echo substr($value->notes, 0, 20); ?></button>
+									<div id="demo" class="collapse in"> {{ $value->notes }}  </div>
+
+									</td>
+
+									 <td>
+									 <button type="button" class="label label-blue" data-toggle="collapse" data-target="#demo2">
+									<?php echo substr($value->getlink, 6, 15); ?></button>
+									<div id="demo2" class="collapse in"> {{ $value->getlink }}  </div>
+									<br/>{{ $value->ip_request }}</td>
+
                                 </tr>
                             </form>
                                @endforeach
@@ -121,8 +138,8 @@
         </div>
     </div>
     <div style="float: right;margin-top:5%"class="text-center">{{ $result->links() }}</div>
-   
+
     <script>
-     
+
     </script>
 @endsection

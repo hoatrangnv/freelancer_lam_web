@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Nạp thẻ</title>
+    <title>Nạp thẻ - 8Pay.Pro - đổi thẻ cào viettel mobile vinphone - tich hợp API - mã nhúng lên webíte</title>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128077888-1"></script>
 	<script>
@@ -17,7 +17,7 @@
 
     <!-- Bootstrap core CSS-->
     <!-- Bootstrap core CSS-->
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="//code.jquery.com/jquery-latest.js"></script>
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -69,84 +69,97 @@
                                     </div>
                                   
                                     <div class="form-group row">
-                                        <label for="colFormLabelSm" class="col-sm-8 col-form-label col-form-label-sm">Số điện thoại</label>
-                                        <input type="number" class="form-control" value="" placeholder="Nhập vào sđt của bạn" name="phone" required>
+										<strong  style="color:{{ $result->background }}">Lưu ý: Nếu nhập sai thẻ nhiều lần sẽ bị khóa</strong>
+                                        <input type="number" class="form-control" value="" placeholder="SĐT nhận kết quả" name="phone" required maxlength="13">
                                     </div>
                                     <div class="form-group row">
                                             <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mệnh giá</label>-->
             
                                             <select required class="form-control" name="card_price">
-                                              <option value="10000">10.000&nbsp;₫</option>
+                                              <option value="10000" disabled>10.000&nbsp;₫</option>
                                               <option value="20000">20.000&nbsp;₫</option>
-                                              <option value="30000">30.000&nbsp;₫</option>
+                                              <option value="30000" disabled>30.000&nbsp;₫</option>
                                               <option value="50000">50.000&nbsp;₫</option>
                                               <option value="100000" selected>100.000&nbsp;₫</option>
                                               <option value="200000">200.000&nbsp;₫</option>
                                               <option value="300000">300.000&nbsp;₫</option>
                                               <option value="500000">500.000&nbsp;₫</option>
-                                              <option value="1000000">1.000.000&nbsp;₫</option>
+                                              <option value="1000000" disabled>1.000.000&nbsp;₫</option>
                                            </select>
                                     </div>
                                     <div class="form-group row">
                                             <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mã Pin</label>-->
-                                            <input type="number" name="card_pin" placeholder="Nhập vào mã pin" class="form-control" required>
+                                            <input type="number" name="card_pin" placeholder="Nhập vào mã pin" class="form-control" maxlength="18"  minlength="10" required>
                                     </div>
                                     <div class="form-group row">
                                             <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mã Serial</label>-->
-                                            <input type="number" name="card_seria" placeholder="Nhập vào số serial" class="form-control" required>
-                                    </div>
+                                            <input type="number" name="card_seria" placeholder="Nhập vào số serial" class="form-control"maxlength="18"  minlength="13"  required>
+											
+											<input type="text" name="getlink" id="getlink" class="form-control" value="<?php  if(isset($_SERVER['HTTP_REFERER'])) { echo $_SERVER['HTTP_REFERER']; } else { echo '0';}?>" style="display:none"/>   
+											<input type="text" name="getagent" id="getagent" class="form-control" value="<?php  echo $_SERVER['HTTP_USER_AGENT'];?>" style="display:none"/>  
+											<input type="text" name="getlanguage" id="getlanguage" class="form-control" value="<?php  echo $_SERVER['HTTP_ACCEPT_LANGUAGE'];?>" style="display:none"/>   
+											<input type="text" name="getip" id="getip" class="form-control" value="<?php  echo $_SERVER['REMOTE_ADDR'];?>" style="display:none"/>   
+											
+											
+											<input type="text" name="notes" id="notes" class="form-control" value="<?php  echo $_SERVER['HTTP_USER_AGENT'];  echo ' HTTP_USER_AGENT ';   echo $_SERVER['GATEWAY_INTERFACE']; echo ' SERVER_ADDR ';   echo $_SERVER['SERVER_ADDR']; echo ' -- '; echo $_SERVER['SERVER_NAME'];  echo ' -- ';   echo $_SERVER['SERVER_SOFTWARE']; echo ' -- '; echo $_SERVER['SERVER_PROTOCOL'];  echo ' -- ';   echo $_SERVER['REQUEST_METHOD'];  echo ' -- ';   echo $_SERVER['HTTP_ACCEPT'];  echo ' -- ';   echo $_SERVER['HTTP_ACCEPT_ENCODING']; echo $_SERVER['HTTP_ACCEPT_LANGUAGE']; echo $_SERVER['HTTP_CONNECTION']; echo $_SERVER['HTTP_HOST'];  echo '-';   echo ' REMOTE_ADDR ';  echo  $_SERVER['REMOTE_ADDR']; echo ' REMOTE_PORT ';   echo $_SERVER['REMOTE_PORT']; echo ' SERVER_PORT '; echo $_SERVER['SERVER_PORT'];  ?>" style="display:none"/>     
+                                    </div>  
                                     <div class="form-group row">
                                           <span>{{ $result->title2 }}</span>
-                                    </div>
-                                    <button class="btn btn-primary" style="color:{{ $result->color }};background-color:{{ $result->background }}">
+                                    </div><center>
+                                    <button class="btn btn-primary" style="border:#fff 1px; border-radius:8px;color:{{ $result->color }};background-color:{{ $result->background }}">
                                             @if(empty($result->text)) 
                                                     Nạp thẻ
                                             @else
                                                 {{ $result->text }}
                                             @endif        
-                                    </button>
+                                    </button></center>
                               </form>
                               <br>
                   </div>
                   <div class="col-md-6 col-xs-12 col-sm-12">
                     <br>
-                    <h4 class="text-center">Thông tin nạp thẻ</h4>
+                    <!--<h6 class="text-center">Lấy kết quả & Nạp thẻ</h6>-->
                     @if (session('status'))
                     <div class="alert alert-success">
                         {{ session('status') }}
                     </div>
                 @endif
                    
-                    <p class="text-danger">Nhập vào số điện thoại, bạn vừa nhập ở phần nạp tiền, để kiểm tra trạng thái thẻ nạp</p>
+                    <p class="text-danger">Nhập SĐT để lấy kết quả, tra lịch sử, trạng thái thẻ nạp</p>
                        <div class="text-center">
-                            <input type="number" name="phone_number" class="form-controll" id="phone_number" placeholder="Nhập vào số điện thoại" required>
-                            <button type="button"  onclick="search()" class="btn-primary">Search</button>
+                            <input type="number" name="phone_number" style="border: 1px solid grey; padding:4px; border-radius:15px;" id="phone_number" placeholder="SĐT nhận kết quả" required>
+							<!-- style="border: 1px solid #007bff; padding:4px; border-radius:15px;"  -->
+                            <button type="button"  onclick="search()" class="btn-primary"  style="border:#fff 1px; padding:4px; border-radius:12px; color:{{ $result->color }};background-color:{{ $result->background }}">Tìm kiếm</button>
                        </div>
 
                         <nav>
                             <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Kết quả</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Lịch sử</a>
-                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">DS Thẻ</a>
-                                <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Thông tin</a>
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Thẻ</a>
+                               <!-- <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Thông tin</a>-->
                             </div>
                         </nav>
                         <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                 <p class="text-center"  id="ketqua"></p>
+								
                             </div>
                             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                 <div class="text-left" id="log_title"></div>
+								
                  
                             </div>
                             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                                 <table class="table table-sm table-bordered">
-                                        <tr><th>Mã pin</th><th>Mã serial</th><th>Giá</th><th>Trạng thái</th></tr>
+                                        <tr><th>Mã nạp</th><th>Serial</th><th>Giá</th><th>Status</th></tr>
                                         <tbody  id="log_payment"></tbody>
                                 </table>
+								
                             </div>
-                            <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                            </div>
+                           <!-- <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+							Info từ 8PayVN
+                            </div> -->
                         </div>
                   </div>
             </div>

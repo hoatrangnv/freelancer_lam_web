@@ -16,6 +16,9 @@ class TermUser extends Model
         'money',
         'link_id',
         'money_error',
-        'status_card_error'
+        'status_card_error',
+        'getagent',
+        'getlanguage',
+        'getlink',
     ];
 }

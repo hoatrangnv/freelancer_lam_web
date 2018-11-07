@@ -130,7 +130,7 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ route('frame.index') }}">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Tích hợp vào website </span></a>
+            <span>Tích hợp mã nhúng </span></a>
         </li>
       
        
@@ -154,12 +154,15 @@
                 @if(Auth::user()->is_Admin == 5 || Auth::user()->is_Admin == 10 || Auth::user()->is_Admin == 8)
                 <a class="dropdown-item" href="{{ route('admin.mua-the') }}">Danh sách mua thẻ</a> 
                 @endif  
+				@if(Auth::user()->is_Admin > 5)
+                <a class="dropdown-item" href="{{ route('list-member') }}">List member</a> 
+                @endif  
                 
               </div>
             </li>
           @endif
     
-      </ul>
+      </ul> 
 
       <div id="content-wrapper">
 

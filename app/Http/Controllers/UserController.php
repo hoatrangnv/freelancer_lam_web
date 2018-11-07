@@ -31,7 +31,7 @@ class UserController extends Controller
             ->where('payments.is_deleted', '=', $CHUA_XOA)
             ->where('users.id', '=', $user)
             ->orderByRaw('payments.payment_id - payments.created_at ASC')
-            ->paginate(10);
+            ->paginate(20);
             return view('user.profile',compact('result'));
     }
 
@@ -40,4 +40,47 @@ class UserController extends Controller
         $result =  Tinh::all();
         return response($result);
     }
+	
+	
+	
+    //list user
+	
+    public function Role2() 
+    {
+        $listuser= User::all();
+        return view('list-user',compact('listuser'));
+        // Moi them sua nguoi dung
+ 
+    }
+	
+	
+	
+	   // Moi them sua nguoi dung
+    public function Role()    {
+		$user = User::orderByDesc('created_at')->paginate(30);
+        //$user= User::all();
+        return view('admin.role',compact('user'));     
+ 
+    }
+
+	
+	
+	
+    //Moi người dùng
+
+    public function updateUser(Request $request)
+    {
+        $user_id = $request->get('user_id');
+        $result = User::find($user_id);
+        //$result->name = $request->get('username');
+        $result->phone_number = $request->get('phone');
+        $result->email = $request->get('email');
+        $result->money_1 = $request->get('money_1');
+        $result->tam_giu = $request->get('tam_giu');
+        $result->is_Admin = $request->get('is_Admin');
+        $result->save();
+        return redirect()->back()->with('message', 'Update thành công!');
+    }
+	
+	
 }

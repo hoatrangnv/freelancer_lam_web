@@ -21,7 +21,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function index()
     {
         //
@@ -30,12 +30,18 @@ class AdminController extends Controller
     public function listCard()
     {
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
-        $result =  DB::table('payments')
-                      ->leftJoin('users', 'payments.user_id', '=', 'users.id')
-                      ->leftJoin('cat_cards', 'payments.provider', '=', 'cat_cards.card_code')
-                      ->where('payments.is_deleted', '=', $CHUA_XOA)
-                      ->orderByRaw('payments.payment_id - payments.created_at ASC')
+        $result =  DB::table('payments as p')
+                      ->leftJoin('users as u', 'p.user_id', '=', 'u.id')
+                      ->leftJoin('cat_cards as c', 'p.provider', '=', 'c.card_code')
+                      ->where('p.is_deleted', '=', $CHUA_XOA)
+                      ->select('p.*','p.created_at','u.money_1','u.name','u.chiet_khau_frame','c.card_name','p.rate',
+                      'u.id',
+                      'u.member',
+                      'u.phone_number'
+                      )
+                      ->orderByRaw('p.payment_id - p.created_at ASC')
                       ->paginate(10);
+                    //   return $result;
         if($result) {
             return view('admin.danh-sach-the-nap',compact('result'));
         }
@@ -58,42 +64,42 @@ class AdminController extends Controller
             $user_id = $request->get('user_id');
             $member = $request->get('member');
             $chiet_khau_frame = $request->get('chiet_khau_frame');
-           
+
             $discount = $request->get('rate');
             $chiet_khau = 0;
-            if($request->link_id > 0)  
+            if($request->link_id > 0)
             {
                 $amount = $price - ($price * ($discount +  $chiet_khau_frame)) /100;
             } else {
                 $amount = $price - ($price * ($discount - $member)) /100;
             }
-            
+
 
             //update tien vao payment
             if(!empty($user_id)) {
                 $payment_id = $request->get('payment_id');
                 $q = "UPDATE payments
-                SET 
+                SET
                 payment_status =  $CHAP_NHAN,
                 amount = $amount
                 WHERE payment_id = $payment_id ";
                 $result =  DB::select(DB::raw($q));
 
-            // cong tien cho user 
+            // cong tien cho user
             $get_user = User::find($user_id);
             $money_cu = $get_user['money_1'];
             $money_moi = $money_cu + $amount;
-            
+
             $user = "UPDATE users
-                SET 
+                SET
                 money_1 = $money_moi
                 WHERE id = $user_id ";
-                
+
                 $result_user = DB::select(DB::raw($user));
             } else {
                 return redirect()->back()->with('message', 'Tài khoản không tồn tại!');
             }
-            
+
             //log
             $mess = "Số tiền củ ".$money_cu."Nạp thẻ: ". $request->get('price'). "loại thẻ: " . $request->get('card_name'). "Cộng số tiền mới " .$money_moi."  ".date('Y-m-d H:i:s');
             $log = Log::create([
@@ -105,7 +111,7 @@ class AdminController extends Controller
                 'log_read' => 1
             ]);
             //neu ton tai link_id moi la nap qua frame
-            if($request->link_id > 0)   
+            if($request->link_id > 0)
             {
                  //xu ly cong tien money term_user
                  $get_money_term = TermUser::where('link_id',$link_id)
@@ -113,18 +119,28 @@ class AdminController extends Controller
                                             ->first();
                  $price_term_old = $get_money_term->price_term;
                  $price_term = $price_term_old - $price;
- 
+
                  $money = $get_money_term->money + $price;
                  $term = TermUser::where('phone',$phone)
-                         ->update(['money'=> $money]);      
+						->where('link_id',$link_id)
+                         ->update(['money'=> $money]);
              // tru tien price_term
+			 //xu li neu chap nhan sau khi huy temp money bi tru tien
+
+			 if ($price_term > 0) {
                  $term_p = TermUser::where('link_id',$link_id)
                                      ->where('phone', $phone)
-                 ->update(['price_term' => $price_term]);      
-            } 
-                    
-            
-        } 
+                 ->update(['price_term' => $price_term]);
+			 } else { $term_p = TermUser::where('link_id',$link_id)
+                                     ->where('phone', $phone)
+			 ->update(['price_term' => 0]);  }
+
+
+
+            }
+
+
+        }
         else if ($request->get('status') == $XOA) {
             $payment_id = $request->get('payment_id');
             $q = "UPDATE payments
@@ -132,23 +148,35 @@ class AdminController extends Controller
             WHERE payment_id = $payment_id ";
              $result =  DB::select(DB::raw($q));
 
-             if($request->link_id > 0)   
+             if($request->link_id > 0)
              {
-             
+
                  //them moi ngay 1-11
             // tru tien price_term neu huy
              // tru tien price_term
              $get_money_term = TermUser::where('link_id',$link_id)
                                 ->where('phone', $phone)
                                 ->first();
-             $money_error_old = $get_money_term->money_error;                   
+             $money_error_old = $get_money_term->money_error;
              $price_term_old = $get_money_term->price_term;
-             $price_term = $price_term_old - $price;
+			 $price_term = $price_term_old - $price;
              $money_error = $money_error_old + $price;
 
-             $term_p = TermUser::where('link_id',$link_id)
+			 //lam fix 0 neu tien tam < 0 thi = 0
+			  if ( $price_term > 0 ) {
+			  $term_p = TermUser::where('link_id',$link_id)
                                  ->where('phone', $phone)
-             ->update(['price_term' => $price_term,'status_card_error'=>1, 'money_error' => $money_error]); 
+             ->update(['price_term' => $price_term,'status_card_error'=>1, 'money_error' => $money_error]);
+			 }
+			 else
+			 { $term_p = TermUser::where('link_id',$link_id)
+                                 ->where('phone', $phone)
+             ->update(['price_term' => 0,'status_card_error'=>1, 'money_error' => $money_error]);
+
+			  }
+
+
+
              }
         }
         else if ($request->get('status') ==  $DANG_XU_LY) {
@@ -166,38 +194,48 @@ class AdminController extends Controller
                     WHERE payment_id =  $payment_id";
 
             $result =  DB::select(DB::raw($q));
-            if($request->link_id > 0)   
+            if($request->link_id > 0)
             {
                 //them moi ngay 1-11
             // tru tien price_term neu huy
              // tru tien price_term
-             $get_money_term = TermUser::where('link_id',$link_id)
-                                ->where('phone', $phone)
+			 //lam fix loi am tien
+             $get_money_term = TermUser::where('link_id','=',$link_id)
+                                ->where('phone','=', $phone)
                                 ->first();
-             $money_error_old = $get_money_term->money_error;                   
+             $money_error_old = $get_money_term->money_error;
              $price_term_old = $get_money_term->price_term;
              $price_term = $price_term_old - $price;
              $money_error = $money_error_old + $price;
 
-             $term_p = TermUser::where('link_id',$link_id)
-                                 ->where('phone', $phone)
-             ->update(['price_term' => $price_term,'status_card_error'=>1, 'money_error' => $money_error]); 
+             //lam fix loi am tien
+			 if ($price_term > 0 ) {
+             $term_p = TermUser::where('link_id','=',$link_id)
+                                 ->where('phone','=', $phone)
+             ->update(['price_term' => $price_term,'status_card_error'=>1, 'money_error' => $money_error]);
+			 }
+			 else {$term_p = TermUser::where('link_id','=',$link_id)
+                                 ->where('phone','=', $phone)
+             ->update(['price_term' => 0,'status_card_error'=>1, 'money_error' => $money_error]);
+			 }
+
             }
         }
         return redirect()->back()->with('message', 'Xử lý thành công!');
-                
+
         // LOG
 
         // XOA THI XOA
     }
-   
+
 
     //function listWithDraw
     public function listWithDraw()
     {
         $result =  DB::table('withdraws')
+		->orderBy('widthraw_id','DESC')
         ->leftJoin('users', 'withdraws.user_id', '=', 'users.id')
-        ->paginate(10);
+        ->paginate(30);
 
         return view('admin.danh-sach-rut-tien',compact('result'));
     }
@@ -206,7 +244,7 @@ class AdminController extends Controller
     {
         $RUT_TIEN = Config::get('constants.RUT_TIEN');
         $CHAP_NHAN = Config::get('constants.CHAP_NHAN');
-       
+
         // change status
         $status = $request->get('status');
         $width_id = $request->get('widthraw_id');
@@ -214,7 +252,7 @@ class AdminController extends Controller
         $user_name= User::find( $user_id);
         $get_money_1 = $user_name->money_1;
         $get_tam_giu = $user_name->tam_giu;
-     
+
 
         $amount = $request->get('amount');
 
@@ -248,7 +286,7 @@ class AdminController extends Controller
                 'log_read' => $RUT_TIEN,
                 'log_time' =>0
             ]);
-            
+
             return redirect()->back()->with('message', 'Rút tiền thành công!');
        } else {
            //change status
@@ -279,17 +317,20 @@ class AdminController extends Controller
 
     //function nap tien
     public function listNapTien() {
-        $result = Deposit::paginate(10);
+
+		//fix sort list
+        $result = Deposit::orderByDesc('id')->paginate(20);
+		//$result = Deposit::paginate(10);
         return view('admin.danh-sach-nap-tien',compact('result'));
     }
 
     //function xu ly nap tien
-    public function confirmAddMoney(Request $request) 
+    public function confirmAddMoney(Request $request)
     {
         $DA_NAP_TIEN = Config::get('constants.DA_NAP_TIEN');
         $HUY = Config::get('constants.HUY');
         $NAP_TIEN = Config::get('constants.NAP_TIEN');
-        
+
 
         $user_id = $request->get('user_id');
         $get_money_1 = $request->get('money_1');
@@ -322,17 +363,18 @@ class AdminController extends Controller
             $return->save();
             return redirect()->back()->with('message', 'Hủy thành công!');
         }
-       
+
     }
 
     //mua the
     public function listMuathe()
     {
-     
+
        $result = DB::table('buy_cards as b')
                 ->leftjoin('users as u','b.user_id','=','u.id')
                 ->select('b.id as buy_id','u.id as user_id','u.name','u.email','b.card_provider_name','b.card_amount','b.card_prices','b.card_discount','b.status','b.card_qty','b.card_pin','b.card_serial','b.card_notes')
-                ->paginate(10);
+				->orderBy('b.id','DESC')
+                ->paginate(30);
        return view('admin.danh-sach-mua-the',compact('result'));
     }
 
@@ -351,7 +393,7 @@ class AdminController extends Controller
         $status = $request->get('status');
 
        if($status == $CHAP_NHAN) {
-        //update 
+        //update
         $result = BuyCard::find($buy_id);
         $result->card_pin = $request->get('so_the');
         $result->card_serial = $request->get('serial');
@@ -376,7 +418,7 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Xác nhận thành công!');
 
        } else{
-         //update 
+         //update
          $result = BuyCard::find($buy_id);
          $result->status = $HUY;
          $result->card_notes = $request->get('note');

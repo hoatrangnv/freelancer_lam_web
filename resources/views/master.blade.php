@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>@yield('title')</title>
+<title>@yield('title')8Pay.Pro - Tích hợp API - Nạp thẻ Mã nhúng frame viettel vinaphone mobilphone gate zing cho Website và Web Game shop</title>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128077888-1"></script>
 		<script>
@@ -20,7 +20,7 @@
 		</script>
 
     <!-- Bootstrap core CSS-->
-    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="shortcut icon" href="https://doithe.pro/assets/img/favicon_32x32.png">
     <!-- Custom fonts for this template-->
@@ -30,8 +30,8 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
-
-	<!--SEO--><meta name="description" content="Cổng thanh toán trực tuyến 8pay.pro 8pay.vn webpay.vn smspay.vn doithecao247.vn doithe365.vn thecaosieure.com, thecaoplus.com | Cung cấp dịch vụ thanh toán online, tích hợp nạp thẻ, thu mua thẻ cào chiết khấu thấp nhất thị trường, Đổi Thẻ Cào Sang Tiền ATM | Uy Tín - Rút Tiền Nhanh - Đổi Thẻ Cào Thành Tiền Uy Tín | Rút Tiền Nhận Ngay 5-10p‎ - đổi thẻ cào thành tiền san the 247 doi the cao doithe247 nap 247 thu mua thẻ cào thecao247 banthe247 thecao247- doi the cao thanh tien mat, doi the cao, doi card, đổi thẻ điện thoại thành tiền, đổi thẻ điện thoại thành tiền mặt, đổi thẻ thành tiền mặt, đổi thẻ điện thoại, doi the cao thanh tien mat, đổi thẻ viettel , doi the dien thoai sang tien mat, đổi thẻ sang tiền mặt, đổi thẻ, đổi tiền điện thoại sang tiền mặt , đổi thẻ game, đổi thẻ điện thoại ra tiền mặt, đổi tiền từ thẻ điện thoại, đổi thẻ ra tiền mặt , đổi mã thẻ điện thoại ra tiền mặt, cách đổi thẻ điện thoại sang tiền mặt, hướng dẫn đổi thẻ điện thoại ra tiền mặt , đổi thẻ nhanh, đổi thẻ viettel sang tiền mặt, đổi thẻ cào thành tiền, đổi tiền từ thẻ điện thoại sang tiền mặt, cách đổi tiền điện thoại sang tiền mặt, đổi thẻ cào, đổi tiền từ tài khoản điện thoại, đổi thẻ cào thành tiền mặt">
+	
+	<!--SEO--><meta name="description" content="Cổng thanh toán trực tuyến 8pay.pro 8pay.vn webpay.vn smspay.vn doithecao247.vn doithe365.vn thecaosieure.com, thecaoplus.com | Cung cấp dịch vụ thanh toán online, tích hợp nạp thẻ, thu mua thẻ cào chiết khấu thấp nhất thị trường, Đổi Thẻ Cào Sang Tiền ATM | Uy Tín - Rút Tiền Nhanh - Đổi Thẻ Cào Thành Tiền Uy Tín | Rút Tiền Nhận Ngay 5-10p‎ - đổi thẻ cào thành tiền san the 247 doi the cao doithe247 nap 247 thu mua thẻ cào thecao247 banthe247 thecao247- doi the cao thanh tien mat, doi the cao, doi card, đổi thẻ điện thoại thành tiền, đổi thẻ điện thoại thành tiền mặt, đổi thẻ thành tiền mặt, đổi thẻ điện thoại, doi the cao thanh tien mat, đổi thẻ viettel , doi the dien thoai sang tien mat, đổi thẻ sang tiền mặt, đổi thẻ, đổi tiền điện thoại sang tiền mặt , đổi thẻ game, đổi thẻ điện thoại ra tiền mặt, đổi tiền từ thẻ điện thoại, đổi thẻ ra tiền mặt , đổi mã thẻ điện thoại ra tiền mặt, cách đổi thẻ điện thoại sang tiền mặt, hướng dẫn đổi thẻ điện thoại ra tiền mặt , đổi thẻ nhanh, đổi thẻ viettel sang tiền mặt, đổi thẻ cào thành tiền, đổi tiền từ thẻ điện thoại sang tiền mặt, cách đổi tiền điện thoại sang tiền mặt, đổi thẻ cào, đổi tiền từ tài khoản điện thoại, đổi thẻ cào thành tiền mặt"> 
 	<meta name="keywords" content="doithe, doithe.vn, doithe.pro, 8pay.vn webpay.vn smspay.vn doithecao247.vn doithe365.vn thecaosieure.com, doi the cao, doi card thanh the game, doi the thanh tien, thu mua mã thẻ, thu mua ma the, doi the, đổi thẻ, charging nho">
 	<meta property="og:title" content="Thu mua mã thẻ - Đổi thẻ - Thu mua thẻ cào trực tuyến. Cung cấp dịch vụ thanh toán online, thu mua thẻ cào chiết khấu thấp nhất thị trường.">
 	<meta property="og:description" content="- Thu mua thẻ cào trực tuyến. Cung cấp dịch vụ thanh toán online, thu mua thẻ cào chiết khấu thấp nhất thị trường., đổi thẻ điện thoại thành tiền, đổi thẻ điện thoại thành tiền mặt , đổi thẻ thành tiền mặt, đổi thẻ điện thoại, doi the cao thanh tien mat, đổi thẻ viettel , doi the dien thoai sang tien mat, đổi thẻ sang tiền mặt, đổi thẻ, đổi tiền điện thoại sang tiền mặt , đổi thẻ game, đổi thẻ điện thoại ra tiền mặt, đổi tiền từ thẻ điện thoại, đổi thẻ ra tiền mặt , đổi mã thẻ điện thoại ra tiền mặt, cách đổi thẻ điện thoại sang tiền mặt, hướng dẫn đổi thẻ điện thoại ra tiền mặt , đổi thẻ nhanh, đổi thẻ viettel sang tiền mặt, đổi thẻ cào thành tiền, đổi tiền từ thẻ điện thoại sang tiền mặt , cách đổi tiền điện thoại sang tiền mặt, đổi thẻ cào, đổi tiền từ tài khoản điện thoại, đổi thẻ cào thành tiền mặt"> <meta property="og:keywords" content="doithe.vn, thu mua mã thẻ, thu mua ma the, doi the, đổi thẻ">
@@ -50,17 +50,17 @@
        <a class="navbar-brand mr-1" href="https://8pay.pro">8Pay.Pro</a>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-        <i class="fas fa-bars"></i>
+        <i class="fas fa-star"></i>
       </button>
 
       <!-- Navbar Search -->
       <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <div class="input-group">
-
+         
         </div>
       </form>
 
-
+      
 <!-- Navbar -->
       <ul class="navbar-nav ml-auto ml-md-0">
         @if(Auth::guest())
@@ -71,11 +71,11 @@
         </li>
 		<li class="nav-item dropdown no-arrow mx-1">
           <a class="nav-link dropdown-toggle" href="/login">
-
+           
             Đăng Nhập
           </a>
         </li>
-
+        
         @else
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -87,7 +87,7 @@
             <a class="dropdown-item" href="#">Đóng băng:  {{ number_format(Auth::user()->tam_giu) }}  đ</a>
             <a class="dropdown-item" href="#">Tài khoản 2:  {{ number_format(Auth::user()->money_2) }} đ</a>
             <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{{ route('logout') }}"
+        <a class="dropdown-item" href="{{ route('logout') }}" 
         onclick="event.preventDefault();
                  document.getElementById('logout-form').submit();">Đăng xuất</a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -105,83 +105,147 @@
 
 
       <ul class="sidebar navbar-nav">
-
+        
         <li class="nav-item">
           <a class="nav-link" href="/">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fas fa-fw fa-flag"></i>
             <span>Trang chủ</span>
           </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('nap-the') }}">
-              <i class="fas fa-fw fa-table"></i>
+              <i class="fas fa-fw fa-wifi"></i>
               <span>Nạp Thẻ</span></a>
           </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('mua-the.index') }}">
-              <i class="fas fa-fw fa-table"></i>
+              <i class="fas fa-fw fa-thumbs-up"></i>
               <span>Mua Thẻ</span></a>
           </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('nap-tien.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-info-circle"></i>
             <span>Nạp tiền</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('nap-the.history-card') }}">
-              <i class="fas fa-fw fa-chart-area"></i>
+              <i class="fas fa-fw fa-award"></i>
               <span>Lịch sử</span></a>
           </li>
-
+       
         <li class="nav-item">
           <a class="nav-link" href="{{ route('rut-tien') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-hashtag"></i>
             <span>Rút tiền</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('chuyen-tien.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-heart"></i>
             <span>Chuyển tiền</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('frame.index') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Tích hợp mã nhúng </span></a>
+            <i class="fas fa-fw fa-toggle-on"></i>
+            <span>Mã nhúng API</span></a>
         </li>
-
-
-
+      
+       
+ 
           @if(Auth::user() && Auth::user()->is_Admin > 0)
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-fw fa-folder"></i>
-                <span>Administrator</span>
+                <span>AdminCP</span>
               </a>
               <div class="dropdown-menu" aria-labelledby="pagesDropdown">
               @if(Auth::user()->is_Admin == 2 || Auth::user()->is_Admin == 10  || Auth::user()->is_Admin == 8)
                 <a class="dropdown-item" href="{{ route('admin.danh-sach-the-cao') }}">Danh sách thẻ nạp</a>
-              @endif
+              @endif  
               @if(Auth::user()->is_Admin == 3 || Auth::user()->is_Admin == 10 || Auth::user()->is_Admin == 8)
                 <a class="dropdown-item" href="{{ route('admin.danh-sach-rut-tien') }}">Danh sách rút tiền</a>
-                @endif
+                @endif  
                 @if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
                 <a class="dropdown-item" href="{{ route('admin.nap-tien') }}">Danh sách nạp tiền</a>
-                @endif
+                @endif  
                 @if(Auth::user()->is_Admin == 5 || Auth::user()->is_Admin == 10 || Auth::user()->is_Admin == 8)
-                <a class="dropdown-item" href="{{ route('admin.mua-the') }}">Danh sách mua thẻ</a>
-                @endif
-
+                <a class="dropdown-item" href="{{ route('admin.mua-the') }}">Danh sách mua thẻ</a> 
+                @endif  
+                
+                @if(Auth::user()->is_Admin == 5 || Auth::user()->is_Admin == 10 || Auth::user()->is_Admin == 8)
+                <a class="dropdown-item" href="{{ route('danh-sach-listmoneyrozen') }}">Tiền tạm giữ</a> 
+                @endif  
+                @if(Auth::user()->is_Admin == 5 || Auth::user()->is_Admin == 10 || Auth::user()->is_Admin == 8)
+                <a class="dropdown-item" href="{{ route('danh-sach-listmoney') }}">Danh sách tiền</a> 
+                @endif  
+				
+				
+              </div>
+            </li>			
+			
+          @endif
+			
+			
+			<!--- --->
+			 @if(Auth::user() && Auth::user()->is_Admin > 0)
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>SAdmin</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+              
+                 @if(Auth::user()->is_Admin > 5)
+                <a class="dropdown-item" href="{{ route('list-member') }}">List member</a> 
+                @endif  
+				@if(Auth::user()->is_Admin > 5)
+                <a class="dropdown-item" href="{{ route('list-frame') }}">List Frame</a> 
+                @endif  
+				
+				@if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
+                <a class="dropdown-item" href="{{ route('user.role') }}">User Manager</a>
+                @endif  
+				
+				
+				
+				@if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
+                <a class="dropdown-item" href="{{ route('danh-sach-log-payment') }}">List LogPayment</a>
+                @endif  
+				
+				@if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
+                <a class="dropdown-item" href="{{ route('danh-sach-log') }}">Danh sách Log</a>
+                @endif  
+				
+				
+				@if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
+                <a class="dropdown-item" href="{{ route('danh-sach-adxs') }}">List Adxs</a>
+                @endif  
+				
+				@if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
+                <a class="dropdown-item" href="{{ route('danh-sach-tempuser') }}">User phone temp </a>
+                @endif  
+				
+				
               </div>
             </li>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
           @endif
-
+    
       </ul>
 
       <div id="content-wrapper">
 
         <div class="container-fluid">
           <div class="">
-<h6 class="text-success">8Pay.Pro - Hệ thống tích hợp nạp thẻ cào từ mã nhũng và api tới trang Web - Một sãn phẩm mới của 8PayVN</h6> Thông báo: 8Pay.Pro là trang web chính thức của hệ thống 8Pay.Vn, chúng tôi không chịu trách nhiệm khi truy cập địa chỉ khác <strong>https://8Pay.Pro</strong>.
+<h6 class="text-success">8Pay.Pro - Hệ thống tích hợp nạp thẻ cào từ mã nhúng và api tới trang Web - Một sãn phẩm mới của 8Pay</h6> Thông báo: 8Pay.Pro là trang web chính thức của hệ thống 8Pay, chúng tôi không chịu trách nhiệm khi truy cập địa chỉ khác <strong>https://8Pay.Pro</strong>.
 
               <br/><span class="text-success">Fange: <a href="https://www.facebook.com/DoithecaoVip-246247699578481/">Tham gia trên Facebook</a></span><br/>
 			  Fange: <a href="https://www.facebook.com/groups/249782192377488/">Tham gia Group Facebook</a>
@@ -196,7 +260,7 @@
 
 
           <!-- Page Content -->
-
+        
           <hr>
          @yield('content')
 
@@ -245,20 +309,26 @@
         </div>
       </div>
     </div>
-			<!--Start of Tawk.to Script-->
-		<script type="text/javascript">
-		var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-		(function(){
-		var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-		s1.async=true;
-		s1.src='https://embed.tawk.to/5bcca82d460a125f2656f7b2/default';
-		s1.charset='UTF-8';
-		s1.setAttribute('crossorigin','*');
-		s0.parentNode.insertBefore(s1,s0);
-		})();
-		</script>
-		<!--End of Tawk.to Script-->
+			
+			
 
+			
+			<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5bd1381a19b86b5920c0cf7d/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+			
+			
+			
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

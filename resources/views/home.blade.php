@@ -157,7 +157,7 @@
                                     <option value="20000">20.000&nbsp;₫</option>
                                     <option value="30000">30.000&nbsp;₫</option>
                                     <option value="50000">50.000&nbsp;₫</option>
-                                    <option value="100000">100.000&nbsp;₫</option>
+                                    <option value="100000" selected>100.000&nbsp;₫</option>
                                     <option value="200000">200.000&nbsp;₫</option>
                                     <option value="300000">300.000&nbsp;₫</option>
                                     <option value="500000">500.000&nbsp;₫</option>
@@ -229,7 +229,7 @@
                                   <tr>
                                      <th>TT</th>
                                      <th>Nhà mạng</th>
-                                     <th class="number">100K giảm</th>
+                                     <th class="number">Mua 100K</th>
                                      <th class="number">Trạng thái</th>
                                   </tr>
                                </thead>
@@ -238,7 +238,7 @@
                                   <tr>
                                       <td>{{ $value->cat_id }}</td>
                                       <td>{{ $value->card_name }}</td>
-                                      <td class="number">{{ $value->card_discount_buy }}000 vnđ</td>
+                                      <td class="number"> {{number_format(100 - ($value->card_discount_buy))}}000 vnđ</td>
                                       <td class="number">
                                         @if($value->card_type == 1)
                                           <span class="label label-success">Hoạt động</span>

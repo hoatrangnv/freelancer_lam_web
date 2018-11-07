@@ -32,7 +32,7 @@
                                 <td>PIN: {{ $item->pin }}<br/>SERI: {{ $item->serial }}</td>
                                 <td>
 								@if($item->is_image == 0)  
-                                         <img src="{{ asset($item->image_url) }}" style="width:150px;" alt="">
+                                         <img src="{{ asset($item->image_url) }}" style="width:90px;" alt="">
                                         @else                                           
                                         @endif					
 								
