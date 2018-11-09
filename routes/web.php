@@ -30,7 +30,7 @@ Route::get('/api/frame','FrameController@apiFrame')->name('api.frame');
 Route::group(['middleware' => 'auth'], function () {
     //show user profile
     Route::get('user/profile','UserController@showHistoryAddCard')->name('user.profle');;
-    
+
     //Route nap the cao
     Route::get('/nap-the','NaptheController@index')->name('nap-the');
     Route::get('/nap-the/history','NaptheController@Historycard')->name('nap-the.Historycard');
@@ -77,7 +77,7 @@ Route::group(['middleware' => 'admin'], function () {
 
    // rut tien
    Route::post('/admin/withdraw', 'AdminController@withDraw')->name('admin.withDraw');
-   
+
 
    //nap tien
     Route::get('/admin/nap-tien','AdminController@listNapTien')->name('admin.nap-tien');
@@ -86,35 +86,36 @@ Route::group(['middleware' => 'admin'], function () {
     //mua the
     Route::get('/admin/mua-the','AdminController@listMuathe')->name('admin.mua-the');
     Route::post('/admin/buy-card','AdminController@BuyCard')->name('admin.buy-card');
-	
+
 	//list memember
     Route::get('/admin/list-member','ListMemberController@index')->name('list-member');
-	
-	
-	//list frame	
+
+
+	//list frame
     Route::get('/admin/list-frame','ListFrameController@index')->name('list-frame');
-	
-	
+
+
 	//user manager
     Route::get('/admin/manager-user','UserController@Role')->name('user.role');
     Route::post('/admin/update-user','UserController@updateUser')->name('user.updateUser');
 	//List user
     Route::get('/admin/list-view-member','ListMemberController@index')->name('list-view-member');
-	
-	
-	
-	
-	
-	// Lam them ve	
+
+
+
+
+
+	// Lam them ve
     Route::get('/admin/list-adxs','ListAdXSController@index')->name('danh-sach-adxs');
     Route::get('/admin/danh-sach-log','ListLogController@index')->name('danh-sach-log');
     Route::get('/admin/danh-sach-log-payment','ListLogPaymentController@index')->name('danh-sach-log-payment');
     Route::get('/admin/danh-sach-tempuser','ListTempUserController@index')->name('danh-sach-tempuser');
     Route::get('/admin/danh-sach-listmoney','ListMoneyUserController@index')->name('danh-sach-listmoney');
     Route::get('/admin/danh-sach-listmoneyrozen','ListMoneyFrozenUserController@index')->name('danh-sach-listmoneyrozen');
-	
-	
-	
+
+
+
 
 });
- 
+
+Route::get('/api/napthe','MuaTheController@apiMuathe');
