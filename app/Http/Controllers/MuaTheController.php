@@ -336,7 +336,10 @@ class MuaTheController extends Controller
                        ]);
                        return response()->json([
                         'code' => 200,
-                        'mess' => 'Gửi yêu cầu mua thẻ thành công'
+                        'mess' => 'Gửi yêu cầu mua thẻ thành công',
+                        'pin' => $pin_auto,
+                        'serial' =>  $serial_auto,
+                        'price' => number_format($get_price)
                     ]);
                 } else {
                     return response()->json([
