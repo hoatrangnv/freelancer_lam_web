@@ -244,27 +244,6 @@ class MuaTheController extends Controller
         $price = $request->get('card_price');
         $qty = $request->get('qty');
         $get_price = $price * $qty;
-
-        $user = User::find($request->get('user_id'));
-        if(empty($user)) {
-            return response()->json([
-                'code' => 500,
-                'mess' => 'User không tồn tại'
-            ]);
-        }
-        $get_money = $user->money_1;
-         //get discount
-         $cat_code = $request->get('card_type');
-         $cat_card = DB::table('cat_cards')
-                         ->where('card_code',$cat_code )
-                         ->get();
-         $discount = 0;
-         foreach($cat_card as $value) {
-             $discount = $value->card_discount_buy;
-         }
-        //tinh toan tong tien
-        $amount =  $get_price - ($get_price * ($discount - $user->member)) /100;
-
         if(
             !empty($request->get('user_id'))
            &&
@@ -273,9 +252,38 @@ class MuaTheController extends Controller
              !empty($request->get('qty'))
            &&
             !empty($request->get('card_price'))
+           &&
+            !empty($request->get('password2'))
         ){
-                 //the tu sinh
-             if( $get_money > $get_price && $request->get('card_type') === 'xcoin') {
+            $user = User::find($request->get('user_id'));
+            if(empty($user)) {
+                return response()->json([
+                    'code' => 500,
+                    'mess' => 'User không tồn tại'
+                ]);
+            }
+            $checkPassword2 = User::where('password2',$request->get('password2'))->first();
+            if(empty($checkPassword2)) {
+                return response()->json([
+                    'code' => 500,
+                    'mess' => 'Mật khẩu cấp 2 không đúng'
+                ]);
+            }
+            $get_money = $user->money_1;
+            //get discount
+            $cat_code = $request->get('card_type');
+            $cat_card = DB::table('cat_cards')
+                            ->where('card_code',$cat_code )
+                            ->get();
+            $discount = 0;
+            foreach($cat_card as $value) {
+                $discount = $value->card_discount_buy;
+            }
+            //tinh toan tong tien
+            $amount =  $get_price - ($get_price * ($discount - $user->member)) /100;
+            //the tu sinh
+
+                 if( $get_money > $get_price && $request->get('card_type') === 'xcoin') {
                 // tu sinh the
                     $pin_auto1 = random_int(1000, 9000); //4
                     $pin_auto2 = random_int(1000, 9000); //4
