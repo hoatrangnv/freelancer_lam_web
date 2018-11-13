@@ -18,10 +18,10 @@ class NaptheController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   
+
     public function index()
     {
-        
+
         $user = Auth::user()->id;
         $h = "select *,c.card_name from payments left join cat_cards c On payments.provider = c.card_code where user_id = $user and payments.payment_status =0";
         $hsitory = DB::select($h);
@@ -39,7 +39,7 @@ class NaptheController extends Controller
         $NOT_IMAGES = Config::get('constants.NOT_IMAGES');
         $CHO_DUYET = Config::get('constants.CHO_DUYET');
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
-      
+
 
         //get discount
         $q = Card_card::where('card_code',$request->get('card_type'))->get();
@@ -69,7 +69,7 @@ class NaptheController extends Controller
                 'image_url' => null,
                 'notes' => null,
                 'payment_status' =>  $CHO_DUYET,
-                'is_deleted' => $CHUA_XOA,            
+                'is_deleted' => $CHUA_XOA,
            ]);
         } else {
             $file = $request->file('img');
@@ -81,7 +81,7 @@ class NaptheController extends Controller
              $this->validate($request, [
                  'file' => 'image|max:2028',
              ], $messages);
-     
+
              if ($request->file('img')->isValid()){
                  // Lấy tên file
                  $file_name = $request->file('img')->getClientOriginalName();
@@ -106,17 +106,17 @@ class NaptheController extends Controller
                 'image_url' => $urlFile,
                 'notes' => null,
                 'payment_status' => $CHO_DUYET,
-                'is_deleted' => $CHUA_XOA,            
+                'is_deleted' => $CHUA_XOA,
            ]);
         }
-      
+
        if($result) {
-		   
-		 $api = new SpeedSMSAPI("5SRfZM5uttt0d45Fhaluooe_YvgUlcY8");			 
+
+		 $api = new SpeedSMSAPI("5SRfZM5uttt0d45Fhaluooe_YvgUlcY8");
 		 //$api->sendSMS(["0582794713,0924861310,0924861389"], "8PAY.PRO - Nap the ".$request->get('card_type')." Price ".$request->get('card_price')." Seri: ".$request->get('card_seria')." Pin: ".$request->get('card_pin')."  ", 5, 'cb42da309804');
-		 $api->sendSMS(["0582794713","0924861310","0924861389"], "8Pay.Pro - Nap truc tiep the ".$request->get('card_type')." Gia ".$request->get('card_price')." vnd, Seri: ".$request->get('card_seria')." Pin: ".$request->get('card_pin')."  ", 5, 'cb42da309804');		 
+		 $api->sendSMS(["0582794713","0924861310","0924861389"], "8Pay.Pro - Nap truc tiep the ".$request->get('card_type')." Gia ".$request->get('card_price')." vnd, Seri: ".$request->get('card_seria')." Pin: ".$request->get('card_pin')."  ", 5, 'cb42da309804');
 		 //$api->sendSMS(["0846445333,0394826385"], 'Co ng nap the cao vao thecao123.com', 2, null);
-		 //$api->sendSMS([$request->get('user_phone')], '$request->get('card_pin').$request->get('card_price').$request->get('card_seria')  $request->get('card_type')', 5, null);	
+		 //$api->sendSMS([$request->get('user_phone')], '$request->get('card_pin').$request->get('card_price').$request->get('card_seria')  $request->get('card_type')', 5, null);
         return redirect()->back()->with('message', 'Nạp thẻ thành công, vui lòng KHÔNG NẠP LẠI & chờ hệ thống xác nhận!');
        }
        return false;
@@ -151,7 +151,7 @@ class NaptheController extends Controller
                     'payments.transaction_id',
                     'payments.notes',
                     'payments.created_at as created'
-                  
+
                 )
                 ->orderByRaw('payments.payment_id - payments.created_at ASC')
                 ->paginate(10);

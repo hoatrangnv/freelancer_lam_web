@@ -61,10 +61,10 @@
 </div>
 <div class="col-md-6 col-sm-12 col-xs-12">
     <div class="panel panel-default panel-table">
-        <h5>Phí đổi thẻ</h5>
+        <h6>Phí đổi thẻ</h6>
          <div class="panel-body">
 		 <div class="table-responsive">
-            <table class="table table-striped table-borderless">
+            <table class="table table-striped table-bordered table-hover">
                <thead>
                   <tr>
                      <th>TT</th>
@@ -102,7 +102,7 @@
         <h4>Lịch sử mua thẻ</h4>
         <div class="table-responsive">
 
-        <table class="table table-sm">
+        <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th>STT</th>

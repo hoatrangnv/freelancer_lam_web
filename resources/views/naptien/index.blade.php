@@ -41,7 +41,7 @@
     <div class="col-md-6">
         <h5>Lịch sử nạp tiền</h5>
 		<div class="table-responsive">
-        <table class="table table-sm">
+        <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Mã giao dịch</th>

@@ -25,5 +25,7 @@ return [
     'MUA_THE' =>3,
     'NAP_TIEN' =>2,
     'CHUYEN_TIEN' =>1,
-    
+    'CHUA_NAP' => 0,
+    'DA_NAP'=>1
+
 ];

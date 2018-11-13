@@ -114,7 +114,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('nap-the') }}">
-              <i class="fas fa-fw fa-wifi"></i>
+              <i class="fas fa-fw fa-star-half-alt"></i>
               <span>Nạp Thẻ</span></a>
           </li>
         <li class="nav-item">
@@ -224,6 +224,14 @@
                 <a class="dropdown-item" href="{{ route('danh-sach-tempuser') }}">User phone temp </a>
                 @endif  
 				
+				@if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
+                <a class="dropdown-item" href="{{ route('danh-sach-listmoney') }}">Tiền của thành viên </a>
+                @endif  
+				
+				@if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
+                <a class="dropdown-item" href="{{ route('danh-sach-listmoneyrozen') }}">Tiền tạm giữ user </a>
+                @endif  
+				
 				
               </div>
             </li>
@@ -233,7 +241,7 @@
 			
 			
 			
-			
+			 
 			
 			
 			

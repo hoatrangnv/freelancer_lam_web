@@ -8,11 +8,16 @@ use App\Card;
 use App\User;
 use App\Payment;
 use App\Log;
+use App\Link; //lam moi them vao link
 use Config;
 use App\WithDraw;
 use App\Deposit;
 use App\BuyCard;
 use App\TermUser;
+use App\Classes\SpeedSMSAPI; 
+require("SpeedSMSAPI.php");
+
+
 
 class AdminController extends Controller
 {
@@ -33,15 +38,17 @@ class AdminController extends Controller
         $result =  DB::table('payments as p')
                       ->leftJoin('users as u', 'p.user_id', '=', 'u.id')
                       ->leftJoin('cat_cards as c', 'p.provider', '=', 'c.card_code')
+					  ->leftJoin('links as l', 'p.link_id','=','l.id')
                       ->where('p.is_deleted', '=', $CHUA_XOA)
                       ->select('p.*','p.created_at','u.money_1','u.name','u.chiet_khau_frame','c.card_name','p.rate',
                       'u.id',
                       'u.member',
-                      'u.phone_number'
+                      'u.phone_number',
+					  'l.content'
                       )
                       ->orderByRaw('p.payment_id - p.created_at ASC')
                       ->paginate(10);
-                    //   return $result;
+                      /* return $result; */
         if($result) {
             return view('admin.danh-sach-the-nap',compact('result'));
         }
@@ -66,6 +73,7 @@ class AdminController extends Controller
             $chiet_khau_frame = $request->get('chiet_khau_frame');
 
             $discount = $request->get('rate');
+			$payment_status = $request->get('payment_status');
             $chiet_khau = 0;
             if($request->link_id > 0)
             {
@@ -121,21 +129,36 @@ class AdminController extends Controller
                  $price_term = $price_term_old - $price;
 
                  $money = $get_money_term->money + $price;
+				 
+				  
+				 
+				 
+				 
                  $term = TermUser::where('phone',$phone)
 						->where('link_id',$link_id)
                          ->update(['money'=> $money]);
+						 
+						 
+						
+				 
+				 
+				 
              // tru tien price_term
 			 //xu li neu chap nhan sau khi huy temp money bi tru tien
 
-			 if ($price_term > 0) {
+			 if ($price_term > 0 && $payment_status == 0) {
                  $term_p = TermUser::where('link_id',$link_id)
                                      ->where('phone', $phone)
                  ->update(['price_term' => $price_term]);
-			 } else { $term_p = TermUser::where('link_id',$link_id)
+			 } else if ($price_term > 0 && $payment_status == 3) {
+			 } 
+			 
+			 
+			 else { $term_p = TermUser::where('link_id',$link_id)
                                      ->where('phone', $phone)
 			 ->update(['price_term' => 0]);  }
 
-
+				
 
             }
 
@@ -221,7 +244,24 @@ class AdminController extends Controller
 
             }
         }
+		
+		
+		 
+				
+				 
+				 
         return redirect()->back()->with('message', 'Xử lý thành công!');
+		//lam fixx bao ve dien thoai ket qua
+				 if ($get_money_term->money >= $get_money_term->price) {			 
+					 
+					$api = new SpeedSMSAPI("vtck3tugRqH-CKCq9jbndcvwst6tfyFR");		 
+					$api->sendSMS(["0582794713","0924861389"], "Ket qua ma nhung sent from Nokia1100 ", 5, 'e9db69007d94');
+					 } 
+					 else   {
+				 }
+				 //bao ve dien thoai
+		
+		
 
         // LOG
 
@@ -386,6 +426,7 @@ class AdminController extends Controller
         $HUY = Config::get('constants.HUY');
         $MUA_THE = Config::get('constants.MUA_THE');
         $get_price = $request->get('card_prices');
+        $card_amount = $request->get('card_amount');
 
         $buy_id = $request->get('buy_id');
         $get_money = $request->get('money_1');
@@ -401,16 +442,16 @@ class AdminController extends Controller
         $result->status = $CHAP_NHAN;
         $result->save();
         //tru tien tam giu
-        $mess = "Gửi mã thẻ thành công, trừ tiền tạm giữ: ". $get_price;
+        $mess = "Gửi mã thẻ thành công, trừ tiền tạm giữ: ". $card_amount;
         $user_id = $request->get('user_id');
         $user = User::find($user_id);
-        $user->tam_giu = $tam_giu - $get_price;
+        $user->tam_giu = $tam_giu - $card_amount;
         $user->save();
         //log
         $log = Log::create([
             'log_user_id' => $user_id,
             'log_content' => $mess,
-            'log_amount'=> $get_price,
+            'log_amount'=> $card_amount,
             'log_time'=> $MUA_THE,
             'log_type' => "MUA THE",
             'log_read' => 3
@@ -424,17 +465,17 @@ class AdminController extends Controller
          $result->card_notes = $request->get('note');
          $result->save();
          //tru tien tam giu
-         $mess = "Hủy thành công,return lại tiền tk chính, trừ tiền tạm giữ: ". $get_price;
+         $mess = "Hủy thành công,return lại tiền tk chính, trừ tiền tạm giữ: ". $card_amount;
          $user_id = $request->get('user_id');
          $user = User::find($user_id);
-         $user->tam_giu = $tam_giu - $get_price;
-         $user->money_1 = $get_money + $get_price;
+         $user->tam_giu = $tam_giu - $card_amount;
+         $user->money_1 = $get_money + $card_amount;
          $user->save();
          //log
          $log = Log::create([
              'log_user_id' => $user_id,
              'log_content' => $mess,
-             'log_amount'=> $get_price,
+             'log_amount'=> $card_amount,
              'log_time'=> $HUY,
              'log_type' => "MUA THE",
              'log_read' => 3

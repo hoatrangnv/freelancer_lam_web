@@ -57,9 +57,9 @@
         
         <div class="col-md-4">
             <div class="panel panel-default panel-table">
-                <h4>Phí đổi thẻ</h4>
+                <h6>Phí đổi thẻ</h6>
                  <div class="panel-body">
-                    <table class="table table-striped table-borderless">
+                    <table class="table table-striped table-bordered table-hover">
                        <thead>
                           <tr>
                              <th>TT</th>
@@ -94,7 +94,7 @@
             <div class="col-md-12">
               <h6>Danh sách thẻ chờ duyệt </h6>
 				<div class="table-responsive">
-                 <table class="table table-sm" style="margin-bottom:3em"id="lichsu">
+                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>Loại Thẻ</th>

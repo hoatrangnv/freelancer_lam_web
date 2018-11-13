@@ -30,7 +30,9 @@ Route::get('/api/frame','FrameController@apiFrame')->name('api.frame');
 Route::group(['middleware' => 'auth'], function () {
     //show user profile
     Route::get('user/profile','UserController@showHistoryAddCard')->name('user.profle');;
-
+    //search serial
+    Route::get('/serial-search','SearchController@mySearch')->name('serial-search');
+    Route::get('/my-search','SearchController@index')->name('mySearch');
     //Route nap the cao
     Route::get('/nap-the','NaptheController@index')->name('nap-the');
     Route::get('/nap-the/history','NaptheController@Historycard')->name('nap-the.Historycard');

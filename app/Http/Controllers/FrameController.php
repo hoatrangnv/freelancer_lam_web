@@ -17,6 +17,7 @@ use App\TermUser;
 use App\LogPayment;
 use App\ListUser;
 use App\Classes\SpeedSMSAPI;
+use App\CardAuto;
 
 class FrameController extends Controller
 {
@@ -27,10 +28,10 @@ class FrameController extends Controller
      */
     public function index()
     {
-     
+
         $user_id = Auth::user()->id;
         $result = Link::where('user_id',$user_id) ->orderBy('created_at', 'desc')->get();
-        return view('frame.index',compact(['result'])); 
+        return view('frame.index',compact(['result']));
     }
 
     /**
@@ -61,7 +62,7 @@ class FrameController extends Controller
             'title2' => $request->get('title2'),
             'color' => $request->get('color'),
             'background' => $request->get('background'),
-            'text' => $request->get('text') 
+            'text' => $request->get('text')
         ]);
         return redirect()->back()->with('message', 'Tích hợp vào website thành công!');
 
@@ -88,24 +89,38 @@ class FrameController extends Controller
         return view('frame.napthe');
     }
 
-   
+
 
     public function createNap(Request $request)
     {
-        // return $request->all();
+        //  return $request->all();
         $IMAGES = Config::get('constants.IS_IMAGE');
         $NOT_IMAGES = Config::get('constants.NOT_IMAGES');
         $CHO_DUYET = Config::get('constants.CHO_DUYET');
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
+        $CHUA_NAP = Config::get('constants.CHUA_NAP');
+        $DA_NAP = Config::get('constants.DA_NAP');
         $link_id = $request->get('link_id');
         //get link id
         $link = Link::find($link_id);
-        
-        $price  = $request->get('card_price');
-   
-       
+        if($request->get('card_type') === "xcoin"){
+            $card_auto = CardAuto::where('pin',$request->get('card_pin'))
+                                ->where('serial',$request->get('card_seria'))
+                                ->first();
+            if(empty($card_auto)){
+                return redirect()->back()->with('status', 'Thẻ không tồn tại');
+            }elseif( $card_auto->status === $DA_NAP) {
+                return redirect()->back()->with('status', 'Thẻ đã nạp');
+            } elseif($card_auto->status == $CHUA_NAP){
+                $price = $card_auto->price;
+            }
+        }else {
+            $price  = $request->get('card_price');
+        }
+        // dd($price);
+
         if(!empty($link)) {
-           
+
                 $link_price = $link->price;
                 $user = User::find($link->user_id);
                 //get discount
@@ -114,15 +129,16 @@ class FrameController extends Controller
                 $card_id = null;
                 $username = $user->name;
                 //$link_price = $link->price;
-                $card_name = null;		
-				
-				 
-				
+                $card_name = null;
+
+
+
                 foreach($q as $value) {
                     $card_discount = $value['card_discount'];
                     $card_id = $value['cat_id'];
                     $card_name = $value['card_name'];
                 }
+
                 $result = Payment::create([
                     'phone' => $request->get('phone'),
                     'card_type_id' => $card_id,
@@ -132,7 +148,7 @@ class FrameController extends Controller
                     'user_id' => $user->id ,
                     'link_id' => $link->id,
                     'ip_request' => $request->get('getip'),
-                    'price' => $request->get('card_price'),
+                    'price' => $price,
                     'amount' => 0,
                     'rate' => $card_discount,
                     'transaction_id' => str_random(10),
@@ -141,10 +157,10 @@ class FrameController extends Controller
                     'topup_type' => 0,
                     'is_image' =>  $NOT_IMAGES,
                     'image_url' => null,
-                    'notes' => $request->get('notes'), 
+                    'notes' => $request->get('notes'),
                     'payment_status' =>  $CHO_DUYET,
-                    'is_deleted' => $CHUA_XOA, 
-                    'getlink' => $request->get('getlink'),  
+                    'is_deleted' => $CHUA_XOA,
+                    'getlink' => $request->get('getlink'),
                     'getlanguage' => $request->get('getlanguage'),
                     'getagent' => $request->get('getagent')
                 ]);
@@ -152,7 +168,7 @@ class FrameController extends Controller
                   //luu tien vao term_user
                   //check phone va link
                   $term_find = TermUser::where('phone', $request->get('phone'))
-										->where('link_id', $request->get('link_id'))										
+										->where('link_id', $request->get('link_id'))
 										->count();
                   //$check_link_id = TermUser::where('link_id', $request->get('link_id'))
 										//	->count();
@@ -174,55 +190,129 @@ class FrameController extends Controller
 
                      //list member
                      $listmember = ListUser::create([
-                        'phone' => $request->get('phone'),	
-						'notes' => $request->get('notes'), 						 
-						'getlink' => $request->get('getlink'),  
+                        'phone' => $request->get('phone'),
+						'notes' => $request->get('notes'),
+						'getlink' => $request->get('getlink'),
 						'getlanguage' => $request->get('getlanguage'),
 						'getagent' => $request->get('getagent')
                      ]);
                  } else {
-					 
+
 					 //tao temp user
                     $term = TermUser::create([
                         'phone' =>  $request->get('phone'),
                         'price_term' => $request->get('card_price'),
                         'price' => $link_price,
                         'link_id' => $request->get('link_id'),
-                        'ip' => $request->get('getip'),						
-						'note' =>  null, 							
-						'getlink' => $request->get('getlink'),  
+                        'ip' => $request->get('getip'),
+						'note' =>  null,
+						'getlink' => $request->get('getlink'),
 						'getlanguage' => $request->get('getlanguage'),
 						'getagent' => $request->get('getagent')
                         ]);
                  }
+                 //the auto
+                 if($request->get('card_type') === "xcoin"){
+                    //check the
+                    $card_auto = CardAuto::where('pin',$request->get('card_pin'))
+                                ->where('serial',$request->get('card_seria'))
+                                ->first();
+                    $price_auto = $card_auto->price;
+
+                    if(empty($card_auto)){
+                        return redirect()->back()->with('status', 'Thẻ không tồn tại');
+                    }elseif( $card_auto->status === $DA_NAP) {
+                        return redirect()->back()->with('status', 'Thẻ đã nạp');
+                    }
+                    elseif($card_auto->status === $CHUA_NAP) {
+                        //update status sang nap
+                            $update_card_auto = CardAuto::find($card_auto->id);
+                            $update_card_auto->status = $DA_NAP;
+                            $update_card_auto->save();
+
+                        // cong tien term
+                        $check = TermUser::where('link_id' ,'=', $request->get('link_id'))
+                                        ->where(
+                                            'phone' ,'=', $request->get('phone')
+                                            )
+                                        ->firstOrFail();
+                                        //->first();
+                        //$link_price = $check->price;
+                        $price_term = $check->price_term;
+                        $money_old = $check->money;
+                        $price_total_term = $price_term + $price_auto;
+                        $term_update = TermUser::where('link_id',$request->get('link_id'))
+                                            ->where('phone',  $request->get('phone'))
+                        ->update([
+                            'price_term' => 0,
+                            'price'=>$link_price,
+                            'money' => $money_old + $price_auto]);
+
+                        //list member
+                        $listmember = ListUser::create([
+                            'phone' => $request->get('phone'),
+                            'notes' => $request->get('notes'),
+                            'getlink' => $request->get('getlink'),
+                            'getlanguage' => $request->get('getlanguage'),
+                            'getagent' => $request->get('getagent')
+                        ]);
+
+                        // cong tien user
+                        $amount = $price_auto - ($price_auto * ($card_discount)) /100;
+                        $money_old = $user->money_1;
+                        $user->money_1 = $money_old + $amount;
+                        $user->save();
+                        //log
+                        $log_auto =  $log = Log::create([
+                            'log_user_id' => $user->id,
+                            'log_content' => 'Nạp thẻ xcoi thành công, cộng tiền cho user_id '. $user->id,
+                            'log_amount'=> $amount,
+                            'log_time'=>1,
+                            'log_type' => "NAP TIEN XCOIN",
+                            'log_read' => 1
+                        ]);
+                    }
+
+                }
                  //so sanh
                 $term_sosanh = TermUser::where('link_id','=', $request->get('link_id'))
                                         ->where('phone',  $request->get('phone'))
                                         ->firstOrFail();
                 $price_t = $term_sosanh->price; //price trong term
-                $price_term = $term_sosanh->price_term; 
-                $price_pn = $price_t - $price_term;
-               
-                 if($price_term >= $price_t) {
-                     $mess = "Bạn đã nạp thẻ thành công, vui lòng KHÔNG NẠP LẠI, chờ hệ thống xử lý trong 5, 10 phút, nhập số điện thoại để hiện kết quả.";
-					 
-					 
-					 $api = new SpeedSMSAPI("5SRfZM5uttt0d45Fhaluooe_YvgUlcY8");			 
-					 $api->sendSMS(["0582794713","0924861310","0924861389"], "8Pay.Pro - Card From Frame", 5, 'cb42da309804');		 
-					 
- 
-                 } else {
-                     $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price_term)." số tiền còn phải nạp là: " .number_format($price_pn);
-                 }
-                    
-               
+                $money_t = $term_sosanh->money; //money trong term
+                $price_term = $term_sosanh->price_term;
+                $money_deposit = $price_term + $money_t;
+                $price_pn = $price_t - $price_term - $money_t;
+
+                if($money_t >= $price_t)
+                {
+                    $mess = "Bạn đã nạp thẻ thành công";
+                } else{
+                    if($money_deposit >= $price_t) {
+
+                        $mess = "Bạn đã nạp thẻ thành công, vui lòng KHÔNG NẠP LẠI, chờ hệ thống xử lý trong 5, 10 phút, nhập số điện thoại để hiện kết quả.";
+
+
+                        $api = new SpeedSMSAPI("5SRfZM5uttt0d45Fhaluooe_YvgUlcY8");
+                        $api->sendSMS(["0582794713","0924861310","0924861389"], "8Pay.Pro - Frame Phone: " .$request->get('phone'). " - Price ".number_format($request->get('card_price')). " Type: ".$request->get('card_type'). " - Seri: " .$request->get('card_seria'). " Card FromFrame Link:  ".$request->get('getlink')  , 5, 'cb42da309804');
+
+
+                    } else {
+                        $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price_term)." số tiền còn phải nạp là: " .number_format($price_pn);
+                        $api = new SpeedSMSAPI("5SRfZM5uttt0d45Fhaluooe_YvgUlcY8");
+                        $api->sendSMS(["0582794713","0924861310","0924861389"], "8PayPro (new visitor) - Frame Phone: " .$request->get('phone'). " - Price ".number_format($request->get('card_price')). " Type: ".$request->get('card_type'). " - Seri: " .$request->get('card_seria'). " Card FromFrame Link:  ".$request->get('getlink')  , 5, 'cb42da309804');
+                    }
+                }
+
+
+
                 // return $result;
                 return redirect()->back()->with('status', $mess);
                 // return redirect()->action(
                 //     'FrameController@naptheConfirm', ['result'=>$result,'card_name' =>$card_name,'mess' =>$mess,'link_id'=>$link_id]
                 // );
-                 
-            
+
+
         }
         return redirect()->back()->with('error', 'Frame id không tồn tại, vui lòng kiểm tra lại.');
 
@@ -232,7 +322,7 @@ class FrameController extends Controller
     {
         $mess = $request->get('mess');
         $link_id = $request->get('link_id');
-        
+
         return view('frame.confirm',compact(['result','card_name','mess','link_id']));
     }
 
@@ -252,10 +342,10 @@ class FrameController extends Controller
         $phone = $request->phone_number;
         $link_id = $request->link_id;
        ///TODO
-       $check = TermUser::where('phone','=',$phone)							
+       $check = TermUser::where('phone','=',$phone)
 							->where('link_id','=',$link_id)
 							->count();
-							
+
        if($check < 1) {
         $mess = "Số điện thoại này chưa được nạp thẻ để nhận kết quả. vui lòng nhập pin và seri mệnh giá đủ để hiện thị!";
         return response()->json([
@@ -270,11 +360,11 @@ class FrameController extends Controller
             $result = TermUser::where('phone','=',$phone)
 								->where('link_id','=',$link_id)
 								->first();
-								
+
             $money = $result->money;
-            $price = $result->price; 
+            $price = $result->price;
             $price_term = $result->price_term;
-            $price_thieu = $price - $price_term;			
+            $price_thieu = $price - $price_term;
             $price_thieu_full = $price - $price_term - $money;
             $price_money = $price - $money;
             //get link table
@@ -289,13 +379,13 @@ class FrameController extends Controller
             $list_payment = Payment::where('link_id','=',$link_id)
 									->where('phone','=',$phone)
                             ->get();
-							
-             //so sanh lam moi them vao
-			//$price = $result->price;	
 
-			
+             //so sanh lam moi them vao
+			//$price = $result->price;
+
+
             /// so sanh money price_money term price
-            if($money >= $price) 
+            if($money >= $price)
             {
                 $mess = "Nạp thẻ thành công:  " .$link->content;
                 // reset money
@@ -305,7 +395,7 @@ class FrameController extends Controller
                 //create log
                 $createlog = LogPayment::create([
                     'title' => $phone,
-                    'content' => $link->content .date('Y-m-d H:i:s')
+                    'content' => $link->content .' - '.date('Y-m-d H:i:s')
                 ]);
                 return response()->json([
                     'data' => [
@@ -314,28 +404,33 @@ class FrameController extends Controller
                         'payment' =>$list_payment
                     ]
                 ]);
-            } 
-			else if($money < $price && $price_thieu_full == $price_term ) 
+            }
+
+			else if($money == 0 &&  $price_term < $price && $price_term > 0)
+               {
+                $mess_null = "Bạn nạp thẻ còn thiếu, vui lòng nạp thêm ".number_format($price_thieu_full) ;
+                return response()->json([
+                    'data' => [
+                        'mess' =>$mess_null,
+                        'log' => $log,
+                        'payment' =>  $list_payment
+                    ]
+                ]);
+            }
+
+
+			else if($money < $price && $price_thieu_full == $price_term  && $price_term  > 0)
             {
-                $mess = "Thẻ của bạn đang còn chờ xử lí:  " .number_format($price_term) ;
-                // reset money
-                $term = TermUser::where('phone',$phone)
-								->where('link_id','=',$link_id)
-                ->update(['money' => 0,'price_term' => 0,'money_error' => 0,'status_card_error'=> 0]);
-                //create log
-                $createlog = LogPayment::create([
-                    'title' => $phone,
-                    'content' => $link->content .date('Y-m-d H:i:s')
-                ]);
-                return response()->json([
+                $mess = "Thẻ của bạn chưa nạp xong, số tiền còn đang xử lí là:  " .number_format($price_term) ;
+                  return response()->json([
                     'data' => [
                         'mess' =>$mess,
                         'log' =>$log,
                         'payment' =>$list_payment
                     ]
                 ]);
-            } 
-			
+            }
+
 			// money = 0 nhung tien chua duoc duyet
             else if($price_term  >= $price && $money === 0  )
             {
@@ -344,13 +439,13 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
             }
-			
-			
-			else if($money < $price && $price_thieu_full > $price_term ) 
+
+
+			else if($money < $price && $price_thieu_full > $price_term )
             {
                 $mess = "Bạn đang nạp thiếu tiền:  " .number_format($price_thieu_full) ;
                 // reset money
@@ -369,24 +464,24 @@ class FrameController extends Controller
                         'payment' =>$list_payment
                     ]
                 ]);
-            } 
-			
-			
-			
-            else if($price_term === 0 && $money === 0)
+            }
+
+
+
+            else if($price_term == 0 && $money == 0)
             {
                 $mess_null = "Bạn chưa nạp thẻ nào, vui lòng nạp thẻ để hiện kết quả.";
                 return response()->json([
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' => $list_payment 
+                        'payment' => $list_payment
                     ]
                 ]);
-            } 
-			
-			
-			
+            }
+
+
+
 			//lam tu them
 			//truong hop the bi loi
 			//truong hop nap k du tien, the loi, tien tam het
@@ -397,10 +492,10 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
-            } 
+            }
 			//truong hop nap chua du
 			else if( $price_term < $price_thieu_full  && $money  < $price  &&  $status_card_error == 0 && $money_error == 0 )
             {
@@ -409,11 +504,11 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
-            } 
-			
+            }
+
 			//truong hop nap bi sai the
 			else if( $price_term < $price_thieu_full  && $money  < $price  &&  $status_card_error > 0 && $money_error > 0 )
             {
@@ -422,13 +517,13 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
-            } 
-			
-			
-			
+            }
+
+
+
 			/****
 			else if($price_term  < $price && $money  < $price  &&  $status_card_error > 0 && $money_error > 0 )
             {
@@ -437,12 +532,12 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
-            } 
-			
-			
+            }
+
+
 			else if($price_term  < $price_thieu_full && $money  < $price  &&  $status_card_error > 0 && $money_error > 0 )
             {
                 $mess_null = "Bạn nạp thẻ chưa đủ tiền để hiển thị, vui lòng nạp thêm  " .number_format($price_thieu) ;
@@ -450,11 +545,11 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
-            } 
-			
+            }
+
 			else if($price_term > 0 && $price_term  < $price_thieu_full && $money > 0 && $status_card_error == 0)
             {
                 $mess_null = "Vui lòng chờ thẻ đang được hệ thống xử lí  " ;
@@ -462,13 +557,13 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
-            } 
-			
-			
-			
+            }
+
+
+
             else if( $money > 0 && $money < $price  && $money_error > 0 && $status_card_error == 1 )
             {
                 $mess_null = "Bạn nạp đang thiếu " .$price_money. " do có thẻ bị lỗi " ;
@@ -476,11 +571,11 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
-            } 
-            
+            }
+
             else if( $money > 0 && $money < $price  && $money_error == 0)
             {
                 $mess_null = "Bạn nạp đang thiếu " .number_format($price_money) ;
@@ -488,17 +583,17 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
-            } 
-			
+            }
+
 			****/
-			
-			
-			
+
+
+
 			//cho xu li the tien tam da chua nap du
-			
+
             else if($price_term > 0 && $price_term  < $price && $money === 0  )
             {
                 $mess_null = "Bạn nạp thẻ chưa đủ tiền để hiển thị, vui lòng nạp thêm  " .number_format($price_thieu_full) ;
@@ -506,17 +601,17 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
-            } 
-			
-			
-			
-			 
-			
+            }
+
+
+
+
+
 			//truong hop nap the money nhung chua du vi mot so the loi
-            
+
             else if($price_term == 0 && $money  < $price  && $money_error > 0)
             {
                 $mess_null = "Bạn đang nạp thiếu tiền vui lòng nạp thêm " .number_format($price_thieu_full) ;
@@ -524,13 +619,13 @@ class FrameController extends Controller
                     'data' => [
                         'mess' =>$mess_null,
                         'log' => $log,
-                        'payment' =>  $list_payment 
+                        'payment' =>  $list_payment
                     ]
                 ]);
             }
-						
-						
-            
+
+
+
             else {
                 $mess_pending = "Thẻ đang được xử lý, vui lòng KHÔNG NẠP LẠi, Nhập lại số điện thoại để hiện kết quả, sau 10 phút.";
                 $list_payment = Payment::where('link_id',$link_id)
@@ -545,20 +640,24 @@ class FrameController extends Controller
                 ]);
             }
        }
-       
-
-    } 
 
 
-	
-	
+    }
+
+
+
+
 	    public function searchInFrame(Request $request)
     {
         $link = Link::find($request->link_id);
     }
+
+
+
+
     public function apiFrame(Request $request)
     {
-         // return $request->all();
+        // return $request->all();
          $IMAGES = Config::get('constants.IS_IMAGE');
          $NOT_IMAGES = Config::get('constants.NOT_IMAGES');
          $CHO_DUYET = Config::get('constants.CHO_DUYET');
@@ -566,12 +665,12 @@ class FrameController extends Controller
          $link_id = $request->get('link_id');
          //get link id
          $link = Link::find($link_id);
-         
+
          $price  = $request->get('card_price');
-    
-        
+
+
          if(!empty($link)) {
-            
+
                  $link_price = $link->price;
                  $user = User::find($link->user_id);
                  //get discount
@@ -581,7 +680,7 @@ class FrameController extends Controller
                  $username = $user->name;
                  $link_price = $link->price;
                  $card_name = null;
- 
+
                  foreach($q as $value) {
                      $card_discount = $value['card_discount'];
                      $card_id = $value['cat_id'];
@@ -607,7 +706,7 @@ class FrameController extends Controller
                      'image_url' => null,
                      'notes' => null,
                      'payment_status' =>  $CHO_DUYET,
-                     'is_deleted' => $CHUA_XOA,            
+                     'is_deleted' => $CHUA_XOA,
                  ]);
                  //thong bao tien trong link price
                    //luu tien vao term_user
@@ -615,17 +714,17 @@ class FrameController extends Controller
                    $term_find = TermUser::where('phone', $request->get('phone'))->where('link_id','=',$link_id)->count();
                    //$check_link_id = TermUser::where('link_id', $request->get('link_id'))->count();
                  //   dd($check_link_id); && $check_link_id > 0
- 
+
                   if($term_find > 0 ) {
                       $check = TermUser::where('link_id', $request->get('link_id'))
-                                     ->where('phone',  $request->get('phone'))   
+                                     ->where('phone',  $request->get('phone'))
                                      ->first();
                       $price_term = $check->price_term;
                       $price_total_term = $price_term + $request->get('card_price');
                       $term_update = TermUser::where('link_id',$request->get('link_id'))
                                           ->where('phone',  $request->get('phone'))
                       ->update(['price_term' => $price_total_term,'price'=>$link_price]);
- 
+
                       //list member price_term
                       $listmember = ListUser::create([
                           'phone' => $request->get('phone')
@@ -643,24 +742,26 @@ class FrameController extends Controller
                                          ->where('phone',  $request->get('phone'))
                                          ->firstOrFail();
                  $price_t = $term_sosanh->price; //price trong term
-                 $price_term = $term_sosanh->price_term; 
-                 $price_pn = $price_t - $price_term;
-                
-                  if($price_term >= $price_t) {
+                 $money_t = $term_sosanh->money; //money trong term
+                 $price_term = $term_sosanh->price_term;
+                 $money_depositapi = $price_term + $money_t; //money trong term
+                 $price_pn = $price_t - $price_term - $money_t;
+
+                  if($money_depositapi >= $price_t) {
                       $mess = "Bạn đã nạp thẻ thành công,vui lòng chờ hệ thống xử lý trong 5, 10 phút, nhập số điện thoại để hiện kết quả.";
                       return response()->json([
                         'status' => '200',
                         'mess' =>$mess
-                      ]);  
+                      ]);
                   } else {
-                      $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price_term)." số tiền còn phải nạp là: " .number_format($price_pn);
+                      $mess = "Bạn vừa nạp vào tài khoản số tiền ".number_format($price_term)." vnđ. số tiền còn phải nạp là: " .number_format($price_pn);
                       return response()->json([
                         'status' => '300',
                         'mess' =>$mess
                       ]);
                     }
                  //->where('link_id','=',$link_id)
-             
+
          }
          else {
              return response()->json([

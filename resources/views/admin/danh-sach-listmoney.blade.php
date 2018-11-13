@@ -51,8 +51,8 @@ Tao duong dan: web.php
                             <td>{{ $value->name }}</td>
                             <td>{{ $value->phone_number }}</td>
                             <td>{{ $value->email }}</td>
-                            <td>{{ $value->money_1 }}</td>
-                            <td>{{ $value->tam_giu }}</td>
+                            <td>{{ number_format($value->money_1) }}  đ </td>
+                            <td>{{ number_format($value->tam_giu) }}  đ</td>
                             <td>{{ $value->created_at }}</td>
                             <td>
                                 @if($value->is_Admin === 1)

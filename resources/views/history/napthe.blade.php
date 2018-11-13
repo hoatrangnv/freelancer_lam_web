@@ -7,10 +7,14 @@
         <div class="col-md-12">
           <h4>Thẻ chờ duyệt </h4>
 		  <div class="table-responsive">
-
-             <table class="table table-sm" style="margin-bottom:3em"id="lichsu">
+		  
+			<table class="table table-striped table-bordered table-hover">
                 <thead>
+                   
+
+             
                     <tr>
+                        <th>Mã số</th>
                         <th>Loại Thẻ</th>
                         <th>Mã Pin - Seria</th>
                         <th>Ảnh</th>
@@ -28,7 +32,9 @@
                     <form action="{{ route('delete-card') }}" method="GET">
                         <input type="hidden" value="{{ $item->payment_id }}" name="id" id="id">
                         <tr>
-                                <td>{{ $item->card_name }}</td>
+                                
+								<td>{{ $item->payment_id }}</td>
+								<td>{{ $item->card_name }}</td>
                                 <td>PIN: {{ $item->pin }}<br/>SERI: {{ $item->serial }}</td>
                                 <td>
 								@if($item->is_image == 0)  
@@ -60,7 +66,7 @@
                                         @endif
                                     </td>
 
-                                <td>{{ $item->transaction_id }} {{ $item->notes }}</td>
+                                <td>{{ $item->transaction_id }}</td>
                                 <td> 
                                         @switch($item->payment_status)
                                         @case(0)  

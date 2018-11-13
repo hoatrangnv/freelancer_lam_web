@@ -15,12 +15,14 @@
                 <thead>
                    <th style="width: 15px;">ID</th>
 				   <th>Name</td>
-				   <th> Nội dung</td>
-				   <th> Giá</td>
+				   <th>SDT</td> 
 				   <th>ID User </td>
-				   <th> Tình trạng</td>
 				   <th>Ngày tạo </td>
-				   <th>Time </td>
+				   <th> Cập nhật</td>
+				   <th>IP </td>
+				   <th>Ref </td>
+				   <th>Agent </td>
+				   <th>Language </td>
                 </thead>
                 <tbody>
 				
@@ -32,13 +34,14 @@
 		
             <td>{{$value->id  }}</td>
             <td>{{$value->name  }}</td>			
-            <td>{{ $value->phone }} đ</td>
-            <td>{{$value->email  }}</td>
-			
-			  <th> {{$value->browser  }}</td>
-				   <th>{{$value->ip  }} </td>
-				   <th>{{$value->note  }} </td>
-				   <th>{{$value->time  }} </td>
+            <td>{{ $value->phone }}</td>
+            <td></td> 
+				   <td>{{$value->created_at  }} </td>
+				   <td>{{$value->updated_at  }} </td>
+				   <td>{{$value->ip  }} </td>
+				   <td>{{$value->getlink  }} </td>
+				   <td>{{$value->getagent  }} </td>
+				   <td>{{$value->getlanguage  }} </td>
 			
 			
 		

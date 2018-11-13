@@ -14,7 +14,7 @@
                     {{ session()->get('message') }}
                 </div>
             @endif
-            <table class="table table-sm">
+            <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>

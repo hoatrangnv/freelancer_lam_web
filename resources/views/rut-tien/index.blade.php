@@ -47,7 +47,7 @@
                     {{ session()->get('message') }}
                 </div>
              @endif
-             <h4>Thêm tài khoản ngân hàng</h4>
+             <h6>Thêm tài khoản ngân hàng</h6>
              <form action="{{ route('api.add-bank') }}" method="GET">
                     @csrf
                     <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
@@ -78,7 +78,7 @@
         
         <div class="col-md-12">
                 <h4>Lịch sử rút tiền</h4>
-            <table class="table table-sm">
+           <table class="table table-striped table-bordered table-hover">
                 <tr>
                         <th>ID</th>
                         <th>Số tiền thực nhận</th>

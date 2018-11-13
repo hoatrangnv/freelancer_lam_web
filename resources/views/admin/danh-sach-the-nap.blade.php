@@ -13,7 +13,7 @@
                 </div>
             @endif
             <div class="table-responsive">
-                <table class="table table-bordered table-sm  ">
+                <table class="table table-striped table-bordered table-hover">
                         <thead class="thead-inverse">
                             <tr>
                                 <th>ID</th>
@@ -23,11 +23,10 @@
                                 <th>Giá Tiền</th>
                                 <th>Trạng Thái</th>
                                 <th>Hành Động</th>
-                                <th>Người Nạp</th>
-                                <th>Ảnh</th>
+                                <th>Người Nạp</th>                                 
                                 <th>Nguồn nạp</th>
-                                <th>Ghi chú</th>
-                                <th>Ref - IP</th>
+                                <th style="width:153px;">Ghi chú</th>
+                                <th style="width:22px;">Ref - IP</th> 
                             </tr>
                             </thead>
                             <tbody>
@@ -46,7 +45,7 @@
                                 <tr>
                                     <td>{{ $value->payment_id }}</td>
                                     <td>Pin: {{ $value->pin }}<br/>
-                                    Seria: {{ $value->serial }}</td>
+                                    Seri: <code>{{ $value->serial }}</code></td>
                                     <td>
                                       {{ $value->card_name }}
 									  <br/>
@@ -99,33 +98,34 @@
 
 
 
-                                    <td>{{ $value->name }}<br/>{{ $value->phone_number }} - {{ $value->money_1 }}</td>
-                                    <td>
+                                    <td>{{ $value->name }}<br/> <code>{{ $value->phone_number }}</code> <br/> <code>{{ number_format($value->money_1) }}</code> </td>
+                                    <!--<td>
 									@if($value->is_image == 0)
                                         <img src="{{ asset($value->image_url) }}" style="width:80px;" alt="">
 									@else
                                         @endif
-                                    </td>
+                                    </td> -->
                                     <td>
                                         @if($value->link_id > 0)
-                                          <span class="label label-success">Mã nhúng {{ $value->link_id }}</span><br/> </span> <a href="/embed/{{ $value->link_id }}" title="{{ $value->link_id }}">Link Frame</a> {{ $value->phone }}
+                                          <span class="label label-success">Mã nhúng {{ $value->link_id }}</span><br/> </span> <a href="/embed/{{ $value->link_id }}" title="{{ $value->link_id }}">Link Frame</a> <br/> {{ $value->phone }}
+											  {{$value->content}}
                                         @else
                                          <span class="label label-success">Trực tiếp</span>
                                         @endif
-										 <br/>{{ $value->transaction_id }}
+										 <br/><code>{{ $value->transaction_id }}</code>
                                     </td>
 
 
                                     <td> {{ $value->created_at }} <br/>
-									<button type="button" class="label label-blue" data-toggle="collapse" data-target="#demo">
-									<?php echo substr($value->notes, 0, 20); ?></button>
+									<span data-toggle="collapse" data-target="#demo">
+									<?php echo substr($value->notes, 0, 20); ?></span>
 									<div id="demo" class="collapse in"> {{ $value->notes }}  </div>
 
 									</td>
 
 									 <td>
-									 <button type="button" class="label label-blue" data-toggle="collapse" data-target="#demo2">
-									<?php echo substr($value->getlink, 6, 15); ?></button>
+									 <span data-toggle="collapse" data-target="#demo2">
+									<?php echo substr($value->getlink, 6, 15); ?></span>
 									<div id="demo2" class="collapse in"> {{ $value->getlink }}  </div>
 									<br/>{{ $value->ip_request }}</td>
 
