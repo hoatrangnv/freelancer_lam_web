@@ -97,6 +97,7 @@ class FrameController extends Controller
         $IMAGES = Config::get('constants.IS_IMAGE');
         $NOT_IMAGES = Config::get('constants.NOT_IMAGES');
         $CHO_DUYET = Config::get('constants.CHO_DUYET');
+        $CHAP_NHAN = Config::get('constants.CHAP_NHAN');
         $CHUA_XOA = Config::get('constants.CHUA_XOA');
         $CHUA_NAP = Config::get('constants.CHUA_NAP');
         $DA_NAP = Config::get('constants.DA_NAP');
@@ -113,9 +114,11 @@ class FrameController extends Controller
                 return redirect()->back()->with('status', 'Thẻ đã nạp');
             } elseif($card_auto->status == $CHUA_NAP){
                 $price = $card_auto->price;
+                $P_status = $CHAP_NHAN;
             }
         }else {
             $price  = $request->get('card_price');
+            $P_status = $CHO_DUYET;
         }
         // dd($price);
 
@@ -158,7 +161,7 @@ class FrameController extends Controller
                     'is_image' =>  $NOT_IMAGES,
                     'image_url' => null,
                     'notes' => $request->get('notes'),
-                    'payment_status' =>  $CHO_DUYET,
+                    'payment_status' =>  $P_status,
                     'is_deleted' => $CHUA_XOA,
                     'getlink' => $request->get('getlink'),
                     'getlanguage' => $request->get('getlanguage'),

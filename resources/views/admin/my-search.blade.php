@@ -31,7 +31,8 @@
             <tbody id="datatable">
 
             </tbody>
-		</table>
+        </table>
+        <p id="mess"></p>
 	</div>
     <script>
        function search()
@@ -49,19 +50,28 @@
                 var dataResult  = JSONObject;
                 var html = "";
                 Object.keys(dataResult).forEach(function(key) {
-                    console.log(dataResult)
-                    var status = dataResult[key].status;
-                    checkstatus = "";
-                    if(status === 0){
-                        checkstatus = "Chưa sử dụng";
-                    } else if(status === 1 ) {
-                        checkstatus = "Đã sử dụng";
-                    }
-                    html = "<tr><td>"+dataResult[key].id+"</td><td>"+dataResult[key].serial+"</td><td>"+dataResult[key].price+"</td><td>"+dataResult[key].name+"</td><td>"+dataResult[key].created_at+"</td><td>"+dataResult[key].updated_at+"</td><td>"+checkstatus+"</td></tr>"
-                    $('#datatable').html("").append(html);
-                 })
+                  var checkcode = dataResult.code;
+                    console.log(checkcode)
+                if(checkcode === 200) {
+                  var dataCode = dataResult.data;
+                  dataCode.forEach(function(element) {
 
-            },
+                        var status = element.status;
+                        checkstatus = "";
+                        if(status === 0){
+                            checkstatus = "Chưa sử dụng";
+                        } else if(status === 1 ) {
+                            checkstatus = "Đã sử dụng";
+                        }
+                        html = "<tr><td>"+element.id+"</td><td>"+element.serial+"</td><td>"+element.price+"</td><td>"+element.name+"</td><td>"+element.created_at+"</td><td>"+element.updated_at+"</td><td>"+checkstatus+"</td></tr>"
+                        $('#datatable').html("").append(html);
+                  })
+                    }else{
+                        $('#datatable').html("")
+                    $('#mess').html("").html("Thẻ không tồn tại");
+                }
+
+            })}
           });
        }
     </script>

@@ -20,14 +20,25 @@ class SearchController extends Controller
     public function mySearch(Request $request)
     {
 
-        $users =  DB::table('card_auto as c')
+        $user =  DB::table('card_auto as c')
             ->leftjoin('users as u','c.user_id','=','u.id')
             ->where('serial',$request->search)
             ->get();
-        if($users){
-            return response($users);
+        $check = CardAuto::where('serial', $request->get('search'))
+                            ->count();
+            // return $user;
+        if($check === 1){
+            return response()->json([
+                'code' => 200,
+                'data' => $user
+            ]);
+        } else {
+            return response()->json([
+                'code' => 300,
+                'data' => "Thẻ không tồn tại"
+            ]);
         }
-        return "Không tìm thấy";
+
     }
 
 
