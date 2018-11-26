@@ -115,9 +115,10 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/danh-sach-listmoney','ListMoneyUserController@index')->name('danh-sach-listmoney');
     Route::get('/admin/danh-sach-listmoneyrozen','ListMoneyFrozenUserController@index')->name('danh-sach-listmoneyrozen');
 
-
+    Route::resource('/news','NewController');
 
 
 });
 
 Route::get('/api/napthe','MuaTheController@apiMuathe');
+Route::get('new/{slug}', 'NewController@showDetail');

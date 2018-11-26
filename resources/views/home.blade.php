@@ -12,13 +12,13 @@
               </div>
               <div class="mr-5" align="center">
                 @if(!Auth::guest())
-					
-                  
+
+
 				<a style="color:#fff !important;" href="{{ route('nap-the') }}">NẠP THẺ</a><br/>
 				<a style="color:#fff;" href="{{ route('rut-tien') }}">RÚT TIỀN</a>
-			
+
 			<br/>
-                @else 
+                @else
                  <a style="color:#fff !important;" onclick="notice()" href="#">NẠP THẺ </a>
                 @endif
               </div>
@@ -35,16 +35,16 @@
               <div class="card-body-icon">
                 <i class="fas fa-fw fa-list"></i>
               </div>
-              <div class="mr-5" align="center"> 
+              <div class="mr-5" align="center">
                   @if(!Auth::guest())
-					  
+
 					<a style="color:#fff;" href="{{ route('chuyen-tien.index') }}">CHUYỂN TIỀN</a><br/>
-					<a style="color:#fff;" href="{{ route('nap-tien.index') }}">NẠP TIỀN</a>				  
-             
-                @else                  
+					<a style="color:#fff;" href="{{ route('nap-tien.index') }}">NẠP TIỀN</a>
+
+                @else
 				<a style="color:#fff !important;" onclick="notice()" href="#">CHUYỂN TIỀN </a>
                 @endif
-              
+
               </div>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
@@ -60,15 +60,15 @@
                 <i class="fas fa-fw fa-shopping-cart"></i>
               </div>
               <div class="mr-5">
-                  @if(!Auth::guest())					  
-					Xin chào: {{ Auth::user()->name }}   
+                  @if(!Auth::guest())
+					Xin chào: {{ Auth::user()->name }}
 					<br/>
 					Số dư:  {{ Auth::user()->money_1 }} đ. <br/>
 					Tạm giữ:  {{ Auth::user()->tam_giu }} đ. <br/>
-			
+
 
 					  <br/>
-                  @else 
+                  @else
                       <a style="color:#fff !important;" onclick="notice()" href="#">RÚT TIỀN </a>
                   @endif
               </div>
@@ -86,13 +86,13 @@
                 <i class="fas fa-fw fa-life-ring"></i>
               </div>
               <div class="mr-5">
-                  @if(!Auth::guest())		  
-											  
+                  @if(!Auth::guest())
+
 					Số điện thoại: {{ Auth::user()->phone_number }} <br/>
-					Email: {{ Auth::user()->email }}  
+					Email: {{ Auth::user()->email }}
 					<br/>Ngày gia nhập {{ Auth::user()->created_at }} <br/>
-                  
-                  @else 
+
+                  @else
                       <a style="color:#fff !important;" onclick="notice()" href="#">NẠP TIỀN </a>
                   @endif
               </div>
@@ -147,7 +147,7 @@
                             <td class="number" style="width: 20%;">
                                 <select class="form-control" name="card_type" id="card_type" class="" required>
                                   @foreach ($card as $value)
-                                    <option value="{{ $value->card_code }}">{{ $value->card_name }}</option>   
+                                    <option value="{{ $value->card_code }}">{{ $value->card_name }}</option>
                                   @endforeach
                                   </select>
                             </td>
@@ -207,13 +207,13 @@
                                         <td class="number">
                                           @if($value->card_status == 1)
                                             <span class="label label-success">Hoạt động</span>
-                                          @else 
+                                          @else
                                             <span class="label label-warning">Bảo trì</span>
                                           @endif
                                         </td>
                                     </tr>
                                  @endforeach
-                                 
+
                                </tbody>
                             </table>
 							 </div>
@@ -222,32 +222,27 @@
         </div>
         <div class="col-md-6">
                 <div class="panel panel-default panel-table">
-                        <h4>Mua thẻ</h4>
+                        <h4>Tin Tức</h4>
                          <div class="panel-body">
                             <table class="table table-striped table-borderless">
                                <thead>
                                   <tr>
-                                     <th>TT</th>
-                                     <th>Nhà mạng</th>
-                                     <th class="number">Mua 100K</th>
-                                     <th class="number">Trạng thái</th>
+                                     <th>Id</th>
+                                     <th class="number">Ảnh</th>
+                                     <th>Tiêu đề</th>
+                                     <th class="number">Mô tả</th>
                                   </tr>
                                </thead>
                                <tbody class="no-border-x">
-                                  @foreach ($result as $value)
-                                  <tr>
-                                      <td>{{ $value->cat_id }}</td>
-                                      <td>{{ $value->card_name }}</td>
-                                      <td class="number"> {{number_format(100 - ($value->card_discount_buy))}}000 vnđ</td>
-                                      <td class="number">
-                                        @if($value->card_type == 1)
-                                          <span class="label label-success">Hoạt động</span>
-                                        @else 
-                                          <span class="label label-warning">Bảo trì</span>
-                                        @endif
-                                      </td>
-                                  </tr>
-                               @endforeach
+                                   @foreach($new as $tin)
+                                    <tr>
+                                        <td>{{ $tin->id }}</td>
+                                        <td><img class="img-thumbnail" src="{{ URL::to($tin->image) }}" alt="" /></td>
+                                        <td><a href="/new/{{ $tin->slug }}">{{ $tin->title }}</a></td>
+                                        <td>{!! str_limit($tin->content,100) !!}</td>
+
+                                    </tr>
+                                    @endforeach
                                </tbody>
                             </table>
                          </div>
@@ -255,7 +250,7 @@
         </div>
       </div>
       <br>
-     
+
       <script>
         function notice() {
           confirm("Vui lòng đăng nhập")

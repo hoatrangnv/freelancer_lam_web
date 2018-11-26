@@ -210,7 +210,9 @@
 				@if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
                 <a class="dropdown-item" href="{{ route('user.role') }}">User Manager</a>
                 @endif
-
+                @if(Auth::user()->is_Admin > 5)
+                <a class="dropdown-item" href="{{ route('news.create') }}">Thêm tin tức</a>
+                @endif
 
 
 				@if(Auth::user()->is_Admin == 9 || Auth::user()->is_Admin == 10)
