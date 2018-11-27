@@ -237,8 +237,14 @@
                                    @foreach($new as $tin)
                                     <tr>
                                         <td>{{ $tin->id }}</td>
-                                        <td><img class="img-thumbnail" src="{{ URL::to($tin->image) }}" alt="" /></td>
-                                        <td><a href="/new/{{ $tin->slug }}">{{ $tin->title }}</a></td>
+                                        <td>
+                                            @if(empty($tin->image))
+                                            <img class="img-thumbnail" src="uploads\default-thumbnail.jpg" alt="" />
+                                            @else
+                                            <img class="img-thumbnail" src="{{ URL::to($tin->image) }}" alt="" />
+                                            @endif
+                                           </td>
+                                        <td><a href="/new/{{ $tin->slug }}{{ $tin->id }}">{{ $tin->title }}</a></td>
                                         <td>{!! str_limit($tin->content,100) !!}</td>
 
                                     </tr>

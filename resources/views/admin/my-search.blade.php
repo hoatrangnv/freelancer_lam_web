@@ -42,7 +42,7 @@
         $.ajax({
             url: "{{ route('serial-search') }}",
             data: {
-                'search':text
+                'searchID':text
             },
             dataType: "text",
             success: function(result) {
@@ -52,25 +52,27 @@
                 Object.keys(dataResult).forEach(function(key) {
                   var checkcode = dataResult.code;
                     console.log(checkcode)
-                if(checkcode === 200) {
-                  var dataCode = dataResult.data;
-                  dataCode.forEach(function(element) {
 
-                        var status = element.status;
-                        checkstatus = "";
-                        if(status === 0){
-                            checkstatus = "Chưa sử dụng";
-                        } else if(status === 1 ) {
-                            checkstatus = "Đã sử dụng";
-                        }
-                        html = "<tr><td>"+element.id+"</td><td>"+element.serial+"</td><td>"+element.price+"</td><td>"+element.name+"</td><td>"+element.created_at+"</td><td>"+element.updated_at+"</td><td>"+checkstatus+"</td></tr>"
-                        $('#datatable').html("").append(html);
-                  })
-                    }else{
-                        $('#datatable').html("")
+                if(checkcode === 400){
+                    $('#datatable').html("")
                     $('#mess').html("").html("Thẻ không tồn tại");
                 }
+                else {
+                    var dataCode = dataResult.data;
+                    dataCode.forEach(function(element) {
 
+                          var status = element.status;
+                          console.log(status)
+                          checkstatus = "";
+                          if(status === 0){
+                              checkstatus = "Chưa sử dụng";
+                          } else if(status === 1 ) {
+                              checkstatus = "Đã sử dụng";
+                          }
+                          html = "<tr><td>"+element.id+"</td><td>"+element.serial+"</td><td>"+element.price.toLocaleString()+"</td><td>"+element.name+"</td><td>"+element.created_at+"</td><td>"+element.updated_at+"</td><td>"+checkstatus+"</td></tr>"
+                          $('#datatable').html("").append(html);
+                    })
+                }
             })}
           });
        }

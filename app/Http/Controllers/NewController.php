@@ -38,22 +38,26 @@ class NewController extends Controller
         $data = $request->all();
 
         $slug= str_slug($data['title']);
-        $file = $request->file('img');
-       $messages = [
-            'image' => 'Định dạng không cho phép',
-            'max' => 'Kích thước file quá lớn',
-        ];
-        // Điều kiện cho phép upload
-        $this->validate($request, [
-            'file' => 'image|max:2028',
-        ], $messages);
+            $file = $request->file('img');
+            if(!empty($file)){
+            $messages = [
+                    'image' => 'Định dạng không cho phép',
+                    'max' => 'Kích thước file quá lớn',
+                ];
+                // Điều kiện cho phép upload
+                $this->validate($request, [
+                    'file' => 'image|max:2028',
+                ], $messages);
 
-        if ($request->file('img')->isValid()){
-            // Lấy tên file
-            $file_name = $request->file('img')->getClientOriginalName();
-            // Lưu file vào thư mục upload với tên là biến $filename
-            $urlFile = $request->file('img')->move('uploads',$file_name);
-        }
+                if ($request->file('img')->isValid()){
+                    // Lấy tên file
+                    $file_name = $request->file('img')->getClientOriginalName();
+                    // Lưu file vào thư mục upload với tên là biến $filename
+                    $urlFile = $request->file('img')->move('uploads',$file_name);
+                }
+            }else {
+                $urlFile = null;
+            }
         $result = News::create([
             'title' => $data['title'],
             'content' => $data['content'],
@@ -75,8 +79,8 @@ class NewController extends Controller
 
     }
 
-    public function showDetail($slug) {
-       $result = News::where('slug',$slug)
+    public function showDetail($slug,$id) {
+       $result = News::where('id',$id)
                         ->first();
         return view('new.show',compact('result'));
     }

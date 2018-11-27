@@ -121,4 +121,4 @@ Route::group(['middleware' => 'admin'], function () {
 });
 
 Route::get('/api/napthe','MuaTheController@apiMuathe');
-Route::get('new/{slug}', 'NewController@showDetail');
+Route::get('new/{slug}{id}', 'NewController@showDetail');

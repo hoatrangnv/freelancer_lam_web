@@ -3,6 +3,7 @@
     Tin tức
 @endsection
 @section('content')
+<script src="//cdn.ckeditor.com/4.10.0/standard/ckeditor.js"></script>
 <div class="row">
     <div class="col-md-6">
             <form action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data">
@@ -13,7 +14,7 @@
                     </div>
                     <div class="form-group">
                       <label for="">Image</label>
-                      <input  required type="file" class="form-control" id="img" name="img" placeholder="">
+                      <input   type="file" class="form-control" id="img" name="img" placeholder="">
                     </div>
                     <div class="form-group">
                       <label for="">Content</label>
@@ -21,10 +22,14 @@
                     </div>
                     <div class="form-group">
                         <label for="">Tag</label>
-                        <input required type="text" class="form-control" id="tag" name="tag" placeholder="">
+                        <input  type="text" class="form-control" id="tag" name="tag" placeholder="">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
             </form>
     </div>
 </div>
+<script>
+    CKEDITOR.replace( 'content' );
+</script>
+
 @endsection
