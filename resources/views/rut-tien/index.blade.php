@@ -5,7 +5,7 @@
 @section('content')
 <div class="row _padding">
         <div class="col-md-6">
-               
+
                 @if(session()->has('error'))
                 <div class="alert alert-danger">
                     {{ session()->get('error') }}
@@ -41,7 +41,7 @@
                 </form>
         </div>
         <div class="col-md-6">
-            
+
                 @if(session()->has('message'))
                 <div class="alert alert-success">
                     {{ session()->get('message') }}
@@ -72,12 +72,53 @@
                     <button type="submit" class="btn-sm btn btn-success">Thêm Tài Khoản</button>
             </form>
         </div>
-   
-     </div>  
+
+     </div>
     <div class="row">
-        
+
+
+
+
+            <div class="col-md-12">
+                    <h4>Lịch sử rút tiền</h4>
+               <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                            <th>ID</th>
+                            <th>Số tiền thực nhận</th>
+                            <th>Ngân hàng</th>
+                            <th>Chi nhánh</th>
+                            <th>Số TK</th>
+                            <th>Thời gian</th>
+                            <th>Trạng Thái</th>
+                    </tr>
+                    @foreach ($result as $value)
+                        <tr>
+                            <td>{{ $value->widthraw_id }}</td>
+                            <td>{{ number_format( $value->amount) }} đ</td>
+                            <td>{{ $value->bank_name }}</td>
+                            <td>{{ $value->bank_branch }}</td>
+                            <td>{{ $value->bank_account_name }}</td>
+                            <td>{{ $value->created_at }}</td>
+                            <td> @if($value->withdraw_status == 2)
+                                    <span class="label label-success">Chấp Nhận</span>
+                                @elseif($value->withdraw_status == 3)
+                                    <span class="label label-danger">Hủy</span>
+                                @else
+                                    <span class="label label-info">Chờ</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+
+                </table>
+            </div>
+
+
+
+
+
         <div class="col-md-12">
-                <h4>Lịch sử rút tiền</h4>
+                <h4>TK</h4>
            <table class="table table-striped table-bordered table-hover">
                 <tr>
                         <th>ID</th>
@@ -88,9 +129,9 @@
                         <th>Thời gian</th>
                         <th>Trạng Thái</th>
                 </tr>
-                @foreach ($result as $value)
+                @foreach ($bank_acc as $value)
                     <tr>
-                        <td>{{ $value->widthraw_id }}</td>
+                        <td>{{ $value->bank_id }}</td>
                         <td>{{ number_format( $value->amount) }} đ</td>
                         <td>{{ $value->bank_name }}</td>
                         <td>{{ $value->bank_branch }}</td>
@@ -98,22 +139,22 @@
                         <td>{{ $value->created_at }}</td>
                         <td> @if($value->withdraw_status == 2)
                                 <span class="label label-success">Chấp Nhận</span>
-                            @elseif($value->withdraw_status == 3) 
+                            @elseif($value->withdraw_status == 3)
                                 <span class="label label-danger">Hủy</span>
-                            @else 
+                            @else
                                 <span class="label label-info">Chờ</span>
                             @endif
                         </td>
                     </tr>
                 @endforeach
-               
+
             </table>
         </div>
     </div>
      <script>
             this.ListAllBank();
             this.getOnlyBank();
-    
+
             //get all bank
             function ListAllBank() {
                 var arr = [];
@@ -145,13 +186,13 @@
                         Object.keys(result).forEach(function(key) {
                             var bank_id = result[key].id;
                             var bank_name = result[key].bank_name;
-                       
+
                             htmlResult += "<option value='"+bank_id+"'>" + bank_name +"</option>"
                         })
                         $("#back_user").append(htmlResult);
                     }
                 });
             }
-            
+
         </script>
 @endsection

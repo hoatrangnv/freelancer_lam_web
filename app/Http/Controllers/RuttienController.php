@@ -21,7 +21,13 @@ class RuttienController extends Controller
     {
         $user = Auth::user()->id;
         $result = WithDraw::where('user_id',$user)->get();
-        return view('rut-tien.index',compact('result'));
+        $bank_acc = DB::table('bank_account as a')
+                ->leftJoin('banks as b', 'a.bank_id', '=', 'b.id')
+                ->where('a.user_id', '=', $user)
+                ->paginate(10);
+
+        // return $bank_acc;
+        return view('rut-tien.index',compact(['result','bank_acc']));
     }
 
     //rut tien
@@ -29,12 +35,12 @@ class RuttienController extends Controller
     {
         $CHO_DUYET = Config::get('constants.CHO_DUYET');
         $PHI_RUT = Config::get('constants.PHI_RUT');
-        
+
         $user = Auth::user()->id;
         $get_money_1 = Auth::user()->money_1;
         $username = Auth::user()->name;
         $get_tam_giu = Auth::user()->tam_giu;
- 
+
         $password2 = Auth::user()->password2;
         $user_price = Auth::user()->money_1;
         $money_rut = $request->get('money_rut');
@@ -54,7 +60,7 @@ class RuttienController extends Controller
                 $money_tam_giu = $get_tam_giu + $money_rut;
                 $mess = "Trừ tiền tài khoản.$username. tạm giữ: .$money_rut.";
                 // tru tien tai khoan
-                
+
                 $user_rut = User::find($user);
                 $user_rut->money_1 = $money_update;
                 $user_rut->tam_giu = $money_tam_giu;
@@ -68,7 +74,7 @@ class RuttienController extends Controller
                     'log_read' => $RUT_TIEN,
                     'log_time' =>0
                 ]);
-               
+
                 // luu vao withdraw
 
                 $result = WithDraw::create([
@@ -81,7 +87,7 @@ class RuttienController extends Controller
                     'bank_account_number' => $bank['account_number'],
                     'amount' => $amount, // tong tien nay da tru phi, vd 110k - 10k phi, khi chuyen thi chuyen 100k thoi nhe :v
                     'withdraw_status'=> $CHO_DUYET
-                ]);  
+                ]);
                 return redirect()->back()->with('thanhcong', 'Gửi yêu cầu rút tiền thành công, vui lòng chờ xác nhận từ Admin!');
 
             } else {
@@ -89,7 +95,7 @@ class RuttienController extends Controller
             }
         else {
             return redirect()->back()->with('error', 'Số tiền trong tài khoản của bạn không đủ! Số tiền phải lớn hơn 110K');
-        }    
+        }
 
     }
 
@@ -98,7 +104,7 @@ class RuttienController extends Controller
         $bank = Bank::all();
         return response($bank);
     }
-    
+
     // add tai khoan
 
     public function addAccount(Request $request)
@@ -117,17 +123,17 @@ class RuttienController extends Controller
         return redirect()->back()->with('message', 'Thêm tài khoản ngân hàng thành công!');
 
     }
-    
+
     //onlye get bank
     public function getBank()
     {
        $user = Auth::user()->id;
         $result = DB::table('bank_account as back_c')
-                    ->leftJoin('banks as b', 'back_c.bank_id', '=', 'b.id')  
-                    ->select('back_c.id','b.bank_name')  
+                    ->leftJoin('banks as b', 'back_c.bank_id', '=', 'b.id')
+                    ->select('back_c.id','b.bank_name')
                     ->where('back_c.user_id','=',$user)
-                    ->get();     
-        return response($result);            
+                    ->get();
+        return response($result);
     }
 
     public function historyRutTien()
