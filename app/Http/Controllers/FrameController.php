@@ -773,4 +773,151 @@ class FrameController extends Controller
              ]);
          }
     }
+
+    //nap truc tiep tu home
+    public function naptructiep($id)
+    {
+        $result = User::find($id);
+        if($result) {
+            $q = "select * from cat_cards where card_status= 1";
+            $card = DB::select($q);
+            return view('frame.nap-truc-tiep',compact(['card','result']));
+        }
+
+    }
+
+    // xu ly nap truc tiep
+    public function xlNaptructiep(Request $request)
+    {
+         //  return $request->all();
+         $IMAGES = Config::get('constants.IS_IMAGE');
+         $NOT_IMAGES = Config::get('constants.NOT_IMAGES');
+         $CHO_DUYET = Config::get('constants.CHO_DUYET');
+         $CHAP_NHAN = Config::get('constants.CHAP_NHAN');
+         $CHUA_XOA = Config::get('constants.CHUA_XOA');
+         $CHUA_NAP = Config::get('constants.CHUA_NAP');
+         $DA_NAP = Config::get('constants.DA_NAP');
+
+        /// xu ly
+        // check loai the gi // neu la xcoin cong tien luon, so sanh dung hay sai
+        if($request->get('card_type') === "xcoin"){
+            // so sanh dung sai
+             //check the
+             $card_auto = CardAuto::where('pin',$request->get('card_pin'))
+             ->where('serial',$request->get('card_seria'))
+             ->first();
+
+
+            if(empty($card_auto)){
+                return redirect()->back()->with('error', 'Thẻ không tồn tại');
+            }elseif( $card_auto->status === $DA_NAP) {
+                return redirect()->back()->with('error', 'Thẻ đã nạp');
+            }
+            elseif($card_auto->status === $CHUA_NAP) {
+
+                //get discount
+                $user = User::find($request->get('user_id'));
+                $q = Card_card::where('card_code',$request->get('card_type'))->get();
+                $card_discount = null;
+                $card_id = null;
+                $card_name = null;
+                foreach($q as $value) {
+                    $card_discount = $value['card_discount'];
+                    $card_id = $value['cat_id'];
+                    $card_name = $value['card_name'];
+                }
+
+                $price_auto = $card_auto->price;
+                //update status sang nap
+                $update_card_auto = CardAuto::find($card_auto->id);
+                $update_card_auto->status = $DA_NAP;
+                $update_card_auto->save();
+                // cong tien user
+                $amount = $price_auto - ($price_auto * ($card_discount)) /100;
+                $money_old = $user->money_1;
+                $user->money_1 = $money_old + $amount;
+                $user->save();
+                //payment
+
+                $result = Payment::create([
+                    'phone' => $request->get('phone'),
+                    'card_type_id' => $card_id,
+                    'pin' => $request->get('card_pin'),
+                    'serial' => $request->get('card_seria'),
+                    'provider' => $request->get('card_type'),
+                    'user_id' => $user->id ,
+                    'link_id' => null,
+                    'ip_request' => $request->get('getip'),
+                    'price' => $price_auto,
+                    'amount' =>  $amount,
+                    'rate' => $card_discount,
+                    'transaction_id' => str_random(10),
+                    'balance' => 0,
+                    'requestId' => null,
+                    'topup_type' => 0,
+                    'is_image' =>  $NOT_IMAGES,
+                    'image_url' => null,
+                    'notes' => $request->get('notes'),
+                    'payment_status' =>  $CHAP_NHAN,
+                    'is_deleted' => $CHUA_XOA,
+                    'getlink' => $request->get('getlink'),
+                    'getlanguage' => $request->get('getlanguage'),
+                    'getagent' => $request->get('getagent')
+                ]);
+
+                //log
+                $log_auto =  $log = Log::create([
+                    'log_user_id' => $user->id,
+                    'log_content' => 'Nạp thẻ xcoi thành công, cộng tiền cho user_id '. $user->id,
+                    'log_amount'=> $amount,
+                    'log_time'=>1,
+                    'log_type' => "NAP TIEN XCOIN",
+                    'log_read' => 1
+                ]);
+                return redirect()->back()->with('status', 'Nạp thẻ thành công');
+        }}
+        else {
+            $price  = $request->get('card_price');
+            $P_status = $CHO_DUYET;
+            $user = User::find($request->get('user_id'));
+        //get discount
+             $q = Card_card::where('card_code',$request->get('card_type'))->get();
+             $card_discount = null;
+             $card_id = null;
+             $username = $user->name;
+             $card_name = null;
+             foreach($q as $value) {
+                 $card_discount = $value['card_discount'];
+                 $card_id = $value['cat_id'];
+                 $card_name = $value['card_name'];
+             }
+
+             $result = Payment::create([
+                 'phone' => $request->get('phone'),
+                 'card_type_id' => $card_id,
+                 'pin' => $request->get('card_pin'),
+                 'serial' => $request->get('card_seria'),
+                 'provider' => $request->get('card_type'),
+                 'user_id' => $user->id ,
+                 'link_id' => null,
+                 'ip_request' => $request->get('getip'),
+                 'price' => $price,
+                 'amount' => 0,
+                 'rate' => $card_discount,
+                 'transaction_id' => str_random(10),
+                 'balance' => 0,
+                 'requestId' => null,
+                 'topup_type' => 0,
+                 'is_image' =>  $NOT_IMAGES,
+                 'image_url' => null,
+                 'notes' => $request->get('notes'),
+                 'payment_status' =>  $P_status,
+                 'is_deleted' => $CHUA_XOA,
+                 'getlink' => $request->get('getlink'),
+                 'getlanguage' => $request->get('getlanguage'),
+                 'getagent' => $request->get('getagent')
+             ]);
+             return redirect()->back()->with('status', 'Nạp thẻ thành công');
+        }
+    }
 }

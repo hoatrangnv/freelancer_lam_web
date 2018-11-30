@@ -24,8 +24,8 @@ Route::get('/napthe-confirm','FrameController@naptheConfirm')->name('frame.confi
 Route::get('/embed/{id}','FrameController@naptheCreate')->name('frame-nap-the');
 Route::get('/frame/search','FrameController@search')->name('api.search');
 Route::get('/api/frame','FrameController@apiFrame')->name('api.frame');
-
-
+Route::get('/nap-truc-tiep/{id}','FrameController@naptructiep')->name('nap-truc-tiep');
+Route::post('/xlNaptructiep','FrameController@xlNaptructiep')->name('xlNaptructiep');
 
 Route::group(['middleware' => 'auth'], function () {
     //show user profile
@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/frame','FrameController@index')->name('frame.index');
     Route::post('/frame/create','FrameController@createFrame')->name('frame.create');
     Route::get('/updateLink','FrameController@updateLink')->name('frame.updateLink');
+
 
 
 

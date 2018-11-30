@@ -4,57 +4,78 @@
 @endsection
 @section('content')
     <div class="row">
-           
+
         <div class="col-md-4">
-                @if(session()->has('message'))
-                    <div class="alert alert-success">
-                        {{ session()->get('message') }}
-                    </div>
-                @endif
+                @if(session()->has('status'))
+                <div class="alert alert-success">
+                    {{ session()->get('status') }}
+                </div>
+            @endif
+              @if(session()->has('error'))
+                <div class="alert alert-danger">
+                    {{ session()->get('error') }}
+                </div>
+            @endif
             <h6>Nạp thẻ cào</h6>
             <br>
-           
-            <form action="{{ route('nap-card') }}" method="post" >
-                    @csrf
-                    <input name="user_id" type="hidden" value=" {{ Auth::user()->id}}">
-                    <input name="user_phone" type="hidden" value=" {{ Auth::user()->phone_number}}">
-                    <input type="hidden" name="nap_the" value="1">
-                <div class="form-group">
-                  <label for="formGroupExampleInput">Loại Thẻ</label>
-                    <select name="card_type" class="form-control" id="card_type" onchange="cardDiscount(this)"  required>
-                        @foreach($result as $key)
-                            <option  value="{{ $key->card_code }}">{{ $key->card_name }}</option>
-                        @endforeach
-                    </select>
 
-                </div>
-                <div class="form-group">
-                  <label for="formGroupExampleInput2">Mã Pin</label>
-                  <input required type="number" class="form-control" name="card_pin" id="" placeholder="Mã Pin">
-                </div>
-                <div class="form-group">
-                  <label for="formGroupExampleInput2">Mã Seria</label>
-                  <input required type="number" class="form-control"name="card_seria" id="" placeholder="Mã Seria">
-                </div>
-                <div class="form-group">
-                  <label for="formGroupExampleInput2">Mệnh giá</label>
-                  <select required class="form-control" name="card_price">
-                    <option value="10000">10.000&nbsp;₫</option>
-                    <option value="20000">20.000&nbsp;₫</option>
-                    <option value="30000">30.000&nbsp;₫</option>
-                    <option value="50000">50.000&nbsp;₫</option>
-                    <option value="100000" selected>100.000&nbsp;₫</option>
-                    <option value="200000">200.000&nbsp;₫</option>
-                    <option value="300000">300.000&nbsp;₫</option>
-                    <option value="500000">500.000&nbsp;₫</option>
-                    <option value="1000000">1.000.000&nbsp;₫</option>
-                 </select>
-                </div>
-                <button type="submit" class="btn-sm btn btn-primary">Nạp thẻ</button>
-              </form>
-              <br>
+            <form action="{{ route('xlNaptructiep') }}" method="POST" >
+                    @csrf
+                      <input type="hidden" name="nap_the" value="3">
+                      <div class="form-group row">
+                              <input type="hidden" name="user_id" id="user_id" placeholder="Nhập vào frame id" class="form-control" value="{{ Auth::user()->id }}" readonly>
+
+                      </div>
+
+                      <div class="form-group row">
+                          <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Loại thẻ</label>-->
+                          <select class="form-control" name="card_type" id="card_type" class="" required onchange="checkCardType(this)">
+                                  <option value="" selected disabled>Chọn loại thẻ</option>
+                                  @foreach ($card as $value)
+                                      <option value="{{ $value->card_code }}">{{ $value->card_name }}</option>
+                                  @endforeach
+                          </select>
+                      </div>
+
+                      {{-- <div class="form-group row">
+                          <strong  style="color:{{ $result->background }}">Lưu ý: Nếu nhập sai thẻ nhiều lần sẽ bị khóa</strong>
+                          <input type="number" class="form-control" value="" placeholder="SĐT nhận kết quả" name="phone" required maxlength="13">
+                      </div> --}}
+                      <div class="form-group row">
+                              <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mệnh giá</label>-->
+
+                              <select required class="form-control" name="card_price" id="card_price">
+                                <option value="50000">50.000&nbsp;₫</option>
+                                <option value="100000" selected>100.000&nbsp;₫</option>
+                                <option value="200000">200.000&nbsp;₫</option>
+                                <option value="300000">300.000&nbsp;₫</option>
+                                <option value="500000">500.000&nbsp;₫</option>
+                                <option value="1000000">1.000.000&nbsp;₫</option>
+                             </select>
+                      </div>
+                      <div class="form-group row">
+                              <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mã Pin</label>-->
+                              <input type="number" name="card_pin" placeholder="Nhập vào mã pin" class="form-control" maxlength="18"  minlength="10" required>
+                      </div>
+                      <div class="form-group row">
+                              <!--<label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Mã Serial</label>-->
+                              <input type="number" name="card_seria" placeholder="Nhập vào số serial" class="form-control"maxlength="18"  minlength="13"  required>
+
+                              <input type="text" name="getlink" id="getlink" class="form-control" value="<?php  if(isset($_SERVER['HTTP_REFERER'])) { echo $_SERVER['HTTP_REFERER']; } else { echo '0';}?>" style="display:none"/>
+                              <input type="text" name="getagent" id="getagent" class="form-control" value="<?php  echo $_SERVER['HTTP_USER_AGENT'];?>" style="display:none"/>
+                              <input type="text" name="getlanguage" id="getlanguage" class="form-control" value="<?php  echo $_SERVER['HTTP_ACCEPT_LANGUAGE'];?>" style="display:none"/>
+                              <input type="text" name="getip" id="getip" class="form-control" value="<?php  echo $_SERVER['REMOTE_ADDR'];?>" style="display:none"/>
+
+
+                              <input type="text" name="notes" id="notes" class="form-control" value="" style="display:none"/>
+                      </div>
+
+                      <button class="btn btn-primary" style="border:#fff 1px; border-radius:8px;color:;background-color:"> Nạp thẻ</button>
+                </form>
+
+
         </div>
-        
+
         <div class="col-md-4">
             <div class="panel panel-default panel-table">
                 <h6>Phí đổi thẻ</h6>
@@ -77,13 +98,13 @@
                                 <td class="number">
                                   @if($value->card_status == 1)
                                     <span class="label label-success">Hoạt động</span>
-                                  @else 
+                                  @else
                                     <span class="label label-warning">Bảo trì</span>
                                   @endif
                                 </td>
                             </tr>
                          @endforeach
-                         
+
                        </tbody>
                     </table>
                  </div>
@@ -120,18 +141,104 @@
                                     </td>
                                 </tr>
                             </form>
-                        @endforeach        
-                        
+                        @endforeach
+
                     </tbody>
                 </table>
-				</div>    
+				</div>
             <br>
-             </div>      
-        </div>    
-       
+             </div>
+        </div>
+
     <script>
         function cardDiscount(selected){
             var a = selected.value;
         }
     </script>
+    <script>
+            function search()
+            {
+                var phone_number = document.getElementById('phone_number').value;
+                var link_id = document.getElementById('link_id').value;
+                $.ajax({
+                    url: "{{ route('api.search') }}",
+                    type: "get",
+                    data:{
+                        'phone_number':phone_number,
+                        'link_id':link_id
+                    },
+                    dataType: "text",
+                    success: function(result) {
+                        var mess = "";
+                        var log_title = "";
+                        var log_content = "";
+                        var JSONObject  = JSON.parse(result)
+                          var dataResult  = JSONObject.data;
+                          var html = "";
+
+                        //mess
+                        Object.keys(dataResult).forEach(function(key) {
+                           mess = dataResult.mess;
+                           $('#ketqua').html("").html(mess)
+                        })
+                        var htmlResult = "";
+                        var htmlPayment = "";
+                        var dataResultLog = JSONObject.data.log;
+                        var dataResultPayment = JSONObject.data.payment;
+
+                        //log
+                        Object.keys(dataResultLog).forEach(function(key) {
+                            console.log(dataResultLog)
+                            htmlResult += "<div class='text-left'>"+dataResultLog[key].title+ " " + dataResultLog[key].content+"</div>"
+
+                        })
+                        $('#log_title').html("").append(htmlResult);
+
+                        //payment
+                        var status_html = "";
+                        Object.keys(dataResultPayment).forEach(function(key) {
+                            console.log(dataResultPayment)
+                            var status = dataResultPayment[key].payment_status;
+                            switch(status) {
+                                case 0:
+                                   status_html = " <span class='label label-blue'>Chờ duyệt</span>"
+                                break
+                                case 1:
+                                status_html = "  <span class='label label-info'>Đang xử lý</span> "
+                                break
+                                case 2:
+                                status_html = "  <span class='label label-success'>Thành công</span> "
+                                break
+                                case 3:
+                                status_html = "  <span class='label label-danger'>Hủy</span>"
+                                break
+                                case 4:
+                                status_html = " <span class='label label-danger'>Thẻ sai</span>"
+                                break
+                                case 5:
+                                status_html = "<span class='label label-warning'>Bảo trì</span>"
+                                break
+                            }
+
+                            htmlPayment += "<tr> <td>"+ dataResultPayment[key].pin+"</td><td>"+ dataResultPayment[key].serial+ "</td><td>"+dataResultPayment[key].price.toLocaleString()+ "đ"+"</td>"+"<td>"+status_html+"</td></tr>"
+
+                        })
+                        $('#log_payment').html("").append(htmlPayment);
+                    }
+                });
+
+
+            }
+
+            function checkCardType(selected){
+                var cardType = selected.value;
+                console.log(cardType)
+                if(cardType === 'xcoin'){
+                    //disable selec tien
+                    $("#card_price").attr('disabled','disabled');
+                }else {
+                    $("#card_price").removeAttr('disabled');
+                }
+            }
+        </script>
 @endsection
